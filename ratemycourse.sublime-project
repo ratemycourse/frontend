@@ -1,0 +1,24 @@
+{
+	"folders":
+	[
+		{
+			"path": "."
+		},
+		{
+			"path": "D:\\Programming\\Projekt\\ratemycourse\\backend"
+		}
+	],
+	"settings":
+	{
+		"tab_size": 2,
+		"translate_tabs_to_spaces": true
+	},
+	"syntax_override":
+	{
+		"\\.js$":
+		[
+			"Babel",
+			"JavaScript (Babel)"
+		]
+	}
+}
