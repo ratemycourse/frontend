@@ -2,7 +2,6 @@ import React from 'react';
 import { compose, withHandlers } from 'recompose';
 
 import CourseCard from './CourseCard';
-import CardAnimation from './CardAnimation';
 import LoadScreenWhileLoading from './LoadScreenWhileLoading';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 

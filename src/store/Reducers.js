@@ -1,4 +1,3 @@
-import Immutable from 'seamless-immutable';
 import { combineReducers } from 'redux';
 
 const dataInitialState = {
