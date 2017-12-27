@@ -7,7 +7,8 @@ import * as actionCreators from '../store/Actions';
 const enhance = compose(
   lifecycle({
     componentDidMount() {
-      this.props.dispatch(actionCreators.GetCourses());
+      this.props.dispatch(actionCreators.GetCourses('dm'));
+      this.props.dispatch(actionCreators.GetStatic('courselist.xsl'));
     },
   })
 );
@@ -15,11 +16,13 @@ const enhance = compose(
 const CardsContainer = enhance(({
   courses,
   loading,
- }) => {
+  staticfile,
+}) => {
   return (
     <div>
       <CardsView
-        courses={ courses }
+        coursesxml={ courses }
+        xsltfile={ staticfile }
         loading={ loading }
       />
     </div>
@@ -30,6 +33,7 @@ function mapStateToProps(state) {
   return {
     loading: state.default.data.loading,
     courses: state.default.data.courses,
+    staticfile: state.default.data.staticfile,
     cardsByID: state.default.cards.cardsByID,
   };
 }

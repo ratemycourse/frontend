@@ -1,6 +1,8 @@
 .cardsview {
-	margin: 5px;
-	height: 10%;
+	position: relative;
+	margin: 0px;
+	padding: 0px;
+	height: calc(100vh - 102px);
 	overflow: auto;
 }
 
@@ -8,7 +10,7 @@
 	padding: 0.8em;
 }
 
-::-webkit-scrollbar {
+/*::-webkit-scrollbar {
 	width: 0.2em;
 }
 
@@ -16,50 +18,7 @@
   background-color: darkgrey;
   outline: 1px solid slategrey;
   width: auto;
-}
-
-.header {
-	display: flex;
-	flex-flow: row nowrap;
-	justify-content: space-between;
-}
-
-.code {
-	font-family: 'Barlow', sans-serif;
-	font-weight: bold;
-}
-	
-.title {
-	font-family: 'Barlow', sans-serif;
-	font-weight: bold;
-	padding-right: 0.5em;
-	padding-left: 0.5em;
-	flex-shrink: 0;
-}
-
-.rating {
-	font-family: 'Barlow', sans-serif;
-	font-weight: bold;
-	flex-shrink: 0;
-}
-
-.body {
-	padding: 0px;
-	margin: 0px;
-	overflow: auto;
-	display: flex;
-	flex-flow: row nowrap;
-	justify-content: center;
-}
-
-.description {
-	padding:0px;
-	margin: 0px;
-	width: 25em;
-	height: 10em;
-	word-wrap: break-word;
-	overflow: auto;
-}
+}*/
 
 .grid {
 	margin: 0px;

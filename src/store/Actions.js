@@ -1,28 +1,28 @@
-export function GetCourses() {
+export function GetCourses(department) {
   return {
     types: ['GET_COURSES_REQUEST', 'GET_COURSES_SUCCESS', 'GET_COURSES_FAILURE'],
     promise: () => {
-      return fetch('http://localhost:3000/')
+      return fetch(`http://localhost:3000/kthapi/courses/${ department }`)
       .then((response) => {
-        return (response.json());
+        return (response.text());
       })
       .then((data) => {
-        const courses = {};
-        data.forEach((course) => {
-          courses[course.code] = {
-            'code': course.code,
-            'link': course.href,
-            'title': course.title,
-            'description': course.info,
-            'active': course.state,
-            'credits': course.credits,
-            'level': course.level,
-            'rating': null,
-            'comments:': {},
-            'visibility': true,
-          };
-        });
-        return ({ courses: courses });
+        return (data);
+      });
+    },
+  };
+}
+
+export function GetStatic(staticFile) {
+  return {
+    types: ['GET_STATIC_REQUEST', 'GET_STATIC_SUCCESS', 'GET_STATIC_FAILURE'],
+    promise: () => {
+      return fetch(`http://localhost:3000/${ staticFile }`)
+      .then((response) => {
+        return (response.text());
+      })
+      .then((data) => {
+        return (data);
       });
     },
   };

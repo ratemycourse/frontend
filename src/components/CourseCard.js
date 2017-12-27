@@ -1,12 +1,11 @@
 import React from 'react';
 import { compose, withHandlers, withState } from 'recompose';
-import Card, { CardHeader, CardMedia, CardContent, CardActions, } from 'material-ui/Card';
-import Collapse from 'material-ui/transitions/Collapse';
+
+import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
-import Avatar from 'material-ui/Avatar';
-import IconButton from 'material-ui/IconButton';
-import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 import { withStyles } from 'material-ui/styles';
+
+import xslt from 'xslt';
 
 const enhance = compose(
   withState('cardOpen', 'setCardOpen', false),
@@ -20,54 +19,35 @@ const enhance = compose(
 
 const styles = {
   root: {
+    padding: '1px',
+    '&:hover': {
+      transform: 'scale(1.01)',
+    },
   },
   body1: {
     whiteSpace: 'normal',
     fontFamily: 'Barlow',
-  },
-
-  title: {
-    fontFamily: 'Barlow',
-    fontWeight: 'bold',
-    fontSize: 20,
-  },
-  avatar: {
-    fontFamily: 'Barlow',
-    fontWeight: 'bold',
-    fontSize: 15,
-    width: 60,
-    height: 60,
-    backgroundColor: '#263252',
-  },
-  content: {
-    display: 'flex',
+    padding: '20px',
+    maxWidth: '500px',
+    height: '200px',
   },
 };
 
 const CourseCard = enhance(({
   course,
+  xsltfile,
   classes,
 }) => {
+  const transformedXML = xslt(course, xsltfile);
   return (
-    <Card classes={ {root: classes.root} }>
-      <CardHeader
-        classes={ {title: classes.title } }
-        avatar={ <Avatar classes={ {root: classes.avatar} } >{course.code}</Avatar> }
-        title={ course.title }
+    <Paper classes={ {root: classes.root} }>
+      <Typography
+        classes={ {body1: classes.body1} }
+        paragraph
+        noWrap={ true }
+        dangerouslySetInnerHTML={ {__html: transformedXML } }
       />
-      <CardContent classes={ {root: classes.content} } >
-        <Typography
-          classes={ {body1: classes.body1} }
-          paragraph
-          gutterBottom={ true }
-          noWrap={ true }
-          dangerouslySetInnerHTML={ {__html: course.description } }
-        />
-        <Typography classes={ {body1: classes.body1} } >
-          9.4/10
-        </Typography>
-      </CardContent>
-    </Card>
+    </Paper>
   );
 });
 

@@ -15,7 +15,7 @@ function dataReducer(state = dataInitialState, action = {}) {
   case 'GET_COURSES_SUCCESS':
     return {
       ...state,
-      courses: action.result.courses,
+      courses: action.result,
       loading: false,
     };
   case 'GET_COURSES_FAILURE':
@@ -23,6 +23,24 @@ function dataReducer(state = dataInitialState, action = {}) {
       ...state,
       loading: false,
     };
+
+  case 'GET_STATIC_REQUEST':
+    return {
+      ...state,
+      loading: true,
+    };
+  case 'GET_STATIC_SUCCESS':
+    return {
+      ...state,
+      staticfile: action.result,
+      loading: true,
+    };
+  case 'GET_STATIC_FAILURE':
+    return {
+      ...state,
+      loading: true,
+    };
+
   default:
     return state;
   }
