@@ -2,23 +2,13 @@
 	position: relative;
 	margin: 0px;
 	padding: 0px;
-	height: calc(100vh - 102px);
+	height: 100vh;
 	overflow: auto;
 }
 
 .courselayout {
 	padding: 0.8em;
 }
-
-/*::-webkit-scrollbar {
-	width: 0.2em;
-}
-
-.description::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-  outline: 1px solid slategrey;
-  width: auto;
-}*/
 
 .grid {
 	margin: 0px;

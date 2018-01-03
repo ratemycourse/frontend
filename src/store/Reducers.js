@@ -1,70 +1,143 @@
 import { combineReducers } from 'redux';
 
-const dataInitialState = {
-  courses: {},
+const applicationIntialState = {
   loading: true,
 };
 
-function dataReducer(state = dataInitialState, action = {}) {
+const applicationReducer = (state = applicationIntialState, action = {}) => {
   switch (action.type) {
-  case 'GET_COURSES_REQUEST':
+  case 'SET_LOADING':
     return {
       ...state,
-      loading: true,
+      loading: action.result,
     };
-  case 'GET_COURSES_SUCCESS':
+  default:
+    return state;
+  }
+};
+
+const coursesInitialState = {
+  courses: [],
+  coursesXSLT: null,
+  coursesFetched: false,
+  coursesXSLTFetched: false,
+  error: null,
+};
+
+const courseReducer = (state = coursesInitialState, action = {}) => {
+  switch (action.type) {
+  case 'GET_SEARCH_REQUEST':
+    return {
+      ...state,
+      coursesFetched: false,
+    };
+
+  case 'GET_SEARCH_SUCCESS':
     return {
       ...state,
       courses: action.result,
-      loading: false,
-    };
-  case 'GET_COURSES_FAILURE':
-    return {
-      ...state,
-      loading: false,
+      coursesFetched: true,
     };
 
-  case 'GET_STATIC_REQUEST':
+  case 'GET_SEARCH_FAILURE':
     return {
       ...state,
-      loading: true,
+      error: action.result,
     };
-  case 'GET_STATIC_SUCCESS':
+
+  case 'GET_COURSELIST.XSL_REQUEST':
     return {
       ...state,
-      staticfile: action.result,
-      loading: true,
+      coursesXSLTFetched: false,
     };
-  case 'GET_STATIC_FAILURE':
+
+  case 'GET_COURSELIST.XSL_SUCCESS':
     return {
       ...state,
-      loading: true,
+      coursesXSLT: action.result,
+      coursesXSLTFetched: true,
+    };
+
+  case 'GET_COURSELIST.XSL_FAILURE':
+    return {
+      ...state,
+      error: action.result,
     };
 
   default:
     return state;
   }
-}
-
-const cardsInitialState = {
-  cardsByID: null,
 };
 
-function cardsReducer(state = cardsInitialState, action = {}) {
+const departmentsInitialState = {
+  departments: {},
+  departmentsFetched: false,
+  error: null,
+};
+
+const departmentsReducer = (state = departmentsInitialState, action = {}) => {
   switch (action.type) {
-  case 'GET_COURSES_SUCCESS':
+  case 'GET_DEP_REQUEST':
     return {
       ...state,
-      cardsByID: action.cardsByID,
+      departmentsFetched: false,
     };
+
+  case 'GET_DEP_SUCCESS':
+    return {
+      ...state,
+      departments: action.result,
+      departmentsFetched: true,
+    };
+
+  case 'GET_DEP_FAILURE':
+    return {
+      ...state,
+      error: action.result,
+    };
+
   default:
     return state;
   }
-}
+};
+
+const filterInitialState = {
+  activeFilter: [],
+  inactiveFilter: [],
+};
+
+const filterReducer = (state = filterInitialState, action = {}) => {
+  switch (action.type) {
+  case 'ADD_FILTER':
+    return {
+      ...state,
+      activeFilter: [...state.activeFilter, action.result],
+      inactiveFilter: state.inactiveFilter.filter((item) => item !== action.result),
+    };
+
+  case 'REMOVE_FILTER':
+    return {
+      ...state,
+      activeFilter: state.activeFilter.filter((item) => item !== action.result),
+      inactiveFilter: [...state.inactiveFilter, action.result],
+    };
+
+  case 'INIT_FILTER':
+    return {
+      ...state,
+      inactiveFilter: action.result,
+    };
+
+  default:
+    return state;
+  }
+};
 
 const reducer = combineReducers({
-  data: dataReducer,
-  cards: cardsReducer,
+  appState: applicationReducer,
+  courseState: courseReducer,
+  filterState: filterReducer,
+  departmentState: departmentsReducer,
 });
 
 export default reducer;

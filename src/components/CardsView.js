@@ -1,9 +1,9 @@
 import React from 'react';
 import { compose } from 'recompose';
+import { parseString } from 'xml2js';
 
 import CourseCard from './CourseCard';
 import LoadScreenWhileLoading from './LoadScreenWhileLoading';
-import CoursesXMLsplit from '../helperFunctions/CoursesXMLsplit';
 
 import { Grid, Row, Col } from 'react-flexbox-grid';
 
@@ -15,20 +15,19 @@ const enhance =
   );
 
 const CardsView = enhance(({
-  coursesxml,
-  xsltfile,
+  courses,
+  coursesXSLT,
 }) => {
-  const courses = CoursesXMLsplit(coursesxml, 'course');
-  return (    
+  return (
     <div className={ styles.cardsview }>
       <Grid className={ styles.grid } fluid >
         <Row className={ styles.row } around="xs" >
-          { courses.map((course) => {
+          { courses.map((course, index) => {
             return (
-              <Col className={ styles.col }>
+              <Col key={ index } className={ styles.col }>
                 <CourseCard
                   course={ course }
-                  xsltfile={ xsltfile }
+                  coursesXSLT={ coursesXSLT }
                 />
               </Col>
             );

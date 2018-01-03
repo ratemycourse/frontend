@@ -1,11 +1,28 @@
 import React from 'react';
-import Main from './components/Main';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-export default function App(props) {
+import Main from './containers/Main';
+import Login from './components/Login';
+
+const App = (props) => {
   return (
     <Provider store={ props.store }>
-      <Main />
+      <Router>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            component={ Main }
+          />
+          <Route
+            path="/login"
+            component={ Login }
+          />
+        </Switch>
+      </Router>
     </Provider>
   );
-}
+};
+
+export default App;

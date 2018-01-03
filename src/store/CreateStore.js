@@ -1,10 +1,10 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import logger from 'redux-logger';
 import PromiseMiddleware from './PromiseMiddleware';
-import * as reducers from './Reducers';
+import reducer from './Reducers';
 
 export default function(data) {
-  const reducer = combineReducers(reducers);
-  const finalCreateStore = applyMiddleware(PromiseMiddleware)(createStore);
+  const finalCreateStore = applyMiddleware(PromiseMiddleware, logger)(createStore);
   const store = finalCreateStore(reducer, data);
 
   return store;

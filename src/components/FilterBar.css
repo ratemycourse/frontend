@@ -1,0 +1,10 @@
+.filterbar {
+  display:flex;
+  flex-flow: row wrap;
+  background-color: white;
+  justify-content: space-around;
+}
+
+.chip {
+  margin: 5px;
+}

@@ -28,17 +28,16 @@ const styles = {
     whiteSpace: 'normal',
     fontFamily: 'Barlow',
     padding: '20px',
-    maxWidth: '500px',
     height: '200px',
   },
 };
 
 const CourseCard = enhance(({
   course,
-  xsltfile,
+  coursesXSLT,
   classes,
 }) => {
-  const transformedXML = xslt(course, xsltfile);
+  const transformedXML = xslt(course, coursesXSLT);
   return (
     <Paper classes={ {root: classes.root} }>
       <Typography
