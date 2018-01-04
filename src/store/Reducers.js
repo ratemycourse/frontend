@@ -72,6 +72,7 @@ const courseReducer = (state = coursesInitialState, action = {}) => {
 const departmentsInitialState = {
   departments: {},
   departmentsFetched: false,
+  visibleDepartments: [],
   error: null,
 };
 
@@ -94,6 +95,12 @@ const departmentsReducer = (state = departmentsInitialState, action = {}) => {
     return {
       ...state,
       error: action.result,
+    };
+
+  case 'SET_DEP_VISIBLE':
+    return {
+      ...state,
+      visibleDepartments: action.result,
     };
 
   default:

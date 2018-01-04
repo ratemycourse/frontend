@@ -21,7 +21,13 @@ const Header = enhance(({
   return (
     <div className={ styles.header }>
       <div className={ styles.logo }>RateMyCourse</div>
-      <div className={ styles.searchbar } ><SearchBar handleSubmit={ handleSubmit } /></div>
+      <div className={ styles.searchbar } >
+        <SearchBar
+          handleSubmit={ handleSubmit }
+          placeholder="Search Courses..."
+          id="courseSearch"
+        />
+      </div>
       <div className={ styles.login }><NavLink to="/login">LOG IN</NavLink></div>
     </div>
   );

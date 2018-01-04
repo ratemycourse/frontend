@@ -22,9 +22,24 @@ export const removeFilter = (filter) => {
 };
 
 export const initFilter = (departments) => {
+  console.log(departments);
   return {
     result: departments.map((department) => { return department.code; }),
     type: 'INIT_FILTER',
+  };
+};
+
+export const showDepartments = (departments, query) => {
+  const matches = [];
+  const regex = new RegExp(query, 'i');
+  for (const department of departments) {
+    if (regex.test(department.name)) {
+       matches.push(department.code);
+    }
+  }
+  return { 
+    result: matches,
+    type: 'SET_DEP_VISIBLE',
   };
 };
 
@@ -52,7 +67,7 @@ export const getDepartments = () => {
         return (response.json());
       })
       .then((data) => {
-        const result = JSON.parse(data).map((item) => { return { code: item.code, name: item.name }; });
+        const result = JSON.parse(data).map((item) => { return { code: item.code, name: item.name, hidden: true }; });
         return (result);
       });
     },

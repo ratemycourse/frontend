@@ -1,12 +1,13 @@
 import React from 'react';
 import { compose, lifecycle, withHandlers } from 'recompose';
-import { connect } from 'react-redux'; 
+import { connect } from 'react-redux';
 
 import * as actionCreators from '../store/Actions';
 
 import CardsView from '../components/CardsView';
 import Header from '../containers/Header';
 import FilterBar from '../components/FilterBar';
+import FilterSearch from '../components/FilterSearch';
 
 import styles from './Main.css';
 
@@ -14,24 +15,31 @@ const enhance = compose(
   lifecycle({
     componentDidMount() {
       if (!this.props.coursesFetched || !this.props.coursesXSLTFetched) {
-        this.props.dispatch(actionCreators.isLoading(true));
+        this.props.isLoading(true);
         Promise.all([
-          this.props.dispatch(actionCreators.getStatic('courselist.xsl')),
-          this.props.dispatch(actionCreators.getDepartments()),
+          this.props.getStatic('courselist.xsl'),
+          this.props.getDepartments(),
         ]).then(() => {
-          this.props.dispatch(actionCreators.initFilter(this.props.departments));
-          this.props.dispatch(actionCreators.addFilter('DM'));
-          this.props.dispatch(actionCreators.isLoading(false));
+          this.props.initFilter(this.props.departments);
+          this.props.addFilter('DM');
+          this.props.doSearch('empty', this.props.activeFilter)
+            .then(this.props.isLoading(false));
         });
       }
+    },
+    componentWillUpdate(nextprops) {
+      // this.props.dispatch(actionCreators.doSearch('empty', this.props.filter));
     },
   }),
   withHandlers({
     addFilterHandler: (props) => (e) => {
-      props.dispatch(actionCreators.addFilter(e));
+      props.addFilter(e);
     },
     removeFilterHandler: (props) => (e) => {
-      props.dispatch(actionCreators.removeFilter(e));
+      props.removeFilter(e);
+    },
+    showDepartmentsHandler: (props) => (e) => {
+      props.showDepartments(props.departments, e);
     },
   }),
 );
@@ -43,8 +51,10 @@ const Main = enhance(({
   departments,
   activeFilter,
   inactiveFilter,
+  visibleDepartments,
   addFilterHandler,
   removeFilterHandler,
+  showDepartmentsHandler,
 }) => {
   return (
     <div>
@@ -52,12 +62,14 @@ const Main = enhance(({
         activeFilter={ activeFilter }
         inactiveFilter={ inactiveFilter }
       />
-      <FilterBar
+      <FilterSearch
         headerText="Choose Departments"
         loading={ loading }
         departments={ departments }
         filter={ inactiveFilter }
+        visible={ visibleDepartments }
         onClick={ addFilterHandler }
+        onSubmit={ showDepartmentsHandler }
       />
       <FilterBar
         headerText="Selected Departments"
@@ -76,7 +88,7 @@ const Main = enhance(({
   );
 });
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return {
     loading: state.appState.loading,
     courses: state.courseState.courses,
@@ -86,7 +98,21 @@ function mapStateToProps(state) {
     departments: state.departmentState.departments,
     activeFilter: state.filterState.activeFilter,
     inactiveFilter: state.filterState.inactiveFilter,
+    visibleDepartments: state.departmentState.visibleDepartments,
   };
-}
+};
 
-export default connect(mapStateToProps)(Main);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getStatic: async (staticfile) => { await dispatch(actionCreators.getStatic(staticfile)); },
+    isLoading: (bool) => { dispatch(actionCreators.isLoading(bool)); },
+    getDepartments: async () => { await dispatch(actionCreators.getDepartments()); },
+    initFilter: (departments) => { dispatch(actionCreators.initFilter(departments)); },
+    addFilter: (filter) => { dispatch(actionCreators.addFilter(filter)); },
+    removeFilter: (filter) => { dispatch(actionCreators.removeFilter(filter)); },
+    showDepartments: (departments, query) => { dispatch(actionCreators.showDepartments(departments, query)); },
+    doSearch: async (query, filter) => { await dispatch(actionCreators.doSearch(query, filter)); },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
