@@ -23,7 +23,7 @@
 
 }
 
-.searchbar {
+.inputbox {
 	flex:1 0 auto;
 	min-width: 20em;
   margin-top: auto;
@@ -40,4 +40,5 @@
   margin-left: 30px;
   margin-right: 30px;
   flex:0 1 auto;
+  text-decoration: none;
 }

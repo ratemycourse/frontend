@@ -22,7 +22,6 @@ export const removeFilter = (filter) => {
 };
 
 export const initFilter = (departments) => {
-  console.log(departments);
   return {
     result: departments.map((department) => { return department.code; }),
     type: 'INIT_FILTER',
@@ -89,5 +88,27 @@ export const doSearch = (query = 'empty', filter = []) => {
         return (result);
       });
     },
+  };
+};
+
+export const validateUser = (formData) => {
+  return {
+    types: ['VALIDATE_USER_REQUEST', 'VALIDATE_USER_SUCCESS', 'VALIDATE_USER_FAILURE'],
+    promise: () => {
+      return fetch(`http://localhost:3000/user/validate?user='${ formData.user }'&pass='${ formData.password }'`)
+      .then((response) => {
+        return response.text();
+      })
+      .then((response) => {
+        return JSON.parse(response);
+      });
+    },
+  };
+};
+
+export const logOut = () => {
+  return {
+    result: false,
+    type: 'LOG_OUT_USER',
   };
 };

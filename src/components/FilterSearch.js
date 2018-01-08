@@ -8,7 +8,7 @@ import ExpansionPanel, {
   ExpansionPanelDetails,
 } from 'material-ui/ExpansionPanel';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
-import SearchBar from './SearchBar';
+import InputBox from './InputBox';
 
 import { withStyles } from 'material-ui/styles';
 import styles from './FilterBar.css';
@@ -55,11 +55,12 @@ const FilterBar = enhance(({
         </ExpansionPanelSummary>
         <ExpansionPanelDetails classes={ {root: classes.root2} }>
           <div className={ styles.tagcontainer }>
-            <div className={ styles.searchbar }>
-              <SearchBar
+            <div className={ styles.inputbox }>
+              <InputBox
                 placeholder="Search department..."
                 handleSubmit={ onSubmit }
                 id="departmentSearch"
+                type="text"
               />
             </div>
             <div className={ styles.filterbar }>

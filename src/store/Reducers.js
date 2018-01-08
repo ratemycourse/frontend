@@ -140,11 +140,51 @@ const filterReducer = (state = filterInitialState, action = {}) => {
   }
 };
 
+const userInitialState = {
+  currentUserData: {},
+  loggedIn: false,
+  error: null,
+};
+
+const userReducer = (state = userInitialState, action = {}) => {
+  switch (action.type) {
+  case 'VALIDATE_USER_REQUEST':
+    return {
+      ...state,
+    };
+
+  case 'VALIDATE_USER_SUCCESS':
+    return {
+      ...state,
+      loggedIn: action.result.reply,
+      currentUserData: action.result.data,
+    };
+
+  case 'VALIDATE_USER_FAILURE':
+    return {
+      ...state,
+      error: action.result,
+    };
+
+  case 'LOG_OUT_USER':
+    return {
+      ...state,
+      loggedIn: action.result,
+    };
+
+  default:
+    return state;
+  }
+};
+
 const reducer = combineReducers({
   appState: applicationReducer,
   courseState: courseReducer,
   filterState: filterReducer,
   departmentState: departmentsReducer,
+  userState: userReducer,
 });
 
 export default reducer;
+
+
