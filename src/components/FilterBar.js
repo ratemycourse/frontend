@@ -1,14 +1,7 @@
 import React from 'react';
 import { compose, withHandlers } from 'recompose';
 import LoadScreenWhileLoading from './LoadScreenWhileLoading';
-import Chip from 'material-ui/Chip';
-import ExpansionPanel, {
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
-} from 'material-ui/ExpansionPanel';
-import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
-import { withStyles } from 'material-ui/styles'; 
-import styles from './FilterBar.css';
+import '../scss/FilterBar.scss';
 
 
 const style = {
@@ -25,41 +18,59 @@ const enhance = compose(
       props.onClick(e);
     },
   })
-  );
+);
 
 const FilterBar = enhance(({
   departments,
   filter,
   onClick,
   headerText,
-  classes,
-  expanded,
 }) => {
   return (
-    <div>
-      <ExpansionPanel defaultExpanded={ expanded  }> 
-        <ExpansionPanelSummary classes={ {root: classes.root} } expandIcon={ <ExpandMoreIcon /> }>
-          { headerText }
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <div className={ styles.filterbar }>
-            { departments.map((department) => {
-              if (filter.includes(department.code)) {
-                return (
-                  <div key={ department.code } className={ styles.chip }>
-                    <Chip
-                      label={ department.name }
+    <div id="accordion">
+      <div className="card">
+        <div
+          className="card-header"
+          role="tab"
+          id="headingTwo"
+          data-toggle="collapse"
+          href="#collapseTwo"
+          aria-expanded="true"
+          aria-controls="collapseTwo"
+        >
+          <h5 className="mb-0" >
+            { headerText }
+          </h5>
+        </div>
+        <div
+          id="collapseTwo"
+          className="collapse show"
+          role="tabpanel"
+          aria-labelledby="headingTwo"
+          data-parent="#accordion"
+        >
+          <div className="card-body">
+            <div className="d-flex flex-wrap">
+              { departments.map((department) => {
+                if (filter.includes(department.code)) {
+                  return (
+                    <button
+                      key={ department.code }
+                      className="btn btn-grey m-1"
+                      type="button"
                       onClick={ onClick.bind(this, department.code) }
-                    />
-                  </div>
-                );
-              }
-            })}
+                    >{ department.name }</button>
+                  );
+                }
+              }) }
+            </div>
           </div>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+        </div>
+      </div>
     </div>
   );  
 });
 
-export default withStyles(style)(FilterBar);
+
+
+export default FilterBar;

@@ -141,7 +141,9 @@ const filterReducer = (state = filterInitialState, action = {}) => {
 };
 
 const userInitialState = {
-  currentUserData: {},
+  currentUserData: {
+    courseScores: {},
+  },
   loggedIn: false,
   error: null,
 };
@@ -170,6 +172,12 @@ const userReducer = (state = userInitialState, action = {}) => {
     return {
       ...state,
       loggedIn: action.result,
+    };
+
+  case 'SET_USER_COURSE_SCORE':
+    return {
+      ...state,
+      currentUserData: {...state.currentUserData, courseScores: {...state.currentUserData.courseScores, [action.result.code]: action.result.score } },
     };
 
   default:

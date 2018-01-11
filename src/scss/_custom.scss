@@ -1,0 +1,8 @@
+@import 'palette';
+$theme-colors: (
+  primary: $primaryColor,
+  secondary: $secondaryColor,
+  tetriary: $tetriaryColor,
+  grey: $lightGrey,
+  danger: $red,
+);

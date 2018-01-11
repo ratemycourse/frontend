@@ -28,12 +28,21 @@ export const initFilter = (departments) => {
   };
 };
 
+export const addUserCourseScore = (courseScore) => {
+  return {
+    result: courseScore,
+    type: 'SET_USER_COURSE_SCORE',
+  };
+};
+
 export const showDepartments = (departments, query) => {
   const matches = [];
-  const regex = new RegExp(query, 'i');
-  for (const department of departments) {
-    if (regex.test(department.name)) {
-       matches.push(department.code);
+  if (query.length > 0) {
+    const regex = new RegExp(query, 'i');
+    for (const department of departments) {
+      if (regex.test(department.name)) {
+         matches.push(department.code);
+      }
     }
   }
   return { 
@@ -84,8 +93,8 @@ export const doSearch = (query = 'empty', filter = []) => {
         return (response.text());
       })
       .then((data) => {
-        const result = parseCourseXML(data, 'course');
-        return (result);
+        // const result = parseCourseXML(data, 'course');
+        return (data);
       });
     },
   };
@@ -95,7 +104,11 @@ export const validateUser = (formData) => {
   return {
     types: ['VALIDATE_USER_REQUEST', 'VALIDATE_USER_SUCCESS', 'VALIDATE_USER_FAILURE'],
     promise: () => {
-      return fetch(`http://localhost:3000/user/validate?user='${ formData.user }'&pass='${ formData.password }'`)
+      return fetch('http://localhost:3000/user/validate', {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: { 'Content-Type': 'application/json' },
+      })
       .then((response) => {
         return response.text();
       })

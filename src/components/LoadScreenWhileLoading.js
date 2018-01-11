@@ -1,11 +1,11 @@
 import React from 'react';
 import { branch, renderComponent } from 'recompose';
 
-import styles from './LoadScreenWhileLoading.css';
+import '../scss/LoadScreenWhileLoading.scss';
 
 const isLoading = ({ loading }) => loading;
 
-const loadScreen = () => <div className={ styles.container }><div className={ styles.loader } /></div>;
+const loadScreen = () => <div className="container"><div className="loader" /></div>;
 
 const LoadScreenWhileLoading = branch(
   isLoading,

@@ -1,39 +1,67 @@
 import React from 'react';
-import { compose } from 'recompose';
-import { parseString } from 'xml2js';
-
-import CourseCard from './CourseCard';
+import { render } from 'react-dom';
+import { compose, lifecycle } from 'recompose';
+import xslt from 'xslt';
 import LoadScreenWhileLoading from './LoadScreenWhileLoading';
+import StarRating from './StarRating';
+import '../scss/CardsView.scss';
 
-import { Grid, Row, Col } from 'react-flexbox-grid';
+const findParentByClassName = (element, className) => {
+  if (element && element.className.match(className)) {
+    return element;
+  }
+  return findParentByClassName(element.parentElement, className);
+};
 
-import styles from './CardsView.css';
+const applyStarRating = (onClick) => {
+  for (const element of document.getElementsByClassName('rating')) {
+    const code = findParentByClassName(element, 'card ').getAttribute('code');
+    let [avgRating] = element.nextSibling.children;
+    let color = '#4a5fda';
+    if (avgRating.textContent === 'No rating') {
+      color = '#cacaca';
+      avgRating = 0;
+    } else {
+      avgRating = parseInt(avgRating.textContent, 10);
+    }
+
+    render(
+      <StarRating
+        userScore={ avgRating }
+        code={ code }
+        color={ color }
+        count={ 5 }
+        onClick={ onClick }
+        lock={ true }
+      />,
+      element
+    );
+  }
+};
 
 const enhance =
   compose(
     LoadScreenWhileLoading,
+    lifecycle({
+      componentDidMount() {
+        applyStarRating(this.props.onClick, this.props.userCourseScores);
+      },
+      componentDidUpdate() {
+        applyStarRating(this.props.onClick, this.props.userCourseScores);
+      },
+    }),
   );
 
 const CardsView = enhance(({
   courses,
   coursesXSLT,
 }) => {
+  const transformedXML = xslt(courses, coursesXSLT);
   return (
-    <div className={ styles.cardsview }>
-      <Grid className={ styles.grid } fluid >
-        <Row className={ styles.row } around="xs" >
-          { courses.map((course, index) => {
-            return (
-              <Col key={ index } className={ styles.col }>
-                <CourseCard
-                  course={ course }
-                  coursesXSLT={ coursesXSLT }
-                />
-              </Col>
-            );
-          })}
-        </Row>
-      </Grid>
+    <div className="container-fluid p-2 m-0">
+      <div className="row p-0 m-0">
+        <div dangerouslySetInnerHTML={ {__html: transformedXML} } />
+      </div>
     </div>
   );
 });

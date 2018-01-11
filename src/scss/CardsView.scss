@@ -1,0 +1,8 @@
+.coursecard {
+	flex: auto;
+}
+.coursecard:hover{
+	transform: scale(1.005);
+}
+
+.nounderline{text-decoration: none}

@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
   template: __dirname + '/src/index.html',
@@ -20,18 +21,26 @@ module.exports = {
         include: /flexboxgrid/,
       },
       {
-        test: /\.css$/,
-        loader: 'style-loader',
-        exclude: /flexboxgrid/,
-      },
-      {
-        test: /\.css$/,
-        loader: 'css-loader',
-        exclude: /flexboxgrid/,
-        query: {
-          modules: true,
-          localIdentName: '[name]__[local]___[hash:base64:5]',
-        },
+        test: /\.(scss)$/,
+        use: [
+          {
+            loader: 'style-loader', // inject CSS to page
+          }, {
+            loader: 'css-loader', // translates CSS into CommonJS modules
+          }, {
+            loader: 'postcss-loader', // Run post css actions
+            options: {
+              plugins: () => { // post css plugins, can be exported to postcss.config.js
+                return [
+                  require('precss'),
+                  require('autoprefixer'),
+                ];
+              },
+            },
+          }, {
+            loader: 'sass-loader', // compiles Sass to CSS
+          },
+        ],
       },
     ],
   },
@@ -39,7 +48,13 @@ module.exports = {
     filename: 'transformed.js',
     path: __dirname + '/build',
   },
-  plugins: [HTMLWebpackPluginConfig],
+  plugins: [
+    HTMLWebpackPluginConfig,
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+    }),
+  ],
   devServer: {
     historyApiFallback: true,
   },

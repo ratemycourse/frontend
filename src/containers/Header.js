@@ -1,44 +1,85 @@
-import React from 'react'; 
+import React from 'react';
 import { connect } from 'react-redux';
-import { compose, withHandlers } from 'recompose';
-import { NavLink } from 'react-router-dom';
+import $ from 'jquery';
+import { compose, withHandlers, lifecycle } from 'recompose';
 import * as actionCreators from '../store/Actions';
-import InputBox from '../components/InputBox';
-import styles from './Header.css';
 
 const enhance = (
   compose(
+    lifecycle({
+      componentDidMount() {
+        if (this.props.loggedIn) {
+          $('#profileButton').show();
+        } else {
+          $('#profileButton').hide();
+        }
+      },
+    }),
     withHandlers({
-      logOut: (props) => () => { props.dispatch(actionCreators.logOut()); },
-      handleSubmit: (props) => (query) => {
+      logInOrOut: (props) => () => {
+        if (props.loggedIn) {
+          props.dispatch(actionCreators.logOut());
+          $('#profileButton').hide();
+        } else {
+          props.history.push('/login');
+        }
+      },
+      goToProfile: (props) => () => {
+        if (props.loggedIn) {
+          props.history.push('/profile');
+        }
+     },
+      handleSubmit: (props) => (e) => {
+        e.preventDefault();
+        const query = document.getElementById('courseSearch').value;
         props.dispatch(actionCreators.doSearch(query, props.activeFilter));
+      },
+      clearSearchText: () => () => {
+        document.getElementById('courseSearch').value = '';
       },
     })
   ));
 
-const logText = (loggedIn, logOut) => {
-  return (loggedIn ? (<a
-    href="#" className={ styles.login }
-    onClick={ logOut }>LOG OUT</a>) : (<NavLink to="/login" className={ styles.login }>LOG IN</NavLink>));
-};
-
 const Header = enhance(({
   handleSubmit,
-  logOut,
+  logInOrOut,
+  goToProfile,
+  clearSearchText,
   loggedIn,
+  userName,
 }) => {
   return (
-    <div className={ styles.header }>
-      <div className={ styles.logo }>RateMyCourse</div>
-      <div className={ styles.inputbox } >
-        <InputBox
-          handleSubmit={ handleSubmit }
-          placeholder="Search Courses..."
-          id="courseSearch"
-          type="text"
-        />
+    <div className="navbar navbar-dark bg-primary">
+      <div className="d-flex flex-row w-100 align-items-center">
+        <a className="navbar-brand" href="#"><h2>RateMyCourse</h2></a>
+        <form className="form-inline w-100 d-flex justify-content-center" onSubmit={ handleSubmit }>
+          <div className="input-group w-50">
+            <input
+              className="form-control w-50"
+              id="courseSearch" type="search"
+              placeholder="Search courses..."
+              aria-label="Search"
+            />
+            <div className="input-group-append">
+              <button
+                className="btn btn-outline-grey"
+                type="button"
+                onClick={ clearSearchText }
+              >&#10006;</button>
+            </div>
+          </div>
+          <button className="btn btn-secondary m-2" type="submit">Search</button>
+        </form>
+        <button
+          className="btn btn-outline-tetriary h-25 my-2 my-sm-0 m-1"
+          id="profileButton"
+          onClick={ goToProfile }
+        >{ userName ? (userName.toUpperCase()) : (false) }</button>
+        <button
+          className="btn btn-outline-secondary h-25 my-2 my-sm-0 m-1"
+          onClick={ logInOrOut }
+        >{ loggedIn ? ('LOG OUT') : ('LOG IN') }</button>
       </div>
-      <div className={ styles.login }>{ logText(loggedIn, logOut) }</div>
     </div>
   );
 });
@@ -46,6 +87,7 @@ const Header = enhance(({
 const mapStateToProps = (state) => {
   return {
     loggedIn: state.userState.loggedIn,
+    userName: state.userState.currentUserData.name,
   };
 };
 

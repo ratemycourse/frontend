@@ -9,8 +9,6 @@ import Header from '../containers/Header';
 import FilterBar from '../components/FilterBar';
 import FilterSearch from '../components/FilterSearch';
 
-import styles from './Main.css';
-
 const enhance = compose(
   lifecycle({
     componentDidMount() {
@@ -23,23 +21,25 @@ const enhance = compose(
           this.props.initFilter(this.props.departments);
           this.props.addFilter('DM');
           this.props.doSearch('empty', this.props.activeFilter)
-            .then(this.props.isLoading(false));
+            .then(() => { this.props.isLoading(false); });
         });
       }
-    },
-    componentWillUpdate(nextprops) {
-      // this.props.dispatch(actionCreators.doSearch('empty', this.props.filter));
     },
   }),
   withHandlers({
     addFilterHandler: (props) => (e) => {
       props.addFilter(e);
+      props.doSearch(document.getElementById('courseSearch').value, [...props.activeFilter, e]);
     },
     removeFilterHandler: (props) => (e) => {
       props.removeFilter(e);
+      props.doSearch(document.getElementById('courseSearch').value, props.activeFilter.filter((item) => item !== e));
     },
     showDepartmentsHandler: (props) => (e) => {
       props.showDepartments(props.departments, e);
+    },
+    addUserCourseScorehandler: (props) => (e) => {
+      props.addUserCourseScore(e);
     },
   }),
 );
@@ -52,18 +52,22 @@ const Main = enhance(({
   activeFilter,
   inactiveFilter,
   visibleDepartments,
+  userCourseScores,
   addFilterHandler,
   removeFilterHandler,
   showDepartmentsHandler,
+  addUserCourseScorehandler,
+  history,
 }) => {
   return (
-    <div>
+    <div className="container-fluid p-0">
       <Header
         activeFilter={ activeFilter }
         inactiveFilter={ inactiveFilter }
+        history={ history }
       />
       <FilterSearch
-        headerText="Choose Departments"
+        headerText="Choose departments"
         loading={ loading }
         departments={ departments }
         filter={ inactiveFilter }
@@ -72,17 +76,18 @@ const Main = enhance(({
         onSubmit={ showDepartmentsHandler }
       />
       <FilterBar
-        headerText="Selected Departments"
+        headerText="Selected departments"
         loading={ loading }
         departments={ departments }
         filter={ activeFilter }
         onClick={ removeFilterHandler }
-        expanded={ true }
       />
       <CardsView
         loading={ loading }
         courses={ courses }
         coursesXSLT={ coursesXSLT }
+        userCourseScores={ userCourseScores }
+        onClick={ addUserCourseScorehandler }
       />
     </div>
   );
@@ -99,6 +104,7 @@ const mapStateToProps = (state) => {
     activeFilter: state.filterState.activeFilter,
     inactiveFilter: state.filterState.inactiveFilter,
     visibleDepartments: state.departmentState.visibleDepartments,
+    userCourseScores: state.userState.currentUserData.courseScores,
   };
 };
 
@@ -112,6 +118,7 @@ const mapDispatchToProps = (dispatch) => {
     removeFilter: (filter) => { dispatch(actionCreators.removeFilter(filter)); },
     showDepartments: (departments, query) => { dispatch(actionCreators.showDepartments(departments, query)); },
     doSearch: async (query, filter) => { await dispatch(actionCreators.doSearch(query, filter)); },
+    addUserCourseScore: (course, score) => { dispatch(actionCreators.addUserCourseScore(course, score)) },
   };
 };
 

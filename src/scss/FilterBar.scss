@@ -1,0 +1,13 @@
+@import 'custom';
+@import "~bootstrap/scss/bootstrap";
+
+.card-header:hover {
+	cursor: pointer;
+	background-color: darken($light, 5%);
+}
+
+.searchbar {
+	flex: auto;
+}
+
+

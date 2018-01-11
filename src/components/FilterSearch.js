@@ -1,29 +1,7 @@
 import React from 'react';
 import { compose, withHandlers } from 'recompose';
-
 import LoadScreenWhileLoading from './LoadScreenWhileLoading';
-import Chip from 'material-ui/Chip';
-import ExpansionPanel, {
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
-} from 'material-ui/ExpansionPanel';
-import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
-import InputBox from './InputBox';
-
-import { withStyles } from 'material-ui/styles';
-import styles from './FilterBar.css';
-
-
-const style = {
-  root1: {
-    whiteSpace: 'normal',
-    fontFamily: 'Barlow',
-  },
-  root2: {
-    position: '',
-    width: '97.5%',
-  },
-};
+import '../scss/FilterBar.scss';
 
 const enhance = compose(
   LoadScreenWhileLoading,
@@ -31,8 +9,12 @@ const enhance = compose(
     onClick: (props) => (e) => {
       props.onClick(e);
     },
-    onSubmit: (props) => (e) => {
-      props.onSubmit(e);
+    handleSubmit: (props) => (e) => {
+      e.preventDefault();
+      props.onSubmit(document.getElementById('departmentSearch').value);
+    },
+    clearSearchBar: () => () => {
+      document.getElementById('departmentSearch').value = '';
     },
   })
 );
@@ -41,47 +23,77 @@ const FilterBar = enhance(({
   departments,
   filter,
   visible,
-  onClick,
-  onSubmit,
   headerText,
-  classes,
-  expanded,
+  onClick,
+  handleSubmit,
+  clearSearchBar,
 }) => {
   return (
     <div>
-      <ExpansionPanel defaultExpanded={ expanded }>
-        <ExpansionPanelSummary classes={ {root: classes.root1} } expandIcon={ <ExpandMoreIcon /> }>
-          { headerText }
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails classes={ {root: classes.root2} }>
-          <div className={ styles.tagcontainer }>
-            <div className={ styles.inputbox }>
-              <InputBox
-                placeholder="Search department..."
-                handleSubmit={ onSubmit }
-                id="departmentSearch"
-                type="text"
-              />
-            </div>
-            <div className={ styles.filterbar }>
-              { departments.map((department) => {
-                if (filter.includes(department.code) && visible.includes(department.code)) {
-                  return (
-                    <div key={ department.code } className={ styles.chip }>
-                      <Chip
-                        label={ department.name }
+      <div id="accordion">
+        <div className="card">
+          <div
+            className="card-header"
+            role="tab"
+            id="headingOne"
+            data-toggle="collapse"
+            href="#collapseOne"
+            aria-expanded="true"
+            aria-controls="collapseOne"
+          >
+            <h5 className="mb-0" >
+              { headerText }
+            </h5>
+          </div>
+          <div
+            id="collapseOne"
+            className="collapse"
+            role="tabpanel"
+            aria-labelledby="headingOne"
+            data-parent="#accordion"
+          >
+            <div className="card-body">
+              <form className="form-inline w-100 d-flex" onSubmit={ handleSubmit }>
+                <div className="input-group searchbar">
+                  <input
+                    className="form-control"
+                    placeholder="Search department..."
+                    id="departmentSearch"
+                    type="text"
+                  />
+                  <div className="input-group-append">
+                    <button
+                      className="btn btn-outline-grey"
+                      type="button"
+                      onClick={ clearSearchBar }
+                    >&#10006;</button>
+                  </div>
+                </div>
+                <button
+                  className="btn btn-tetriary my-2 my-sm-0 m-2"
+                  type="submit"
+                >Search</button>
+              </form>
+              <div className="d-flex flex-wrap pt-3">
+                { departments.map((department) => {
+                  if (filter.includes(department.code) && visible.includes(department.code)) {
+                    return (
+                      <button
+                        key={ department.code }
+                        className="btn btn-grey m-1"
+                        type="button"
                         onClick={ onClick.bind(this, department.code) }
-                      />
-                    </div>
-                  );
-                }
-              })}
+                      >{ department.name }</button>
+                    );
+                  }
+                }) }
+              </div>
             </div>
           </div>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+        </div>
+      </div>
     </div>
   );
 });
 
-export default withStyles(style)(FilterBar);
+export default FilterBar;
