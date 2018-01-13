@@ -1,38 +1,19 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import $ from 'jquery';
-import { compose, withHandlers, lifecycle } from 'recompose';
-import * as actionCreators from '../store/Actions';
+import { compose, withHandlers } from 'recompose';
 
 const enhance = (
   compose(
-    lifecycle({
-      componentDidMount() {
-        if (this.props.loggedIn) {
-          $('#profileButton').show();
-        } else {
-          $('#profileButton').hide();
-        }
-      },
-    }),
     withHandlers({
-      logInOrOut: (props) => () => {
-        if (props.loggedIn) {
-          props.dispatch(actionCreators.logOut());
-          $('#profileButton').hide();
-        } else {
-          props.history.push('/login');
-        }
+      onLoginClick: (props) => () => {
+        props.goToLoginHandler();
       },
-      goToProfile: (props) => () => {
-        if (props.loggedIn) {
-          props.history.push('/profile');
-        }
-     },
-      handleSubmit: (props) => (e) => {
+      onProfileClick: (props) => () => {
+        props.goToProfileHandler();
+      },
+      onSubmit: (props) => (e) => {
         e.preventDefault();
         const query = document.getElementById('courseSearch').value;
-        props.dispatch(actionCreators.doSearch(query, props.activeFilter));
+        props.searchQueryHandler(query);
       },
       clearSearchText: () => () => {
         document.getElementById('courseSearch').value = '';
@@ -41,9 +22,9 @@ const enhance = (
   ));
 
 const Header = enhance(({
-  handleSubmit,
-  logInOrOut,
-  goToProfile,
+  onSubmit,
+  onLoginClick,
+  onProfileClick,
   clearSearchText,
   loggedIn,
   userName,
@@ -52,7 +33,7 @@ const Header = enhance(({
     <div className="navbar navbar-dark bg-primary">
       <div className="d-flex flex-row w-100 align-items-center">
         <a className="navbar-brand" href="#"><h2>RateMyCourse</h2></a>
-        <form className="form-inline w-100 d-flex justify-content-center" onSubmit={ handleSubmit }>
+        <form className="form-inline w-100 d-flex justify-content-center" onSubmit={ onSubmit }>
           <div className="input-group w-50">
             <input
               className="form-control w-50"
@@ -71,24 +52,17 @@ const Header = enhance(({
           <button className="btn btn-secondary m-2" type="submit">Search</button>
         </form>
         <button
-          className="btn btn-outline-tetriary h-25 my-2 my-sm-0 m-1"
+          className={ `btn btn-outline-${ loggedIn ? ('tetriary') : ('grey disabled') } h-25 my-2 my-sm-0 m-1` }
           id="profileButton"
-          onClick={ goToProfile }
-        >{ userName ? (userName.toUpperCase()) : (false) }</button>
+          onClick={ onProfileClick }
+        >{ userName ? (userName.toUpperCase()) : ('ANONYMOUS') }</button>
         <button
           className="btn btn-outline-secondary h-25 my-2 my-sm-0 m-1"
-          onClick={ logInOrOut }
+          onClick={ onLoginClick }
         >{ loggedIn ? ('LOG OUT') : ('LOG IN') }</button>
       </div>
     </div>
   );
 });
 
-const mapStateToProps = (state) => {
-  return {
-    loggedIn: state.userState.loggedIn,
-    userName: state.userState.currentUserData.name,
-  };
-};
-
-export default connect(mapStateToProps)(Header);
+export default Header;

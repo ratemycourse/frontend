@@ -1,6 +1,10 @@
 @import 'custom';
 @import "~bootstrap/scss/bootstrap";
 
+.filterWrapper {
+	margin-top: 70px;
+}
+
 .card-header:hover {
 	cursor: pointer;
 	background-color: darken($light, 5%);

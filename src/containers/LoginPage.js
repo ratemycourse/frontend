@@ -1,12 +1,11 @@
 import React from 'react';
-import $ from 'jquery';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
-import { compose, withHandlers, lifecycle, branch, renderComponent } from 'recompose';
+import { compose, withHandlers, withState, branch, renderComponent } from 'recompose';
 import * as actionCreators from '../store/Actions.js';
-import LoadScreenWhileLoading from '../components/LoadScreenWhileLoading';
+import $ from 'jquery';
 
-const isLoggedIn = ({ loggedIn, loading }) => loggedIn && !loading;
+const isLoggedIn = ({ loggedIn }) => loggedIn;
 
 const redirect = () => <Redirect to="/" />;
 
@@ -16,14 +15,7 @@ const redirectIfLoggedIn = branch(
 );
 
 const enhance = compose(
-  LoadScreenWhileLoading,
   redirectIfLoggedIn,
-  lifecycle({
-    componentDidMount() {
-      $('#invalidLog').hide();
-      $('#validLog').hide();
-    },
-  }),
   withHandlers({
     onSubmit: (props) => (e) => {
       e.preventDefault();
@@ -31,25 +23,19 @@ const enhance = compose(
         user: document.getElementById('userName').value,
         password: document.getElementById('userPass').value,
       };
-      props.dispatch(actionCreators.validateUser(formData))
-        .then(() => {
-          console.log('DOING IT');
-          if (props.loggedIn) {
-            $('#validLog').show();
-          } else {
-            $('#invalidLog').show();
-          }
-        });
+      props.dispatch(actionCreators.validateUser(formData));
     },
-    onHideClick: () => (e) => {
-      $(e).hide();
+    onHideClick: (props) => () => {
+      props.dispatch(actionCreators.setValidLogin(false));
     },
   })
 );
 
 const Login = enhance(({
+  loggedIn,
   onSubmit,
   onHideClick,
+  invalidLogin,
 }) => {
   return (
     <div className="container h-100">
@@ -82,27 +68,27 @@ const Login = enhance(({
             />
           </div>
           <div
-            className="alert alert-danger m-2 alert-dismissible"
-            id="invalidLog"
+            className={`alert alert-danger m-2 alert-dismissible` }
+            style={ {display: (invalidLogin) ? ('block') : ('none')} }
             role="alert"
           >
-            Invalid user or password, please try again.
+            Invalid user or password,  please try again.
             <button
               type="button" className="close"
-              onClick={ () => onHideClick('#invalidLog') } aria-label="Close"
+              onClick={ onHideClick } aria-label="Close"
             >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div
-            className="alert alert-secondary m-2 alert-dismissible"
-            id="validLog"
+            className="alert alert-success m-2 alert-dismissible"
+            style={ {display: loggedIn ? ('block') : ('none')} }
             role="alert"
           >
-            Login Sucess!.
+            Invalid user or password,  please try again.
             <button
               type="button" className="close"
-              onClick={ () => onHideClick('#validLog') } aria-label="Close"
+              onClick={ onHideClick } aria-label="Close"
             >
               <span aria-hidden="true">&times;</span>
             </button>
@@ -120,8 +106,8 @@ const mapStateToProps = (state) => {
   return {
     currentUserData: state.userState.currentUserData,
     loggedIn: state.userState.loggedIn,
-    loading: state.appState.loading,
     error: state.userState.error,
+    invalidLogin: state.userState.invalidLogin,
   };
 };
 

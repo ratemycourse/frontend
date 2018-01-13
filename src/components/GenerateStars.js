@@ -15,6 +15,7 @@ const GenerateStars = ({
     stars.push(
       <Star
         id={ i }
+        key={ i }
         size={ size }
         fill={ fill[i] }
         color={ color }

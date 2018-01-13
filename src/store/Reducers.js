@@ -1,106 +1,89 @@
 import { combineReducers } from 'redux';
+import LoadingGroup from '../helperFunctions/LoadingGroup';
 
-const applicationIntialState = {
-  loading: true,
+const coursePageInitialState = {
+  loadingGroup: new LoadingGroup('first'),
+  coursePage: null,
+  coursePageXML: null,
+  coursePageXSL: null,
+  error: null,
 };
 
-const applicationReducer = (state = applicationIntialState, action = {}) => {
+const coursePageReducer = (state = coursePageInitialState, action = {}) => {
   switch (action.type) {
-  case 'SET_LOADING':
+  case 'GET_COURSE_REQUEST':
     return {
       ...state,
-      loading: action.result,
+      loadingGroup: state.loadingGroup.startFetch(),
     };
+
+  case 'GET_COURSE_SUCCESS':
+    return {
+      ...state,
+      coursePage: action.result,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'GET_COURSE_FAILURE':
+    return {
+      ...state,
+      error: action.error,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
   default:
     return state;
   }
 };
 
-const coursesInitialState = {
-  courses: [],
-  coursesXSLT: null,
-  coursesFetched: false,
-  coursesXSLTFetched: false,
+const cardsViewInitialState = {
+  loadingGroup: new LoadingGroup('first'),
+  courseList: '<courses>No search made...</courses>',
+  courseListXSL: null,
   error: null,
 };
 
-const courseReducer = (state = coursesInitialState, action = {}) => {
+const cardsViewReducer = (state = cardsViewInitialState, action = {}) => {
   switch (action.type) {
   case 'GET_SEARCH_REQUEST':
     return {
       ...state,
-      coursesFetched: false,
+      loadingGroup: state.loadingGroup.startFetch(),
     };
 
   case 'GET_SEARCH_SUCCESS':
     return {
       ...state,
-      courses: action.result,
-      coursesFetched: true,
+      courseList: action.result,
+      loadingGroup: state.loadingGroup.completeFetch(),
     };
 
   case 'GET_SEARCH_FAILURE':
     return {
       ...state,
-      error: action.result,
+      error: action.error,
+      loadingGroup: state.loadingGroup.completeFetch(),
     };
 
-  case 'GET_COURSELIST.XSL_REQUEST':
+  case 'GET_INITDATA_REQUEST':
     return {
       ...state,
-      coursesXSLTFetched: false,
+      loadingGroup: state.loadingGroup.startFetch(),
     };
 
-  case 'GET_COURSELIST.XSL_SUCCESS':
+  case 'GET_INITDATA_SUCCESS':
     return {
       ...state,
-      coursesXSLT: action.result,
-      coursesXSLTFetched: true,
+      courseList: action.result.courseList,
+      courseListXSL: action.result.courseListXSL,
+      loadingGroup: state.loadingGroup.completeFetch(),
     };
 
-  case 'GET_COURSELIST.XSL_FAILURE':
+  case 'GET_INITDATA_FAILURE':
     return {
       ...state,
-      error: action.result,
-    };
-
-  default:
-    return state;
-  }
-};
-
-const departmentsInitialState = {
-  departments: {},
-  departmentsFetched: false,
-  visibleDepartments: [],
-  error: null,
-};
-
-const departmentsReducer = (state = departmentsInitialState, action = {}) => {
-  switch (action.type) {
-  case 'GET_DEP_REQUEST':
-    return {
-      ...state,
-      departmentsFetched: false,
-    };
-
-  case 'GET_DEP_SUCCESS':
-    return {
-      ...state,
-      departments: action.result,
-      departmentsFetched: true,
-    };
-
-  case 'GET_DEP_FAILURE':
-    return {
-      ...state,
-      error: action.result,
-    };
-
-  case 'SET_DEP_VISIBLE':
-    return {
-      ...state,
-      visibleDepartments: action.result,
+      error: action.error,
+      loadingGroup: state.loadingGroup.completeFetch(),
     };
 
   default:
@@ -109,8 +92,12 @@ const departmentsReducer = (state = departmentsInitialState, action = {}) => {
 };
 
 const filterInitialState = {
+  loadingGroup: new LoadingGroup('first'),
+  departments: [],
+  visibleDepartments: [],
   activeFilter: [],
   inactiveFilter: [],
+  error: null,
 };
 
 const filterReducer = (state = filterInitialState, action = {}) => {
@@ -129,10 +116,32 @@ const filterReducer = (state = filterInitialState, action = {}) => {
       inactiveFilter: [...state.inactiveFilter, action.result],
     };
 
-  case 'INIT_FILTER':
+  case 'GET_INITDATA_REQUEST':
     return {
       ...state,
-      inactiveFilter: action.result,
+      loadingGroup: state.loadingGroup.startFetch(),
+    };
+
+  case 'GET_INITDATA_SUCCESS':
+    return {
+      ...state,
+      departments: action.result.departments,
+      activeFilter: action.result.activeFilter,
+      inactiveFilter: action.result.inactiveFilter,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'GET_INITDATA_FAILURE':
+    return {
+      ...state,
+      error: action.error,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'SET_DEP_VISIBLE':
+    return {
+      ...state,
+      visibleDepartments: action.result,
     };
 
   default:
@@ -141,10 +150,14 @@ const filterReducer = (state = filterInitialState, action = {}) => {
 };
 
 const userInitialState = {
+  loadingGroup: new LoadingGroup('first'),
+  loggedIn: false,
+  invalidLogin: false,
   currentUserData: {
+    userId: null,
+    email: null,
     courseScores: {},
   },
-  loggedIn: false,
   error: null,
 };
 
@@ -153,19 +166,43 @@ const userReducer = (state = userInitialState, action = {}) => {
   case 'VALIDATE_USER_REQUEST':
     return {
       ...state,
+      loadingGroup: state.loadingGroup.startFetch(),
     };
 
   case 'VALIDATE_USER_SUCCESS':
     return {
       ...state,
       loggedIn: action.result.reply,
+      invalidLogin: !action.result.reply,
       currentUserData: action.result.data,
+      loadingGroup: state.loadingGroup.completeFetch(),
     };
 
   case 'VALIDATE_USER_FAILURE':
     return {
       ...state,
-      error: action.result,
+      error: action.error,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'SUBMIT_SCORE_REQUEST':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.startFetch(),
+    };
+
+  case 'SUBMIT_SCORE_SUCCESS':
+    return {
+      ...state,
+      currentUserData: {...state.currentUserData, courseScores: {...state.currentUserData.courseScores, [action.result.code]: action.result.score } },
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'SUBMIT_SCORE_FAILURE':
+    return {
+      ...state,
+      error: action.error,
+      loadingGroup: state.loadingGroup.completeFetch(),
     };
 
   case 'LOG_OUT_USER':
@@ -174,10 +211,10 @@ const userReducer = (state = userInitialState, action = {}) => {
       loggedIn: action.result,
     };
 
-  case 'SET_USER_COURSE_SCORE':
+  case 'SET_INVALID_LOGIN':
     return {
       ...state,
-      currentUserData: {...state.currentUserData, courseScores: {...state.currentUserData.courseScores, [action.result.code]: action.result.score } },
+      invalidLogin: action.result,
     };
 
   default:
@@ -186,10 +223,9 @@ const userReducer = (state = userInitialState, action = {}) => {
 };
 
 const reducer = combineReducers({
-  appState: applicationReducer,
-  courseState: courseReducer,
+  cardsViewState: cardsViewReducer,
+  coursePageState: coursePageReducer,
   filterState: filterReducer,
-  departmentState: departmentsReducer,
   userState: userReducer,
 });
 

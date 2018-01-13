@@ -1,18 +1,10 @@
 import React from 'react';
 import { compose, withHandlers } from 'recompose';
-import LoadScreenWhileLoading from './LoadScreenWhileLoading';
+import ErrorScreenOnError from '../enhancers/ErrorScreenOnError';
 import '../scss/FilterBar.scss';
 
-
-const style = {
-  root: {
-    whiteSpace: 'normal',
-    fontFamily: 'Barlow', 
-  },
-};
-
 const enhance = compose(
-  LoadScreenWhileLoading,
+  ErrorScreenOnError,
   withHandlers({
     onClick: (props) => (e) => {
       props.onClick(e);
@@ -70,7 +62,5 @@ const FilterBar = enhance(({
     </div>
   );  
 });
-
-
 
 export default FilterBar;

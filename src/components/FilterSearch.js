@@ -1,10 +1,10 @@
 import React from 'react';
 import { compose, withHandlers } from 'recompose';
-import LoadScreenWhileLoading from './LoadScreenWhileLoading';
+import ErrorScreenOnError from '../enhancers/ErrorScreenOnError';
 import '../scss/FilterBar.scss';
 
 const enhance = compose(
-  LoadScreenWhileLoading,
+  ErrorScreenOnError,
   withHandlers({
     onClick: (props) => (e) => {
       props.onClick(e);
@@ -29,7 +29,7 @@ const FilterBar = enhance(({
   clearSearchBar,
 }) => {
   return (
-    <div>
+    <div className="filterWrapper">
       <div id="accordion">
         <div className="card">
           <div

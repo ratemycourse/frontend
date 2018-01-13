@@ -1,14 +1,26 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { compose, lifecycle } from 'recompose';
 import 'bootstrap';
 
-import Main from './containers/Main';
-import Login from './containers/Login';
+import * as actionCreators from './store/Actions';
+
+import MainPage from './containers/MainPage';
+import LoginPage from './containers/LoginPage';
+import CoursePage from './containers/CoursePage';
 
 import './scss/_base.scss';
 
-const App = (props) => {
+const enhance = compose(
+  lifecycle({
+    componentWillMount() {
+      this.props.store.dispatch(actionCreators.initData());
+    },
+  })
+);
+
+const App = enhance((props) => {
   return (
     <Provider store={ props.store }>
       <Router>
@@ -16,16 +28,22 @@ const App = (props) => {
           <Route
             exact
             path="/"
-            component={ Main }
+            component={ MainPage }
           />
           <Route
+            exact
             path="/login"
-            component={ Login }
+            component={ LoginPage }
+          />
+          <Route
+            exact
+            path="/course/:courseCode"
+            component={ CoursePage }
           />
         </Switch>
       </Router>
     </Provider>
   );
-};
+});
 
 export default App;

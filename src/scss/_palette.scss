@@ -1,6 +1,16 @@
 $primaryColor: #263252;
 $secondaryColor: #00b66d;
 $tetriaryColor: #4a5fda;
+$warning: #f0771a;
 $lightGrey: #cacaca;
+$lightColor: #f1f1f1;
 $red: #d21e3c;
 $white: white;
+
+:export {
+	primaryColor: $primaryColor;
+	secondaryColor: $secondaryColor;
+	tetriaryColor: $tetriaryColor;
+	warning: $warning;
+	lightGrey: $lightGrey;
+}

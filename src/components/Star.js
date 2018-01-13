@@ -28,7 +28,19 @@ const Star = enhance(({
       onMouseEnter={ setFill }
       onMouseLeave={ setEmpty }
     >
-      { fill ? (<MdStar fill={ color } height={ size } width={ size } />) : (<MdStarOutline fill={ color } height={ size } width={ size } />) }
+      { 
+        fill
+          ? <MdStar
+            fill={ color }
+            height={ size }
+            width={ size }
+            />
+          : <MdStarOutline
+            fill={ color }
+            height={ size }
+            width={ size }
+            />
+      }
     </div>
   );
 });
