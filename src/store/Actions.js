@@ -105,6 +105,18 @@ export const validateUser = (formData) => {
   };
 };
 
+export const registerUser = (formData) => {
+  const payload = new FormData();
+  payload.append('json', JSON.stringify(formData));
+  return {
+    types: ['REGISTER_USER_REQUEST', 'REGISTER_USER_SUCCESS', 'REGISTER_USER_FAILURE'],
+    promise: () => {
+      return apiRequest.postToAPI('user/reguser', formData);
+    },
+  };
+};
+
+
 export const submitUserScore = (userID, courseCode, score) => {
   return {
     types: ['SUBMIT_SCORE_REQUEST', 'SUBMIT_SCORE_SUCCESS', 'SUBMIT_SCORE_FAILURE'],

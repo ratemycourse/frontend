@@ -151,11 +151,13 @@ const filterReducer = (state = filterInitialState, action = {}) => {
 
 const userInitialState = {
   loadingGroup: new LoadingGroup('first'),
-  loggedIn: false,
+  loggedIn: true, // false,
   invalidLogin: false,
   currentUserData: {
-    userId: null,
-    email: null,
+    userId: '118', // null,
+    name: 'kalle', // --
+    password: 'abbaabba', // --
+    email: 'kalle@kth.se', // null,
     courseScores: {},
   },
   error: null,
@@ -202,6 +204,29 @@ const userReducer = (state = userInitialState, action = {}) => {
     return {
       ...state,
       error: action.error,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'REGISTER_USER_REQUEST':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.startFetch(),
+    };
+
+  case 'REGISTER_USER_SUCCESS':
+    return {
+      ...state,
+      loggedIn: action.result.reply,
+      invalidLogin: !action.result.reply,
+      currentUserData: action.result.data,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'REGISTER_USER_FAILURE':
+    return {
+      ...state,
+      RegistrationSuccessful: action.result.reply,
+      error: action.result.data,
       loadingGroup: state.loadingGroup.completeFetch(),
     };
 
