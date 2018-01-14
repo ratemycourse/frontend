@@ -9,14 +9,7 @@ const enhance = compose(
       ? ([...Array(userScore).fill(true), ...Array(count - userScore).fill(false)])
       : ([...Array(count).fill(false)]);
   }),
-  withState('frozen', 'setFrozen', ({ userScore }) => {
-    if (userScore) {
-      return true;
-    } else if (userScore < 1) {
-      return true;
-    }
-    return false;
-  }),
+  withState('frozen', 'setFrozen', ({ lock }) => lock),
   withHandlers({
     onClick: (props) => (e) => {
       if (!props.lock) {
@@ -30,10 +23,14 @@ const enhance = compose(
         ? (false)
         : (setFill([...Array(e + 1).fill(true), ...Array(count - e).fill(false)]));
     },
-    setEmpty: ({ setFill, count, frozen }) => () => {
-      return frozen
-        ? (false)
-        : (setFill([...Array(count).fill(false)]));
+    setEmpty: ({ setFill, count, frozen, userScore }) => () => {
+    if (frozen) {
+        return false;
+      } else if (userScore) {
+        setFill([...Array(userScore).fill(true)]);
+      } else {
+        setFill([...Array(count).fill(false)]);
+      }
     },
   }),
 );
