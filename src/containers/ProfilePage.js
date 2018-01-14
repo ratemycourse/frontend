@@ -21,7 +21,7 @@ const ProfilePage = enhance(({
     <div className="wrapper bg-grey" > 
       <nav id="sidebar"> 
         <div className="sidebar bg-primary text-white">
-          <h3>Hello { userName } !</h3>
+          <h3>Hello FAGGET !</h3>
           <SideBar />
         </div>
       </nav>
