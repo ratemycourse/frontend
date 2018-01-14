@@ -1,14 +1,11 @@
 
 import React from 'react';
-import { compose, withHandlers, lifecycle } from 'recompose';
+import { compose, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 import '../scss/ProfileSideBar.scss';
-import * as actionCreators from '../store/Actions';
 
 import View from '../components/ProfileView';
 import SideBar from '../components/ProfileSideBar';
-
-
 
 const enhance = compose(
   withHandlers({
