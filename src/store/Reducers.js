@@ -151,13 +151,13 @@ const filterReducer = (state = filterInitialState, action = {}) => {
 
 const userInitialState = {
   loadingGroup: new LoadingGroup('first'),
-  loggedIn: true, // false,
+  loggedIn: false,
   invalidLogin: false,
   currentUserData: {
-    userId: '118', // null,
-    name: 'kalle', // --
-    password: 'abbaabba', // --
-    email: 'kalle@kth.se', // null,
+    userId: null,
+    name: null,
+    password: null,
+    email: null,
     courseScores: {},
   },
   error: null,
