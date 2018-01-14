@@ -127,7 +127,7 @@ const mapStateToProps = (state) => {
     // User props.
     userCourseScores: state.userState.currentUserData.courseScores,
     loggedIn: state.userState.loggedIn,
-    userName: state.userState.currentUserData.name,
+    userName: state.userState.currentUserData.userName,
     userStateError: state.userState.Error,
   };
 };

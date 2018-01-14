@@ -155,8 +155,10 @@ const userInitialState = {
   invalidLogin: false,
   currentUserData: {
     userId: null,
-    email: null,
-    courseScores: {},
+    userName: null,
+    userEmail: null,
+    userScoresGiven: [],
+    userComments: [],
   },
   error: null,
 };
@@ -194,7 +196,8 @@ const userReducer = (state = userInitialState, action = {}) => {
   case 'SUBMIT_SCORE_SUCCESS':
     return {
       ...state,
-      currentUserData: {...state.currentUserData, courseScores: {...state.currentUserData.courseScores, [action.result.code]: action.result.score } },
+      currentUserData: {...state.currentUserData, 
+        userScoresGiven: {...state.currentUserData.userScoresGiven, [action.result.courseCode]: action.result.userScore } },
       loadingGroup: state.loadingGroup.completeFetch(),
     };
 
@@ -208,7 +211,8 @@ const userReducer = (state = userInitialState, action = {}) => {
   case 'LOG_OUT_USER':
     return {
       ...state,
-      loggedIn: action.result,
+      loggedIn: false,
+      currentUserData: userInitialState.currentUserData,
     };
 
   case 'SET_INVALID_LOGIN':

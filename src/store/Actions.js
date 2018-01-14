@@ -109,14 +109,16 @@ export const submitUserScore = (userID, courseCode, score) => {
   return {
     types: ['SUBMIT_SCORE_REQUEST', 'SUBMIT_SCORE_SUCCESS', 'SUBMIT_SCORE_FAILURE'],
     promise: () => {
-      return apiRequest.postToAPI('user/submitscore', { userID: userID, courseCode: courseCode, score: score });
+      return apiRequest.postToAPI('user/submitscore', {
+        userID: userID,
+        courseCode: courseCode,
+        score: score });
     },
   };
 };
 
 export const logOut = () => {
   return {
-    result: false,
     type: 'LOG_OUT_USER',
   };
 };

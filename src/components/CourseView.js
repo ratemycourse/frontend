@@ -1,38 +1,18 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { compose, lifecycle } from 'recompose';
-import StarRating from './StarRating';
 import LoadScreenWhileLoading from '../enhancers/LoadScreenWhileLoading';
 import ErrorScreenOnError from '../enhancers/ErrorScreenOnError';
+import InjectStarRating from '../enhancers/InjectStarRating';
+import '../scss/CourseView.scss';
 import colors from '../scss/_palette.scss';
 
-const applyStarRating = ({ onClick, userScore, code }) => {
-  for (const element of document.getElementsByClassName('userRating')) {
-    let color = colors.warning;
-    if (!userScore) {
-      color = colors.lightGrey;
-    }
-
-    render(
-      <div className="p-2">
-        <StarRating
-          userScore={ userScore }
-          code={ code }
-          color={ color }
-          count={ 5 }
-          onClick={ onClick }
-          lock={ false }
-        />
-      </div>,
-      element
-    );
-  }
-};
-
-const addSubmitButton = ({ onSubmit }) => {
+const addSubmitButton = ({ onSubmit, enableSubmit, userScore }) => {
   render(
     <div
-      className="btn btn-secondary float-right m-2" onClick={ onSubmit }
+      className={ `btn btn-secondary float-right m-2 ${ 
+        enableSubmit ? ('') : ('disabled') }` 
+      } onClick={ () => onSubmit(userScore) }
     >SUBMIT</div>,
     document.getElementsByClassName('submitButton').item(0)
   );
@@ -43,7 +23,25 @@ const enhance = compose(
   ErrorScreenOnError,
   lifecycle({
     componentDidMount() {
-      applyStarRating(this.props);
+      InjectStarRating({
+        rating: this.props.userScore,
+        target: 'userRating',
+        code: this.props.code,
+        count: 5,
+        colors: { active: colors.warning, greyed: colors.lightGrey },
+        onClick: this.props.onClick,
+      });
+      addSubmitButton(this.props);
+    },
+    componentDidUpdate() {
+      InjectStarRating({
+        rating: this.props.userScore,
+        target: 'userRating',
+        code: this.props.code,
+        count: 5,
+        colors: { active: colors.warning, greyed: colors.lightGrey },
+        onClick: this.props.onClick,
+      });
       addSubmitButton(this.props);
     },
   }),
@@ -51,7 +49,9 @@ const enhance = compose(
 
 const CourseView = enhance(({
   coursePage,
+  enableSubmit,
 }) => {
+  console.log(enableSubmit);
   return (
     <div>
       <div dangerouslySetInnerHTML={ {__html: coursePage} } />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose, withHandlers, lifecycle } from 'recompose';
+import { compose, withHandlers, withState, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
 import CourseView from '../components/CourseView';
 import * as actionCreators from '../store/Actions';
@@ -10,17 +10,33 @@ const enhance = compose(
       this.props.getCourse(this.props.match.params.courseCode);
     },
   }),
+  withState('enableSubmit', 'setEnableSubmit', false),
+  withState('userScore', 'setUserScore', ({ userScoresGiven, match }) => {
+    return Object.keys(userScoresGiven).includes(match.params.courseCode)
+      ? (userScoresGiven[match.params.courseCode])
+      : (null);
+  }),
   withHandlers({
-    onClick: (props) => (e) => { if (props.loggedIn) { props.addUserCourseScore(e) } },
-    onSubmit: (props) => (e) => { props.submitUserScore(props.userID, e.course, e.score); },
+    onClick: (props) => (e) => {
+      if (props.loggedIn) {
+        props.setUserScore(e.score);
+        props.setEnableSubmit(true);
+      }
+    },
+    onSubmit: (props) => (userScore) => {
+      if (props.loggedIn) {
+        props.submitUserScore(props.userID, props.match.params.courseCode, userScore);
+      }
+    },
   })
 );
 
 const Course = enhance(({
-  coursePage,
   loading,
+  coursePage,
+  enableSubmit,
+  userScore,
   match,
-  userCourseScores,
   onClick,
   onSubmit,
 }) => {
@@ -29,10 +45,11 @@ const Course = enhance(({
       <CourseView
         loading={ loading }
         coursePage={ coursePage }
+        enableSubmit={ enableSubmit }
+        userScore={ userScore }
+        code={ match.params.courseCode }
         onClick={ onClick }
         onSubmit={ onSubmit }
-        code={ match.params.courseCode }
-        userScore={ userCourseScores ? (userCourseScores[match.params.courseCode]) : (false) }
       />
     </div>
   );
@@ -44,9 +61,9 @@ const mapStateToProps = (state) => {
     coursePage: state.coursePageState.coursePage,
     courseXML: state.coursePageState.coursePageXML,
     courseXSL: state.coursePageState.coursePageXSL,
-    userCourseScores: state.userState.currentUserData.courseScores,
-    loggedIn: state.userState.loggedIn,
+    userScoresGiven: state.userState.currentUserData.userScoresGiven,
     userID: state.userState.currentUserData.userId,
+    loggedIn: state.userState.loggedIn,
   };
 };
 
