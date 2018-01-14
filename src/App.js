@@ -9,6 +9,8 @@ import * as actionCreators from './store/Actions';
 import MainPage from './containers/MainPage';
 import LoginPage from './containers/LoginPage';
 import CoursePage from './containers/CoursePage';
+import RegisterPage from './containers/RegisterPage';
+import ProfilePage from './containers/ProfilePage';
 
 import './scss/_base.scss';
 
@@ -39,6 +41,16 @@ const App = enhance((props) => {
             exact
             path="/course/:courseCode"
             component={ CoursePage }
+          />
+          <Route
+            exact
+            path="/register"
+            component={ RegisterPage }
+          />
+          <Route
+            exact
+            path="/profile"
+            component={ ProfilePage }
           />
         </Switch>
       </Router>

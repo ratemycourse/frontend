@@ -208,6 +208,29 @@ const userReducer = (state = userInitialState, action = {}) => {
       loadingGroup: state.loadingGroup.completeFetch(),
     };
 
+  case 'REGISTER_USER_REQUEST':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.startFetch(),
+    };
+
+  case 'REGISTER_USER_SUCCESS':
+    return {
+      ...state,
+      loggedIn: action.result.reply,
+      invalidLogin: !action.result.reply,
+      currentUserData: action.result.data,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'REGISTER_USER_FAILURE':
+    return {
+      ...state,
+      RegistrationSuccessful: action.result.reply,
+      error: action.result.data,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
   case 'LOG_OUT_USER':
     return {
       ...state,
