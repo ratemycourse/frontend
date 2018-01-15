@@ -1,13 +1,22 @@
 import React from 'react';
-import { branch, renderComponent } from 'recompose';
+import { render } from 'react-dom';
+import StarRating from '../components/StarRating';
 
-const isError = ({ error }) => error;
+const InjectStarRating = ({ rating, code, onClick, lock = false, count, colors, target }) => {
+  for (const element of document.getElementsByClassName(target)) {
+    console.log(rating);
+    render(
+      <StarRating
+        userScore={ rating }
+        code={ code }
+        color={ rating ? (colors.active) : (colors.greyed) }
+        count={ count }
+        onClick={ onClick }
+        lock={ lock }
+      />,
+      element
+    );
+  }
+};
 
-const errorScreen = (props) => <div >An error has occured: { props.error }</div>;
-
-const ErrorScreenOnError = branch(
-  isError,
-  renderComponent(errorScreen),
-);
-
-export default ErrorScreenOnError;
+export default InjectStarRating;
