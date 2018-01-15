@@ -13,8 +13,6 @@ const redirectIfLoggedIn = branch(
   renderComponent(redirect),
 );
 
-//
-
 const enhance = compose(
   redirectIfLoggedIn,
   withHandlers({
@@ -33,6 +31,7 @@ const enhance = compose(
 
 const Register = enhance(({
   onSubmit,
+  errormsg,
 }) => {
   return (
     <div className="container h-100">
@@ -57,7 +56,7 @@ const Register = enhance(({
               placeholder="myRealMail@kth.se"
             />
           </div>
-           <div className="m-2">
+          <div className="m-2">
             <input
               className="form-control"
               id="regPass1"
@@ -65,13 +64,16 @@ const Register = enhance(({
               placeholder="Enter password..."
             />
           </div>
-           <div className="m-2">
+          <div className="m-2">
             <input
               className="form-control"
               id="regPass2"
               type="password"
               placeholder="Enter password again..."
             />
+          </div>
+          <div className="m-2 text-center text-danger">
+            {errormsg}
           </div>
           <div className="m-2">
             <input
@@ -90,78 +92,9 @@ const mapStateToProps = (state) => {
   return {
     currentUserData: state.userState.currentUserData,
     loggedIn: state.userState.loggedIn,
-    error: state.userState.error,
+    errormsg: state.userState.error,
   };
 };
 
 
 export default connect(mapStateToProps)(Register);
-
-
-/*
-
-const enhance = compose(
-  redirectIfLoggedIn,
-  withHandlers({
-    handleSubmit: (props) => (e) => {
-      console.log(e);
-    },
-    onEnter: (props) => (e) => {
-      if (e.key === 'Enter') {
-        const formData = {
-          newUser: document.getElementById('regUserName').value,
-          newEmail: document.getElementById('regEmail').value,
-          newPassword1: document.getElementById('regPass1').value,
-          newPassword2: document.getElementById('regPass2').value,
-        };
-        props.dispatch(actionCreators.registerUser(formData));
-      }
-    },
-  })
-);
-
-
-
-
-   <div onKeyPress={ onEnter }>
-    Create an account
-      <div>
-        <p />
-        Nick name:
-        <input
-          id="regUserName"
-          type="text"
-          placeholder="myFunnyNickName"
-        />
-        <p />
-      </div>
-      <div>
-        KTH-mail:
-        <input
-          id="regEmail"
-          type="text"
-          placeholder="myRealMail@kth.se"
-        />
-        <p />
-      </div>
-      <div>
-        Password:
-        <input
-          id="regPass1"
-          type="password"
-          placeholder="Enter password..."
-        />
-        <p />
-      </div>
-      <div>
-        Password:
-        <input
-          id="regPass2"
-          type="password"
-          placeholder="Enter password again..."
-        />
-        <p />
-      </div>
-    </div>
-
-    */

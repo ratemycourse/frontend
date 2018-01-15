@@ -196,7 +196,7 @@ const userReducer = (state = userInitialState, action = {}) => {
   case 'SUBMIT_SCORE_SUCCESS':
     return {
       ...state,
-      currentUserData: {...state.currentUserData, 
+      currentUserData: {...state.currentUserData,
         userScoresGiven: {...state.currentUserData.userScoresGiven, [action.result.courseCode]: action.result.userScore } },
       loadingGroup: state.loadingGroup.completeFetch(),
     };
@@ -220,6 +220,7 @@ const userReducer = (state = userInitialState, action = {}) => {
       loggedIn: action.result.reply,
       invalidLogin: !action.result.reply,
       currentUserData: action.result.data,
+      error: action.result.error,
       loadingGroup: state.loadingGroup.completeFetch(),
     };
 
@@ -227,7 +228,7 @@ const userReducer = (state = userInitialState, action = {}) => {
     return {
       ...state,
       RegistrationSuccessful: action.result.reply,
-      error: action.result.data,
+      error: action.result.error,
       loadingGroup: state.loadingGroup.completeFetch(),
     };
 

@@ -16,15 +16,13 @@ const toggleEdit = () => {
     document.getElementById('nameID').disabled = false;
     document.getElementById('emailID').disabled = false;
     document.getElementById('passwordID').disabled = false;
-    
   } else {
     pass2.style.display = 'none';
     document.getElementById('editButtonID').textContent = 'Edit';
     document.getElementById('submitID').style.display = 'none';
     document.getElementById('nameID').disabled = true;
     document.getElementById('emailID').disabled = true;
-    document.getElementById('passwordID').disabled = true;
-    
+    document.getElementById('passwordID').disabled = true; 
   }
 };
 
