@@ -1,15 +1,9 @@
 import React from 'react';
-import { compose, withHandlers, lifecycle } from 'recompose';
-import $ from 'jquery';
+import { compose, withHandlers } from 'recompose';
 import '../scss/Header.scss';
 
 const enhance = (
   compose(
-    lifecycle({
-      componentDidUpdate() {
-        this.props.history.location.pathname === '/' ? ($('#searchGroup').show() && $('#searchGroup').animate({ opacity: 1 }, 500)) : ($('#searchGroup').animate({ opacity: 0 }, 300, () => { $('#searchGroup').hide() }));
-      },
-    }),
     withHandlers({
       onLoginClick: (props) => () => {
         props.goToLoginHandler();

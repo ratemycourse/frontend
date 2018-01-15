@@ -1,17 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom';
-import { compose, withHandlers, branch, renderComponent } from 'recompose';
+import { Link } from 'react-router-dom';
+import { compose, withHandlers, lifecycle } from 'recompose';
 import * as actionCreators from '../store/Actions.js';
 
-const isLoggedIn = ({ loggedIn, ...props }) => { console.log(props); return loggedIn; };
-
-const redirect = () => <Redirect to="/" />;
-
-const redirectIfLoggedIn = branch(
-  isLoggedIn,
-  renderComponent(redirect),
-);
+const redirectIfLoggedIn = lifecycle({
+  componentDidUpdate() {
+    if (this.props.loggedIn) {
+      this.props.history.goBack();
+    }
+  },
+});
 
 const enhance = compose(
   redirectIfLoggedIn,

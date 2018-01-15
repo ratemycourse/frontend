@@ -20,7 +20,8 @@ const addSubmitButton = ({ onSubmit, enableSubmit, userScore }) => {
 const enhance = compose(
   LoadScreenWhileLoading,
   ErrorScreenOnError,
-  lifecycle({
+  InjectStarRating,
+  /*lifecycle({
     componentDidMount() {
       InjectStarRating({
         rating: this.props.userScore,
@@ -43,7 +44,7 @@ const enhance = compose(
       });
       addSubmitButton(this.props);
     },
-  }),
+  }),*/
 );
 
 const CourseView = enhance(({
