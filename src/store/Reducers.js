@@ -219,7 +219,7 @@ const userReducer = (state = userInitialState, action = {}) => {
       ...state,
       loggedIn: action.result.reply,
       invalidLogin: !action.result.reply,
-      currentUserData: action.result.data,
+      currentUserData: action.result.reply ? (action.result.data) : (state.currentUserData),
       error: action.result.error,
       loadingGroup: state.loadingGroup.completeFetch(),
     };
