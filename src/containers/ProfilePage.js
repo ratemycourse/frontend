@@ -1,14 +1,11 @@
 
 import React from 'react';
-import { compose, withHandlers, lifecycle } from 'recompose';
+import { compose, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 import '../scss/ProfileSideBar.scss';
-import * as actionCreators from '../store/Actions';
 
 import View from '../components/ProfileView';
 import SideBar from '../components/ProfileSideBar';
-
-
 
 const enhance = compose(
   withHandlers({
@@ -24,7 +21,7 @@ const ProfilePage = enhance(({
     <div className="wrapper bg-grey" > 
       <nav id="sidebar"> 
         <div className="sidebar bg-primary text-white">
-          <h3>Hello { userName } !</h3>
+          <h3>Hello FAGGET !</h3>
           <SideBar />
         </div>
       </nav>
