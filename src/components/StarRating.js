@@ -1,7 +1,6 @@
 import React from 'react';
 import { compose, withHandlers, withState } from 'recompose';
 import GenerateStars from './GenerateStars';
-import '../scss/StarRating.scss';
 
 const enhance = compose(
   withState('fill', 'setFill', ({ userScore, count }) => {

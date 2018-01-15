@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
-import { compose, withHandlers, withState, branch, renderComponent } from 'recompose';
+import { compose, withHandlers, branch, renderComponent } from 'recompose';
 import * as actionCreators from '../store/Actions.js';
-import $ from 'jquery';
 
 const isLoggedIn = ({ loggedIn }) => loggedIn;
 
@@ -68,7 +67,7 @@ const Login = enhance(({
             />
           </div>
           <div
-            className={`alert alert-danger m-2 alert-dismissible` }
+            className={ `alert alert-danger m-2 alert-dismissible` }
             style={ {display: (invalidLogin) ? ('block') : ('none')} }
             role="alert"
           >

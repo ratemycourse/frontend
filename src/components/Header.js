@@ -1,8 +1,15 @@
 import React from 'react';
-import { compose, withHandlers } from 'recompose';
+import { compose, withHandlers, lifecycle } from 'recompose';
+import $ from 'jquery';
+import '../scss/Header.scss';
 
 const enhance = (
   compose(
+    lifecycle({
+      componentDidUpdate() {
+        this.props.history.location.pathname === '/' ? ($('#searchGroup').show() && $('#searchGroup').animate({ opacity: 1 }, 500)) : ($('#searchGroup').animate({ opacity: 0 }, 300, () => { $('#searchGroup').hide() }));
+      },
+    }),
     withHandlers({
       onLoginClick: (props) => () => {
         props.goToLoginHandler();
@@ -34,13 +41,16 @@ const Header = enhance(({
       <div className="d-flex flex-row w-100 align-items-center">
         <a className="navbar-brand" href="#"><h2>RateMyCourse</h2></a>
         <form className="form-inline w-100 d-flex justify-content-center" onSubmit={ onSubmit }>
-          <div className="input-group w-50">
+          <div className="input-group w-50" id="searchGroup">
             <input
-              className="form-control w-50"
+              className="courseSearch form-control w-50"
               id="courseSearch" type="search"
               placeholder="Search courses..."
               aria-label="Search"
             />
+            <div className="input-group-append">
+              <button className="searchButton btn btn-secondary" type="submit">Search</button>
+            </div>
             <div className="input-group-append">
               <button
                 className="btn btn-outline-grey"
@@ -49,7 +59,6 @@ const Header = enhance(({
               >&#10006;</button>
             </div>
           </div>
-          <button className="btn btn-secondary m-2" type="submit">Search</button>
         </form>
         <button
           className={ `btn btn-outline-${ loggedIn ? ('tetriary') : ('grey disabled') } h-25 my-2 my-sm-0 m-1` }

@@ -2,7 +2,6 @@ import React from 'react';
 import { compose, withHandlers } from 'recompose';
 import MdStarOutline from 'react-icons/lib/md/star-outline';
 import MdStar from 'react-icons/lib/md/star';
-import '../scss/StarRating.scss';
 
 const enhance = compose(
   withHandlers({
