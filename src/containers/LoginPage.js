@@ -4,7 +4,7 @@ import { Redirect, Link } from 'react-router-dom';
 import { compose, withHandlers, branch, renderComponent } from 'recompose';
 import * as actionCreators from '../store/Actions.js';
 
-const isLoggedIn = ({ loggedIn }) => loggedIn;
+const isLoggedIn = ({ loggedIn, ...props }) => { console.log(props); return loggedIn; };
 
 const redirect = () => <Redirect to="/" />;
 
@@ -31,7 +31,6 @@ const enhance = compose(
 );
 
 const Login = enhance(({
-  loggedIn,
   onSubmit,
   onHideClick,
   invalidLogin,
@@ -67,21 +66,8 @@ const Login = enhance(({
             />
           </div>
           <div
-            className={ `alert alert-danger m-2 alert-dismissible` }
+            className="alert alert-danger m-2 alert-dismissible"
             style={ {display: (invalidLogin) ? ('block') : ('none')} }
-            role="alert"
-          >
-            Invalid user or password,  please try again.
-            <button
-              type="button" className="close"
-              onClick={ onHideClick } aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div
-            className="alert alert-success m-2 alert-dismissible"
-            style={ {display: loggedIn ? ('block') : ('none')} }
             role="alert"
           >
             Invalid user or password,  please try again.
