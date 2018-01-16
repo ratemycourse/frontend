@@ -89,14 +89,14 @@ const mapStateToProps = (state) => {
     cardViewLoading: state.cardsViewState.loadingGroup.isLoading,
     courseList: state.cardsViewState.courseList,
     courseListXSL: state.cardsViewState.courseListXSL,
-    cardViewError: state.cardsViewState.Error,
+    cardViewError: state.cardsViewState.error,
     // Filter props.
     visibleDepartments: state.filterState.visibleDepartments,
     activeFilter: state.filterState.activeFilter,
     inactiveFilter: state.filterState.inactiveFilter,
     filterLoading: state.filterState.loadingGroup.isLoading,
     departments: state.filterState.departments,
-    filterStateError: state.filterState.Error,
+    filterStateError: state.filterState.error,
     // User props.
     userCourseScores: state.userState.currentUserData.courseScores,
   };

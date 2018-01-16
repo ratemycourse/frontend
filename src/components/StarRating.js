@@ -3,9 +3,9 @@ import { compose, withHandlers, withState } from 'recompose';
 import GenerateStars from './GenerateStars';
 
 const enhance = compose(
-  withState('fill', 'setFill', ({ userScore, count }) => {
-    return userScore
-      ? ([...Array(userScore).fill(true), ...Array(count - userScore).fill(false)])
+  withState('fill', 'setFill', ({ score, count }) => {
+    return score
+      ? ([...Array(score).fill(true), ...Array(count - score).fill(false)])
       : ([...Array(count).fill(false)]);
   }),
   withState('frozen', 'setFrozen', ({ lock }) => lock),
@@ -22,11 +22,11 @@ const enhance = compose(
         ? (false)
         : (setFill([...Array(e + 1).fill(true), ...Array(count - e).fill(false)]));
     },
-    setEmpty: ({ setFill, count, frozen, userScore }) => () => {
+    setEmpty: ({ setFill, count, frozen, score }) => () => {
     if (frozen) {
         return false;
-      } else if (userScore) {
-        setFill([...Array(userScore).fill(true)]);
+      } else if (score) {
+        setFill([...Array(score).fill(true)]);
       } else {
         setFill([...Array(count).fill(false)]);
       }
@@ -37,23 +37,24 @@ const enhance = compose(
 const StarRating = enhance(({
   count,
   fill,
-  userScore,
+  score,
+  size,
   color,
   onClick,
   setFill,
   setEmpty,
 }) => {
   return (
-    <div className="wrapper d-flex m-0 p-1">
+    <div className="d-flex align-items-center">
       <GenerateStars
         count={ count }
-        size="2.7em"
+        size={ size }
         fill={ fill }
         color={ color }
         onClick={ onClick }
         setFill={ setFill }
         setEmpty={ setEmpty }
-        userScore={ userScore }
+        score={ score }
       />
     </div>
   );

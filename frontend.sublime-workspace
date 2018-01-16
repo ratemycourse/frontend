@@ -1,0 +1,2614 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"app",
+				"applySubmitButton"
+			],
+			[
+				"alert",
+				"alertLogin"
+			],
+			[
+				"aler",
+				"alertLogin"
+			],
+			[
+				"get",
+				"getElementById〔function〕"
+			],
+			[
+				"component",
+				"componentDidMount"
+			],
+			[
+				"sear",
+				"searchGroup"
+			],
+			[
+				"Reg",
+				"RegisterPage"
+			],
+			[
+				"trans",
+				"transform"
+			],
+			[
+				"break",
+				"break-word"
+			],
+			[
+				"user",
+				"userInitialState〔variable〕"
+			],
+			[
+				"course",
+				"coursecomment_id"
+			],
+			[
+				"userSc",
+				"userScoresGiven"
+			],
+			[
+				"comment",
+				"comment_id"
+			],
+			[
+				"invalid",
+				"invalidLogin"
+			],
+			[
+				"log",
+				"loggedIn"
+			],
+			[
+				"setIn",
+				"setInvalidLog"
+			],
+			[
+				"coursePage",
+				"coursePageXML"
+			],
+			[
+				"card",
+				"cardsViewState"
+			],
+			[
+				"set",
+				"setInvalidLog"
+			],
+			[
+				"in",
+				"invalidLog"
+			],
+			[
+				"l",
+				"logInOrOut"
+			],
+			[
+				"fet",
+				"fetchFromAPI"
+			],
+			[
+				"res",
+				"resType"
+			],
+			[
+				"filter",
+				"filterState"
+			],
+			[
+				"compl",
+				"completeFetch"
+			],
+			[
+				"fetch",
+				"fetchesInProgress"
+			],
+			[
+				"Course",
+				"CourseContainer〔function〕"
+			],
+			[
+				"Cou",
+				"CourseWrapper〔function〕"
+			],
+			[
+				"add",
+				"addUserCourseScore"
+			],
+			[
+				"Star",
+				"StarRating"
+			],
+			[
+				"courses",
+				"coursesXSLT〔variable〕"
+			],
+			[
+				"React",
+				"ReactDOM"
+			],
+			[
+				"jq",
+				"jqueryTest"
+			],
+			[
+				"clear",
+				"clearSearchBar"
+			],
+			[
+				"getElem",
+				"getElementById〔function〕"
+			],
+			[
+				"p",
+				"p-2"
+			],
+			[
+				"fun",
+				"function〔keyword〕"
+			],
+			[
+				"bod",
+				"bodyParser〔variable〕"
+			],
+			[
+				"class",
+				"className"
+			],
+			[
+				"acti",
+				"activeFilter"
+			],
+			[
+				"ac",
+				"actionCreators"
+			],
+			[
+				"SQL",
+				"SQLquery〔variable〕"
+			],
+			[
+				"showDep",
+				"showDepartmentsHandler〔variable〕"
+			],
+			[
+				"showDe",
+				"showDepartmentsHandler〔variable〕"
+			],
+			[
+				"with",
+				"withStyles"
+			],
+			[
+				"Expan",
+				"ExpansionPanelDetails〔variable〕"
+			],
+			[
+				"ExpansionPa",
+				"ExpansionPanelDetails〔variable〕"
+			],
+			[
+				"Expandmo",
+				"ExpandMoreIcon"
+			],
+			[
+				"Ex",
+				"ExpansionPanelSummary"
+			],
+			[
+				"Expansion",
+				"ExpansionPanelSummary〔variable〕"
+			],
+			[
+				"Expa",
+				"ExpansionPanelSummary〔variable〕"
+			],
+			[
+				"remoe",
+				"removeFilterHandler〔variable〕"
+			],
+			[
+				"getElement",
+				"getElementsByTagName〔function〕"
+			],
+			[
+				"coursesXS",
+				"coursesXSLTFetched"
+			],
+			[
+				"coursesXs",
+				"coursesXSLTFetched"
+			],
+			[
+				"applic",
+				"applicationIntialState"
+			],
+			[
+				"depar",
+				"departmentsInitialState"
+			],
+			[
+				"space",
+				"space-around"
+			],
+			[
+				"body",
+				"bodyParser"
+			],
+			[
+				"tag",
+				"tagcontent"
+			],
+			[
+				"padd",
+				"padding"
+			],
+			[
+				"flex",
+				"flex-flow"
+			],
+			[
+				"result",
+				"resultDocument"
+			],
+			[
+				"http",
+				"XMLHttpRequest\t() XMLHttpRequest"
+			],
+			[
+				"read",
+				"readyState\t: unsigned short FileReader"
+			],
+			[
+				"coure",
+				"courses"
+			],
+			[
+				"readaste",
+				"readAsText\t( blob: Blob, label?: DOMString ): void FileReader"
+			],
+			[
+				"create",
+				"createElement\t( localName: DOMString ): Element Document"
+			],
+			[
+				"align",
+				"alignItems\t = 'flex-start' Style CSS"
+			],
+			[
+				"alig",
+				"alignContent\t = 'center' Style CSS"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"Card",
+				"CardHeader"
+			],
+			[
+				"paddi",
+				"padding-right"
+			],
+			[
+				"fle",
+				"flex-end"
+			],
+			[
+				"space-",
+				"space-between"
+			],
+			[
+				"temp",
+				"grid-template-rows"
+			],
+			[
+				"grid-templ",
+				"grid-template-columns"
+			],
+			[
+				"cards",
+				"cardsByID"
+			],
+			[
+				"GET",
+				"GET_COURSES_SUCCESS"
+			],
+			[
+				"Cards",
+				"CardsContainer"
+			],
+			[
+				"props",
+				"props\tReact: this.props"
+			],
+			[
+				"onClick",
+				"onClickKey"
+			],
+			[
+				"load",
+				"loadScreenWhileLoading"
+			],
+			[
+				"loadScreen",
+				"loadScreen"
+			],
+			[
+				"getelem",
+				"getElementById\t( elementId: DOMString ): Element Document"
+			],
+			[
+				"elemen",
+				"getElementById\t( elementId: DOMString ): Element Document"
+			],
+			[
+				"id",
+				"id\t: DOMString Element"
+			],
+			[
+				"document",
+				"documentElement\t: Element Document"
+			],
+			[
+				"grid-tem",
+				"grid-template-columns"
+			],
+			[
+				"wid",
+				"width\t = 'auto' Style CSS"
+			],
+			[
+				"eleme",
+				"getElementById\t( elementId: DOMString ): Element Document"
+			],
+			[
+				"element",
+				"cssElementMap\t: DOMElementMap Document"
+			],
+			[
+				"max",
+				"max-width"
+			],
+			[
+				"fl",
+				"flex-end"
+			],
+			[
+				"align-",
+				"align-self"
+			],
+			[
+				"padding",
+				"padding-top"
+			],
+			[
+				"fe",
+				"flex-start"
+			],
+			[
+				"cons",
+				"console_log"
+			],
+			[
+				"st",
+				"flex-start"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"d",
+				"display"
+			],
+			[
+				"console",
+				"console_log"
+			],
+			[
+				"tran",
+				"translateX()"
+			],
+			[
+				"translate",
+				"translateY()"
+			],
+			[
+				"flex-",
+				"flex-basis"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"radi",
+				"border-radius"
+			],
+			[
+				"search",
+				"SearchBar"
+			],
+			[
+				"grid",
+				"grid-template-columns"
+			],
+			[
+				"column",
+				"column-count"
+			],
+			[
+				"paddin",
+				"padding-bottom"
+			],
+			[
+				"pos",
+				"position"
+			],
+			[
+				"word",
+				"word-wrap"
+			],
+			[
+				"grid-auto",
+				"grid-auto-columns"
+			],
+			[
+				"gird-col",
+				"grid-template-columns"
+			],
+			[
+				"bacground",
+				"background-color"
+			],
+			[
+				"background",
+				"background-color"
+			],
+			[
+				"border-",
+				"border-color"
+			],
+			[
+				"getElemen",
+				"getElementById\t( elementId: DOMString ): Element Document"
+			],
+			[
+				"return",
+				"returnstring"
+			],
+			[
+				"lo",
+				"location"
+			],
+			[
+				"con",
+				"contestant_id\t(competing_in Col)"
+			],
+			[
+				"conte",
+				"contestant\t(public Table)"
+			],
+			[
+				"sport",
+				"sport_id\t(competition_of_type Col)"
+			],
+			[
+				"contestant_",
+				"contestant_practicing\t(public Table)"
+			],
+			[
+				"end",
+				"end_time\t(competitions Col)"
+			],
+			[
+				"individual",
+				"individual_id"
+			],
+			[
+				"contesta",
+				"contestant_id\t(competing_in Col)"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/containers/CoursePage.js",
+			"settings":
+			{
+				"buffer_size": 2342,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/components/CourseView.js",
+			"settings":
+			{
+				"buffer_size": 709,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "import React from 'react';\nimport { compose, withHandlers } from 'recompose';\n\nconst enhance = compose(\n\t\n\t)",
+			"file": "src/componentBoilerplate.js",
+			"file_size": 0,
+			"file_write_time": 131605296331883910,
+			"settings":
+			{
+				"buffer_size": 108,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/Programming/Projekt/ratemycourse/backend/src/public/coursepage.xsl",
+			"settings":
+			{
+				"buffer_size": 1855,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/containers/MainPage.js",
+			"settings":
+			{
+				"buffer_size": 1973,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/enhancers/InjectSubmitButton.js",
+			"settings":
+			{
+				"buffer_size": 742,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/enhancers/InjectStarRating.js",
+			"settings":
+			{
+				"buffer_size": 1697,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Anaconda Python Builder",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Anaconda Python Builder",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Markdown Preview/Markdown.sublime-build",
+					""
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Markdown Preview/Markdown.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 342.0,
+		"last_filter": "git push",
+		"selected_items":
+		[
+			[
+				"git push",
+				"Git: Push"
+			],
+			[
+				"qui",
+				"Git: Quick Commit"
+			],
+			[
+				"pull",
+				"Git: Pull"
+			],
+			[
+				"push",
+				"Git: Push"
+			],
+			[
+				"quic",
+				"Git: Quick Commit"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"git pull",
+				"Git: Pull"
+			],
+			[
+				"git qu",
+				"Git: Quick Commit"
+			],
+			[
+				"babel",
+				"Set Syntax: JavaScript (Babel)"
+			],
+			[
+				"babe",
+				"Set Syntax: JavaScript (Babel)"
+			],
+			[
+				"x",
+				"Set Syntax: XML"
+			],
+			[
+				"codeinte",
+				"SublimeCodeIntel: Enable Live Autocompletion for Current Language"
+			],
+			[
+				"sass",
+				"Set Syntax: Sass"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"java",
+				"Set Syntax: JavaScript (Babel)"
+			],
+			[
+				"quick",
+				"Git: Quick Commit"
+			],
+			[
+				"xml",
+				"Set Syntax: XML"
+			],
+			[
+				"php",
+				"Set Syntax: PHP"
+			],
+			[
+				"color",
+				"Color Picker"
+			],
+			[
+				"remove packa",
+				"Package Control: Remove Package"
+			],
+			[
+				"javasc",
+				"Set Syntax: JavaScript (Babel)"
+			],
+			[
+				"javas",
+				"Set Syntax: JavaScript (Babel)"
+			],
+			[
+				"javasci",
+				"Set Syntax: JavaScript (Babel)"
+			],
+			[
+				"commit",
+				"Git: Commit"
+			],
+			[
+				"insata",
+				"Package Control: Install Package"
+			],
+			[
+				"comm",
+				"Git: Quick Commit"
+			],
+			[
+				"pus",
+				"Git: Push"
+			],
+			[
+				"white",
+				"Whitespace: Remove Trailing Whitespace"
+			],
+			[
+				"Package Control: remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"Package Control: di",
+				"Package Control: Disable Package"
+			],
+			[
+				"boxy",
+				"Boxy Theme: Configuration"
+			],
+			[
+				"install pa",
+				"Package Control: Install Package"
+			],
+			[
+				"git",
+				"Git: Commit"
+			],
+			[
+				"instlal",
+				"Package Control: Install Package"
+			],
+			[
+				"remove ",
+				"Package Control: Remove Package"
+			],
+			[
+				"package",
+				"Package Control: Remove Package"
+			],
+			[
+				"Package Control: isntal",
+				"Package Control: Install Package"
+			],
+			[
+				"pac",
+				"Package Control: Install Package"
+			],
+			[
+				"package insta",
+				"Package Control: Install Package"
+			],
+			[
+				"install package",
+				"Package Control: Install Package"
+			],
+			[
+				"packag",
+				"Install Package Control"
+			]
+		],
+		"width": 558.0
+	},
+	"console":
+	{
+		"height": 130.0,
+		"history":
+		[
+			"sublime.log_commands(False)",
+			"sublime.log_commands(True)",
+			"\\clear",
+			"clear",
+			"import urllib.request,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)",
+			"eslint --init",
+			"eslint --init # if eslint is global",
+			"which node"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/D/Programming/Projekt/ratemycourse"
+	],
+	"file_history":
+	[
+		"/D/Programming/Projekt/ratemycourse/frontend/src/scss/_base.scss",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/StarRating.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/enhancers/InjectStarRating.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/CardsView.js",
+		"/D/Programming/Projekt/ratemycourse/backend/src/public/coursepage.xsl",
+		"/D/Programming/Projekt/ratemycourse/backend/src/public/courselist.xsl",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/enhancers/ApplyCourseRoute.js",
+		"/D/Programming/Projekt/ratemycourse/backend/src/server.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/Header.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/containers/MainPage.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/MainView.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/containers/LoginPage.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/Star.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/store/Reducers.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/store/Actions.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/scss/Header.scss",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/enhancers/injectStarRating.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/App.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/containers/CourseListPage.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/CourseView.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/containers/CoursePage.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/scss/FilterBar.scss",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/scss/CourseView.scss",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/helperFunctions/LoadingGroup.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/FilterSearch.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/FilterBar.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/scss/_palette.scss",
+		"/C/Users/johan/Downloads/FTBInfinityServer_3.0.2/server.properties",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/scss/CardsView.scss",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/enhancers/ErrorScreenOnError.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/helperFunctions/ApiRequests.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/containers/RegisterPage.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/containers/MainContainer.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/containers/Course.js",
+		"/D/Programming/Projekt/ratemycourse/backend/node_modules/bluebird/js/browser/bluebird.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/index.html",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/containers/Header.js",
+		"/D/Programming/Projekt/ratemycourse/backend/src/public/coursePage.xsl",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/GenerateStars.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/scss/_custom.scss",
+		"/D/Programming/Projekt/ratemycourse/frontend/webpack.config.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/containers/CourseContainer.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/index.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/devServer.js",
+		"/D/Programming/Projekt/ratemycourse/backend/src/devServer.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/node_modules/webpack-dev-server/lib/Server.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/containers/Container.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/CourseWrapper.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/containers/Main.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/containers/Login.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/package.json",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/scss/StarRating.scss",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/LoadScreenWhileLoading.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/node_modules/recompose/lifecycle.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/node_modules/jquery-bar-rating/jquery.barrating.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/scss/_fonts.scss",
+		"/D/Programming/Projekt/ratemycourse/frontend/node_modules/bootstrap/scss/_variables.scss",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/Login.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/node_modules/bootstrap/scss/_media.scss",
+		"/D/Programming/Projekt/ratemycourse/frontend/node_modules/bootstrap/scss/_print.scss",
+		"/D/Programming/Projekt/ratemycourse/frontend/node_modules/bootstrap/scss/_type.scss",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/scss/Login.scss",
+		"/D/Programming/Projekt/ratemycourse/frontend/node_modules/bootstrap/scss/_forms.scss",
+		"/D/Programming/Projekt/ratemycourse/frontend/node_modules/bootstrap/scss/bootstrap.scss",
+		"/C/Users/johan/AppData/Roaming/Sublime Text 3/Packages/SublimeCodeIntel/SublimeCodeIntel.sublime-settings",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/scss/CourseCard.scss",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/CourseCard.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/InputBox.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/scss/Main.scss",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/Register.js",
+		"/D/Programming/Projekt/hundskalle/src/scss",
+		"/D/Programming/Projekt/hundskalle/webpack.config.js",
+		"/D/Programming/Projekt/hundskalle/package.json",
+		"/D/Programming/Projekt/hundskalle/src/_custom.scss",
+		"/D/Programming/Projekt/hundskalle/src/index.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/SearchBar.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/store/CreateStore.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/CardsView.css",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/FilterBar.css",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/containers/CardsContainer.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/Main.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/store/PromiseMiddleware.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/helperFunctions/ParseCourseXML.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/helperFunctions/CoursesXMLsplit.js",
+		"/C/Users/johan/Downloads/FTBHorizonsIIIServer_1.4.0/server.properties",
+		"/C/Users/johan/Downloads/Project_Ozone_2-Server-v.2.4.0/server.properties",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/Header.css",
+		"/D/Programming/Projekt/ratemycourse/backend/src/public/departmentlist.xsl",
+		"/C/Users/johan/AppData/Local/Temp/7zEC9242ECC/coffeeresponsibility.php",
+		"/C/Users/johan/Google Drive/Skola/XML for Publishing/Lab2/lab-xslt/nyheter.xml",
+		"/C/Users/johan/Google Drive/Skola/XML for Publishing/Lab2/lab-xslt/nyheter-wml.xsl",
+		"/C/Users/johan/AppData/Local/Temp/7zEC92477AF/coffeeresponsibility.php",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/Main.css",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/Card.css",
+		"/D/Programming/Projekt/redux tutorial/redux-tutorial/05_combine-reducers.js",
+		"/D/Programming/Projekt/ratemycourse/backend/JSONS/DD.json",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/LoadScreenWhileLoading.css",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/SearchBar.css",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/CardView.css",
+		"/D/Programming/Projekt/ratemycourse/frontend/.babelrc",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/CardView.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/containers/CardScreen.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/services/FetchCourses.js",
+		"/D/Programming/Projekt/ratemycourse/backend/.eslintrc.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/eslint/common.js",
+		"/D/Programming/Projekt/ratemycourse/backend/eslint/common.js",
+		"/D/Programming/Projekt/ratemycourse/backend/eslint/react.js",
+		"/D/Programming/Projekt/ratemycourse/backend/package.json",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/actions/fetchCourses.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/store/courses/Actions.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/store/courses/ActionTypes.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/store/courses/reducer.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/App.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/CardAnimation.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/Card.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/CourseCards.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/ratemycourse.sublime-project",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/ApiRequest.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/Layout.js",
+		"/C/Users/johan/Google Drive/Skola/XML for Publishing/Lab4/files/xpath-ex1.xsl",
+		"/D/Programming/Projekt/ratemycourse/src/components/Card.css",
+		"/E/-Apps-/Red Giant Complete Suite 02.2017 (Win 64)/Red Giant Universe Premium 2.0/Universe Premium 2.0 CE/VR.nfo",
+		"/C/Users/johan/Desktop/hosts",
+		"/C/Users/johan/Google Drive/Skola/Media mellan teknik och kultur/Uppsats/Exercise_4_Evaluation.pdf",
+		"/D/Programming/Projekt/ratemycourse/src/components/CourseCards.js",
+		"/D/Programming/Projekt/ratemycourse/src/components/SearchBar.js",
+		"/D/Programming/Projekt/ratemycourse/src/components/Header.js"
+	],
+	"find":
+	{
+		"height": 51.0
+	},
+	"find_in_files":
+	{
+		"height": 141.0,
+		"where_history":
+		[
+			"D:\\Programming\\Projekt\\ratemycourse\\frontend\\src",
+			"<open files>",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"userScore",
+			"link",
+			"starrating.scss",
+			"starrating",
+			"false",
+			"match",
+			"xslt",
+			"tetriary",
+			"console.log",
+			"apiRequest",
+			"LoadingGroup.",
+			"LoadingGroup",
+			"state.loadingGroup",
+			"loading",
+			"props",
+			"this.",
+			"var",
+			"(?-i)courses",
+			"courses?-i",
+			"courses(?i)",
+			"courses(?-i)",
+			"/courses/",
+			"courses",
+			"console.log",
+			"profileButton",
+			"inline",
+			"\""
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"score",
+			"state.loadingGroup.",
+			"state.loadingGroup",
+			"LoadingGroup",
+			"loadingGroup",
+			"this.props",
+			"",
+			"courseList",
+			"'"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": false
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/containers/CoursePage.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2342,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1402,
+								1402
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.clone": -1,
+							"bracket_highlighter.clone_locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										464,
+										465
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/single_quote.png",
+										"region.greenish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										453,
+										454
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.clone_regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										1402,
+										1403
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/curly_bracket.png",
+										"region.purplish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										1389,
+										1390
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/components/CourseView.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 709,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								63,
+								27
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.clone": -1,
+							"bracket_highlighter.clone_locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										449,
+										450
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"region.yellowish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										357,
+										358
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.clone_regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/componentBoilerplate.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 108,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								105,
+								105
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.clone": -1,
+							"bracket_highlighter.clone_locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.clone_regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										107,
+										108
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"region.yellowish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										102,
+										103
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"git_gutter_is_enabled": true,
+							"open_with_edit": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/D/Programming/Projekt/ratemycourse/backend/src/public/coursepage.xsl",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1855,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1640,
+								1640
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.clone": -1,
+							"bracket_highlighter.clone_locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										1605,
+										1606
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/double_quote.png",
+										"region.greenish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										1558,
+										1559
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.clone_regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										1676,
+										1677
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/double_quote.png",
+										"region.greenish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										1627,
+										1628
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/XML/XML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/containers/MainPage.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1973,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								608,
+								608
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.clone": -1,
+							"bracket_highlighter.clone_locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.clone_regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										607,
+										608
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/single_quote.png",
+										"region.greenish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										600,
+										601
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 108.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 5,
+					"file": "src/enhancers/InjectSubmitButton.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 742,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								172,
+								172
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.clone": -1,
+							"bracket_highlighter.clone_locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										572,
+										573
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"region.yellowish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										193,
+										194
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.clone_regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										530,
+										531
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/curly_bracket.png",
+										"region.purplish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										171,
+										172
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"git_gutter_is_enabled": true,
+							"open_with_edit": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/enhancers/InjectStarRating.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1697,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								433,
+								433
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.clone": -1,
+							"bracket_highlighter.clone_locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										435,
+										436
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/single_quote.png",
+										"region.greenish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										429,
+										430
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.clone_regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										435,
+										436
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/single_quote.png",
+										"region.greenish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										429,
+										430
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 50.0
+	},
+	"input":
+	{
+		"height": 47.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.571440735695,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.SQLTools Result":
+	{
+		"height": 513.0
+	},
+	"output.exec":
+	{
+		"height": 332.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git-commit":
+	{
+		"height": 103.0
+	},
+	"output.git-pull":
+	{
+		"height": 130.0
+	},
+	"output.git-push":
+	{
+		"height": 106.0
+	},
+	"output.markdown":
+	{
+		"height": 148.0
+	},
+	"output.mdpopups":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/User/xml.sublime-build",
+	"project": "frontend.sublime-project",
+	"replace":
+	{
+		"height": 96.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"createprojectfr",
+				"src\\client\\stores\\MultiStep\\CreateProjectFormStore.js"
+			],
+			[
+				"date",
+				"src\\client\\components\\forms\\DateInput.js"
+			],
+			[
+				"dateinp",
+				"src\\client\\components\\forms\\DateInput.js"
+			],
+			[
+				"stepsetprojectend",
+				"src\\client\\pages\\CreateProjectPage\\steps\\StepSetProjectEnd.js"
+			],
+			[
+				"setstart",
+				"src\\client\\pages\\CreateProjectPage\\steps\\StepSetProjectStart.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"D:\\Programming\\DatabasLabbar\\databaslabbar.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 224.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

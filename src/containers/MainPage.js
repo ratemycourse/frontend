@@ -17,7 +17,7 @@ const enhance = compose(
       props.doSearch(e, props.activeFilter);
     },
     goToProfileHandler: (props) => () => {
-      if (props.loggedIn) {
+      if (props.loggedIn && props.history.location.pathname !== '/login') {
         props.history.push('/profile');
       }
     },
@@ -25,7 +25,9 @@ const enhance = compose(
       if (props.loggedIn) {
         props.logOut();
       } else {
-        props.history.push('/login');
+        if (props.history.location.pathname !== '/login') {
+          props.history.push('/login');
+        }
       }
     },
   }),
@@ -38,6 +40,8 @@ const MainPage = enhance(({
   goToProfileHandler,
   searchQueryHandler,
   history,
+  error,
+  loading,
 }) => {
   return (
     <div>
@@ -50,7 +54,9 @@ const MainPage = enhance(({
         history={ history }
       />
       <MainView
-        history={ history } 
+        history={ history }
+        error={ error }
+        loading={ loading }
       />
     </div>
   );
@@ -58,10 +64,13 @@ const MainPage = enhance(({
 
 const mapStateToProps = (state) => {
   return {
+    loading: state.loadingState.loadingGroup.isLoading,
     // User props.
     loggedIn: state.userState.loggedIn,
     userName: state.userState.currentUserData.userName,
     activeFilter: state.filterState.activeFilter,
+    // Promise errors.
+    error: state.errorState.error,
   };
 };
 

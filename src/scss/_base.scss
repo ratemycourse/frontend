@@ -14,3 +14,7 @@ body {
 .logo {
 	font-family: $logoFont;
 }
+
+.btn.btn-customrounded-left {
+	border-radius: 0px 4px 4px 0px;
+}

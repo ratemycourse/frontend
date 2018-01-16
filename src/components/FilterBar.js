@@ -1,10 +1,8 @@
 import React from 'react';
 import { compose, withHandlers } from 'recompose';
-import ErrorScreenOnError from '../enhancers/ErrorScreenOnError';
 import '../scss/FilterBar.scss';
 
 const enhance = compose(
-  ErrorScreenOnError,
   withHandlers({
     onClick: (props) => (e) => {
       props.onClick(e);

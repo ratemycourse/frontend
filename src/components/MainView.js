@@ -1,4 +1,5 @@
 import React from 'react';
+import { compose } from 'recompose';
 import { Route, Switch } from 'react-router-dom';
 import 'bootstrap';
 import CourseListPage from '../containers/CourseListPage';
@@ -7,7 +8,15 @@ import CoursePage from '../containers/CoursePage';
 import RegisterPage from '../containers/RegisterPage';
 import ProfilePage from '../containers/ProfilePage';
 
-const MainView = (props) => {
+import ErrorScreenOnError from '../enhancers/ErrorScreenOnError';
+import LoadScreenWhileLoading from '../enhancers/LoadScreenWhileLoading';
+
+const enhance = compose(
+  ErrorScreenOnError,
+  LoadScreenWhileLoading,
+  );
+
+const MainView = enhance((props) => {
   return (
     <Switch>
       <Route
@@ -37,6 +46,6 @@ const MainView = (props) => {
       />
     </Switch>
   );
-};
+});
 
 export default MainView;

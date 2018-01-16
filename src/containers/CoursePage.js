@@ -11,6 +11,7 @@ const enhance = compose(
     },
   }),
   withState('enableSubmit', 'setEnableSubmit', false),
+  withState('alertLogin', 'setAlertLogin', false),
   withState('userScore', 'setUserScore', ({ userScoresGiven, match }) => {
     return Object.keys(userScoresGiven).includes(match.params.courseCode)
       ? (userScoresGiven[match.params.courseCode])
@@ -21,7 +22,7 @@ const enhance = compose(
       if (props.loggedIn) {
         props.setUserScore(e.score);
         props.setEnableSubmit(true);
-      }
+      } else { props.setAlertLogin(true) }
     },
     onSubmit: (props) => (userScore) => {
       if (props.loggedIn) {
@@ -35,6 +36,7 @@ const Course = enhance(({
   loading,
   coursePage,
   enableSubmit,
+  alertLogin,
   userScore,
   match,
   onClick,
@@ -46,6 +48,7 @@ const Course = enhance(({
         loading={ loading }
         coursePage={ coursePage }
         enableSubmit={ enableSubmit }
+        alertLogin={ alertLogin }
         userScore={ userScore }
         code={ match.params.courseCode }
         onClick={ onClick }
