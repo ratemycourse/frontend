@@ -20,7 +20,6 @@ const addSubmitButton = ({ onSubmit, enableSubmit, userScore }) => {
 const enhance = compose(
   LoadScreenWhileLoading,
   ErrorScreenOnError,
-  InjectStarRating,
   /*lifecycle({
     componentDidMount() {
       InjectStarRating({

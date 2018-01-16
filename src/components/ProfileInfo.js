@@ -1,14 +1,24 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
+import * as actionCreators from '../store/Actions.js';
 
 const enhance = compose(
   withHandlers({
+    onSubmit: (props) => (e) => {
+      e.preventDefault();
+      const formData = {
+        userID: document.getElementById('userID').value,
+        newUser: document.getElementById('nameID').value,
+        newEmail: document.getElementById('emailID').value,
+        newPassword1: document.getElementById('passwordID').value,
+        newPassword2: document.getElementById('passwordID2').value,
+        reg: false,
+      };
+    },
   }),
 );
-
 const toggleEdit = () => {
-  const pass2 = document.getElementById('password2ID');
+  const pass2 = document.getElementById('password2Div');
   if (pass2.style.display === 'none') {
     pass2.style.display = 'block';
     document.getElementById('editButtonID').textContent = 'Back';
@@ -22,49 +32,91 @@ const toggleEdit = () => {
     document.getElementById('submitID').style.display = 'none';
     document.getElementById('nameID').disabled = true;
     document.getElementById('emailID').disabled = true;
-    document.getElementById('passwordID').disabled = true; 
+    document.getElementById('passwordID').disabled = true;
   }
 };
 
-const Submit = () => {
-  console.log('SUBMITTING INFORMATION BLEEP BLOOP!');
-  if (document.getElementById('nameID').value !== '') {
-    console.log('New name is: ', document.getElementById('nameID').value);
-  } if (document.getElementById('emailID').value !== '') {
-    console.log('New email is: ', document.getElementById('emailID').value);
-  }
-};
 
 const Info = enhance(({
+  userID,
   userName,
   userEmail,
-  userPass,
+  errormsg,
+  onSubmit,
 }) => {
   return (
-    <div>
-      User Name: <input type="text" id="nameID" placeholder={ userName } disabled />
-      <div>
-        E-mail: <input type="text" id="emailID" placeholder={ userEmail } disabled />
+    <div className="bg-white rounded m-4 p-2">
+      <div id="userID">
+        hello { userID }
       </div>
-      <div>
-        Password: <input type="password" id="passwordID" placeholder='*****' disabled />
+      <div className="text-primary text-right rounded p-2 m-2">
+        hello User { userID } Name:
+        <input
+          type="text"
+          id="nameID"
+          className="rounded"
+          placeholder={ userName }
+          disabled
+        />
       </div>
-      <div id="password2ID" style={ {display: 'none' } }>
-        Password: <input type="password" placeholder='*****' />
+      <div className="text-primary text-right rounded p-2 m-2">
+        E-mail:
+        <input
+          type="text"
+          id="emailID"
+          className="rounded"
+          placeholder={ userEmail }
+          disabled
+        />
       </div>
-      <div>
-        <button id="editButtonID" onClick={ toggleEdit }>
+      <div className="text-primary text-right rounded p-2 m-2">
+        Password:
+        <input
+          type="password"
+          id="passwordID"
+          className="rounded"
+          placeholder="*****"
+          disabled
+        />
+      </div>
+      <div
+        id="password2Div"
+        style={ {display: 'none' } }
+        className="text-primary text-right rounded p-2 m-2"
+      >
+        Password:
+        <input
+          type="password"
+          id="passwordID2"
+          className="rounded"
+          placeholder="*****"
+        />
+      </div>
+      <div className="d-flex ">
+        <button
+          id="editButtonID"
+          onClick={ toggleEdit }
+          type="submit"
+          className="btn btn-grey m-2 "
+
+        >
           Edit
         </button>
-      </div>
-      <div id="submitID" style={ {display: 'none' } }>
-        <button onClick={ Submit }>
-          Submit
+        <button
+          id="submitID"
+          style={ {display: 'none' } }
+          onClick={ onSubmit }
+          type="submit"
+          className="btn btn-secondary m-2"
+        >
+          Apply
         </button>
+      </div>
+      <div className="m-2 text-center text-danger">
+        {errormsg}
       </div>
     </div>
   );
 });
 
-
-export default connect()(Info);
+export default Info;
