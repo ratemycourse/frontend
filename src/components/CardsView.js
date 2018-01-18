@@ -3,12 +3,16 @@ import { compose } from 'recompose';
 import xslt from 'xslt';
 
 import InjectStarRating from '../enhancers/InjectStarRating';
+import InjectCommentNumber from '../enhancers/InjectCommentNumber';
 import ApplyCourseRoute from '../enhancers/ApplyCourseRoute';
+import LoadScreenWhileLoading from '../enhancers/LoadScreenWhileLoading';
 
 import '../scss/CardsView.scss';
 
 const enhance =
   compose(
+    LoadScreenWhileLoading,
+    InjectCommentNumber,
     InjectStarRating,
     ApplyCourseRoute,
   );
@@ -20,7 +24,7 @@ const CardsView = enhance(({
   const transformedXML = xslt(courseList, courseListXSL);
   return (
     <div className="wrapper">
-        <div dangerouslySetInnerHTML={ {__html: transformedXML} } />
+        <div className="w-100" dangerouslySetInnerHTML={ {__html: transformedXML} } />
     </div>
   );
 });

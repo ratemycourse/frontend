@@ -1,0 +1,15 @@
+@media (max-width: 768px) {
+  .headerLine {
+    flex-wrap: wrap;
+  }
+  #profileButton {
+    order: -2;
+  }
+  #logButton {
+    order: -1;
+
+  }
+  #controlBar {
+    order: -3;
+  }
+}

@@ -9,11 +9,9 @@ import RegisterPage from '../containers/RegisterPage';
 import ProfilePage from '../containers/ProfilePage';
 
 import ErrorScreenOnError from '../enhancers/ErrorScreenOnError';
-import LoadScreenWhileLoading from '../enhancers/LoadScreenWhileLoading';
 
 const enhance = compose(
   ErrorScreenOnError,
-  LoadScreenWhileLoading,
   );
 
 const MainView = enhance((props) => {
@@ -27,7 +25,7 @@ const MainView = enhance((props) => {
       <Route
         exact
         path="/login"
-        render={ () =><LoginPage history={ props.history } /> }
+        render={ () => <LoginPage history={ props.history } /> }
       />
       <Route
         exact

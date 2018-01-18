@@ -1,8 +1,9 @@
 $primaryColor: #263252;
 $secondaryColor: #00b66d;
-$tetriaryColor: #4a5fda;
+$tetriaryColor: #0055df;
 $warning: #f0771a;
 $lightGrey: #cacaca;
+$mediumGrey: #7f7f7f;
 $lightColor: #f1f1f1;
 $red: #d21e3c;
 $white: white;
@@ -13,4 +14,6 @@ $white: white;
 	tetriaryColor: $tetriaryColor;
 	warning: $warning;
 	lightGrey: $lightGrey;
+  mediumGrey: $mediumGrey;
+  white: $white;
 }

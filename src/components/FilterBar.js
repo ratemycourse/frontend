@@ -1,5 +1,6 @@
 import React from 'react';
 import { compose, withHandlers } from 'recompose';
+
 import '../scss/FilterBar.scss';
 
 const enhance = compose(
@@ -11,16 +12,16 @@ const enhance = compose(
 );
 
 const FilterBar = enhance(({
+  headerText,
   departments,
   filter,
   onClick,
-  headerText,
 }) => {
   return (
     <div id="accordion">
       <div className="card">
         <div
-          className="card-header"
+          className="card-header p-2"
           role="tab"
           id="headingTwo"
           data-toggle="collapse"
@@ -28,9 +29,9 @@ const FilterBar = enhance(({
           aria-expanded="true"
           aria-controls="collapseTwo"
         >
-          <h5 className="mb-0" >
+          <h6 className="mb-0" >
             { headerText }
-          </h5>
+          </h6>
         </div>
         <div
           id="collapseTwo"

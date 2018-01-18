@@ -6,12 +6,13 @@ import * as actionCreators from '../store/Actions';
 
 const enhance = compose(
   lifecycle({
-    componentWillMount() {
+    componentDidMount() {
       this.props.getCourse(this.props.match.params.courseCode);
     },
   }),
   withState('enableSubmit', 'setEnableSubmit', false),
-  withState('alertLogin', 'setAlertLogin', false),
+  withState('expand', 'setExpand', false),
+  withState('alert', 'setAlert', false),
   withState('userScore', 'setUserScore', ({ userScoresGiven, match }) => {
     return Object.keys(userScoresGiven).includes(match.params.courseCode)
       ? (userScoresGiven[match.params.courseCode])
@@ -24,9 +25,30 @@ const enhance = compose(
         props.setEnableSubmit(true);
       } else { props.setAlertLogin(true) }
     },
+    onSubmitComment: (props) => (commentText) => {
+      console.log(commentText);
+      if (commentText && props.loggedIn) {
+        props.submitUserComment(props.userID, props.match.params.courseCode, commentText)
+          .then(() => { props.getCourse(props.match.params.courseCode) });
+        props.setExpand(false);
+      } else if (props.loggedIn) {
+        props.showAlert('Enter some text before submitting the comment.');
+      } else {
+        props.showAlert('Please log in to submit a comment.');
+      }
+    },
+    showAlert: ({ setAlert }) => (alertMsg) => {
+      if (alertMsg) {
+        setAlert(alertMsg);
+      }
+    },
+    onAddComment: ({ expand, setExpand }) => () => {
+        expand ? setExpand(false) : setExpand(true);
+    },
     onSubmit: (props) => (userScore) => {
       if (props.loggedIn) {
-        props.submitUserScore(props.userID, props.match.params.courseCode, userScore);
+        props.submitUserScore(props.userID, props.match.params.courseCode, userScore)
+         .then(() => { props.getCourse(props.match.params.courseCode) });
       }
     },
   })
@@ -39,8 +61,12 @@ const Course = enhance(({
   alertLogin,
   userScore,
   match,
+  expand,
+  alertMsg,
   onClick,
   onSubmit,
+  onAddComment,
+  onSubmitComment,
 }) => {
   return (
     <div>
@@ -50,9 +76,12 @@ const Course = enhance(({
         enableSubmit={ enableSubmit }
         alertLogin={ alertLogin }
         userScore={ userScore }
+        expand={ expand }
         code={ match.params.courseCode }
         onClick={ onClick }
         onSubmit={ onSubmit }
+        onAddComment={ onAddComment }
+        onSubmitComment={ onSubmitComment }
       />
     </div>
   );
@@ -73,7 +102,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getCourse: async (courseCode) => { await dispatch(actionCreators.getCourse(courseCode)) },
-    submitUserScore: (userID, course, score) => { dispatch(actionCreators.submitUserScore(userID, course, score)); },
+    submitUserScore: async (userID, course, score) => { await dispatch(actionCreators.submitUserScore(userID, course, score)); },
+    submitUserComment: async (userID, courseCode, commentText) => { await dispatch(actionCreators.submitUserComment(userID, courseCode, commentText)) },
   };
 };
 

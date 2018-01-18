@@ -1,32 +1,20 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
 
 const enhance = compose(
-  // HOCs
   withHandlers({
-    // Handlers
+    onClick: (props) => (e) => { props.onClick(e); },
   }),
 );
 
-const Component = enhance(({
-  //PassProps
+const ControlBar = enhance(({
+  onClick,
 }) => {
-return (
-  //JSX and call to other components
+  return (
+    <div onClick={ onClick } >
+      A component!
+    </div>
   );
 });
 
-const mapStateToProps = (state) => {
-  return {
-    };
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    };
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Component);
+export default ControlBar;

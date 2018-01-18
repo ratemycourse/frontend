@@ -30,29 +30,45 @@ const enhance = compose(
         }
       }
     },
+    goToCourseListHandler: (props) => () => {
+      console.log('going home');
+      props.history.push('/');
+    },
+    onBackHandler: (props) => () => { props.history.goBack() },
+    onForwardHandler: (props) => () => { props.history.goForward() },
+
   }),
 );
 
 const MainPage = enhance(({
   loggedIn,
   userName,
-  goToLoginHandler,
-  goToProfileHandler,
-  searchQueryHandler,
   history,
   error,
   loading,
+  goToLoginHandler,
+  goToCourseListHandler,
+  goToProfileHandler,
+  searchQueryHandler,
+  onBackHandler,
+  onForwardHandler,
 }) => {
   return (
     <div>
-      <Header
-        loggedIn={ loggedIn }
-        userName={ userName }
-        goToLoginHandler={ goToLoginHandler }
-        goToProfileHandler={ goToProfileHandler }
-        searchQueryHandler={ searchQueryHandler }
-        history={ history }
-      />
+      <div className="fixed-top">
+        <Header
+          loggedIn={ loggedIn }
+          userName={ userName }
+          goToLoginHandler={ goToLoginHandler }
+          goToProfileHandler={ goToProfileHandler }
+          searchQueryHandler={ searchQueryHandler }
+          goToCourseListHandler={ goToCourseListHandler }
+          onBackHandler={ onBackHandler }
+          onForwardHandler={ onForwardHandler }
+          history={ history }
+        />
+      </div>
+      <div className="headerSpacing" />
       <MainView
         history={ history }
         error={ error }

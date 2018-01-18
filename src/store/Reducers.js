@@ -115,6 +115,24 @@ const loadingReducer = (state = loadingInitialState, action = {}) => {
       loadingGroup: state.loadingGroup.completeFetch(),
     };
 
+  case 'SUBMIT_COMMENT_REQUEST':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.startFetch(),
+    };
+
+  case 'SUBMIT_COMMENT_SUCCESS':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'SUBMIT_COMMENT_FAILURE':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
   default:
     return state;
   }
@@ -158,6 +176,12 @@ const errorReducer = (state = errorInitialState, action = {}) => {
     };
 
   case 'SUBMIT_SCORE_FAILURE':
+    return {
+      ...state,
+      error: action.error,
+    };
+
+  case 'SUBMIT_COMMENT_FAILURE':
     return {
       ...state,
       error: action.error,
@@ -369,6 +393,27 @@ const userReducer = (state = userInitialState, action = {}) => {
     };
 
   case 'SUBMIT_SCORE_FAILURE':
+    return {
+      ...state,
+      error: action.error,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'SUBMIT_COMMENT_REQUEST':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.startFetch(),
+    };
+
+  case 'SUBMIT_COMMENT_SUCCESS':
+    return {
+      ...state,
+      currentUserData: {...state.currentUserData,
+        userScoresGiven: {...state.currentUserData.userComments, [action.result.courseCode]: action.result.commentId } },
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'SUBMIT_COMMENT_FAILURE':
     return {
       ...state,
       error: action.error,

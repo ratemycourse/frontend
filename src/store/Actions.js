@@ -129,6 +129,20 @@ export const submitUserScore = (userID, courseCode, score) => {
   };
 };
 
+export const submitUserComment = (userId, courseCode, commentText) => {
+  console.log('SENDING THIS', userId, courseCode, commentText);
+  return {
+    types: ['SUBMIT_COMMENT_REQUEST', 'SUBMIT_COMMENT_SUCCESS', 'SUBMIT_COMMENT_FAILURE'],
+    promise: () => {
+      return apiRequest.postToAPI('course/addcomment', {
+        userId: userId,
+        courseCode: courseCode,
+        commentText: commentText,
+      });
+    },
+  };
+};
+
 export const logOut = () => {
   return {
     type: 'LOG_OUT_USER',

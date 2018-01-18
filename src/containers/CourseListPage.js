@@ -8,6 +8,7 @@ import CardsView from '../components/CardsView';
 import FilterBar from '../components/FilterBar';
 import FilterSearch from '../components/FilterSearch';
 
+
 const enhance = compose(
   withHandlers({
     addFilterHandler: (props) => (e) => {
@@ -47,12 +48,10 @@ const Main = enhance(({
   removeFilterHandler,
   showDepartmentsHandler,
   goToCoursePageHandler,
+  refreshCourses,
 }) => {
   return (
     <div>
-      <div className="fixed-top">
-        
-      </div>
       <FilterSearch
         headerText="Choose departments"
         loading={ filterLoading }
@@ -70,6 +69,7 @@ const Main = enhance(({
         departments={ departments }
         filter={ activeFilter }
         onClick={ removeFilterHandler }
+        refreshCourses={ refreshCourses }
       />
       <CardsView
         loading={ cardViewLoading }
