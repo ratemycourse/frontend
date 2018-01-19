@@ -1,11 +1,22 @@
 import * as apiRequest from '../helperfunctions/ApiRequests';
 import xslt from 'xslt';  
 
-export const isLoading = (bool) => {
+export const setCommentEdit = (bool) => {
   return {
-    result: bool,
-    type: 'SET_LOADING',
+    type: 'SET_COMMENT_EDIT',
+    action: bool,
   };
+};
+
+export const deleteComment = (bool, commentId) => {
+  if (bool) {
+    return {
+      types: ['GET_DELETECOMMENT_REQUEST', 'GET_DELETECOMMENT_SUCCESS', 'GET_DELETECOMMENT_FAILURE'],
+      promise: () => { 
+        return apiRequest.postToAPI('course/removecomment', { commentId: commentId }) 
+      },
+    };
+  }
 };
 
 export const addFilter = (filter) => {

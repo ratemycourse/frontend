@@ -195,8 +195,7 @@ const errorReducer = (state = errorInitialState, action = {}) => {
 const coursePageInitialState = {
   loadingGroup: new LoadingGroup('first'),
   coursePage: null,
-  coursePageXML: null,
-  coursePageXSL: null,
+  commentEdit: false,
   error: null,
 };
 
@@ -221,6 +220,13 @@ const coursePageReducer = (state = coursePageInitialState, action = {}) => {
       error: action.error,
       loadingGroup: state.loadingGroup.completeFetch(),
     };
+
+  case 'SET_COMMENT_EDIT':
+    return {
+      ...state,
+      commentEdit: action.result,
+    };
+
 
   default:
     return state;
@@ -409,7 +415,7 @@ const userReducer = (state = userInitialState, action = {}) => {
     return {
       ...state,
       currentUserData: {...state.currentUserData,
-        userScoresGiven: {...state.currentUserData.userComments, [action.result.courseCode]: action.result.commentId } },
+        userComments: [...state.currentUserData.userComments, action.result.commentId] },
       loadingGroup: state.loadingGroup.completeFetch(),
     };
 

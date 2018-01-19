@@ -45,6 +45,11 @@ const enhance = compose(
     onAddComment: ({ expand, setExpand }) => () => {
         expand ? setExpand(false) : setExpand(true);
     },
+    onEditComment: ({ setCommentEdit }) => () => { setCommentEdit(true) },
+    onDeleteComment: ({ deleteComment, getCourse, match }) => (e) => { 
+      deleteComment(e.bool, e.commentId)
+      .then(() => { getCourse(match.params.courseCode); }); 
+    },
     onSubmit: (props) => (userScore) => {
       if (props.loggedIn) {
         props.submitUserScore(props.userID, props.match.params.courseCode, userScore)
@@ -58,15 +63,18 @@ const Course = enhance(({
   loading,
   coursePage,
   enableSubmit,
-  alertLogin,
   userScore,
   match,
   expand,
-  alertMsg,
+  alert,
+  userComments,
+  commentEdit,
   onClick,
   onSubmit,
   onAddComment,
   onSubmitComment,
+  onEditComment,
+  onDeleteComment,
 }) => {
   return (
     <div>
@@ -74,14 +82,18 @@ const Course = enhance(({
         loading={ loading }
         coursePage={ coursePage }
         enableSubmit={ enableSubmit }
-        alertLogin={ alertLogin }
+        alert={ alert }
         userScore={ userScore }
+        userComments={ userComments }
+        commentEdit={ commentEdit }
         expand={ expand }
         code={ match.params.courseCode }
         onClick={ onClick }
         onSubmit={ onSubmit }
         onAddComment={ onAddComment }
         onSubmitComment={ onSubmitComment }
+        onEditComment={ onEditComment }
+        onDeleteComment={ onDeleteComment }
       />
     </div>
   );
@@ -91,10 +103,10 @@ const mapStateToProps = (state) => {
   return {
     loading: state.coursePageState.loadingGroup.isLoading,
     coursePage: state.coursePageState.coursePage,
-    courseXML: state.coursePageState.coursePageXML,
-    courseXSL: state.coursePageState.coursePageXSL,
+    commentEdit: state.coursePageState.commentEdit,
     userScoresGiven: state.userState.currentUserData.userScoresGiven,
     userID: state.userState.currentUserData.userId,
+    userComments: state.userState.currentUserData.userComments,
     loggedIn: state.userState.loggedIn,
   };
 };
@@ -104,6 +116,8 @@ const mapDispatchToProps = (dispatch) => {
     getCourse: async (courseCode) => { await dispatch(actionCreators.getCourse(courseCode)) },
     submitUserScore: async (userID, course, score) => { await dispatch(actionCreators.submitUserScore(userID, course, score)); },
     submitUserComment: async (userID, courseCode, commentText) => { await dispatch(actionCreators.submitUserComment(userID, courseCode, commentText)) },
+    setCommentEdit: (bool) => { dispatch(actionCreators.setCommentEdit(bool)); },
+    deleteComment: async (bool, commentId) => { await dispatch(actionCreators.deleteComment(bool, commentId)); },
   };
 };
 

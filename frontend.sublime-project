@@ -9,6 +9,7 @@
     {
         "tab_size": 2,
         "translate_tabs_to_spaces": true,
+        "flow_checker_enabled": false,
     },
 	"syntax_override": {
         "\\.js$": ["Babel", "JavaScript (Babel)"]

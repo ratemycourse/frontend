@@ -1,12 +1,20 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { lifecycle } from 'recompose';
+import MdEdit from 'react-icons/lib/md/edit';
+import TiTimes from 'react-icons/lib/ti/times'
+import colors from '../scss/_palette.scss';
 
 const applyAddCommentsComponent = ({ expand, onSubmitComment }) => {
   render(
-    <div className={ `collapse ${ expand ? 'show' : false }` }>
+    <div className={ `bg-white rounded p-1 collapse ${ expand ? 'show' : false }` }>
       <div className="bg-white rounded">
-        <textarea className="form-control" id="commentField" placeholder="Type your comment here..." type="text" />
+        <textarea 
+          className="form-control"
+          id="commentField" 
+          placeholder="Type your comment here..." 
+          type="text" 
+        />
       </div>
     </div>,
     document.getElementsByClassName('commentsComponent').item(0)

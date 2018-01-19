@@ -5,6 +5,7 @@ import InjectStarRating from '../enhancers/InjectStarRating';
 import InjectSubmitButton from '../enhancers/InjectSubmitButton';
 import InjectAddCommentButton from '../enhancers/InjectAddCommentButton';
 import InjectAddCommentsComponent from '../enhancers/InjectAddCommentsComponent';
+import InjectCommentEditButtons from '../enhancers/InjectCommentEditButtons';
 import LoadScreenWhileLoading from '../enhancers/LoadScreenWhileLoading';
 
 const enhance = compose(
@@ -13,6 +14,7 @@ const enhance = compose(
   InjectSubmitButton,
   InjectAddCommentButton,
   InjectAddCommentsComponent,
+  InjectCommentEditButtons,
 );
 
 const CourseView = enhance(({

@@ -7,7 +7,6 @@ import colors from '../scss/_palette.scss';
 const applyCommentNumber = () => {
   for (const element of document.getElementsByClassName('commentNumber')) {
     const sum = element.getAttribute('sumComments');
-    console.log(element);
     render(
       <div className="d-flex">
         <FaComment width="1.7em" height="1.7em" color={ sum > 0 ? colors.secondaryColor : colors.lightGrey } />
