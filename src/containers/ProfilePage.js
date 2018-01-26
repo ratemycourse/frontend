@@ -23,6 +23,7 @@ const ProfilePage = enhance(({
   userPass,
   userID,
   onSubmit,
+  alterUser,
 }) => {
   return (
     <div className="wrapper bg-grey" >
@@ -38,7 +39,7 @@ const ProfilePage = enhance(({
           userName={ userName }
           userEmail={ userEmail }
           userPass={ userPass }
-          onSubmit={ onSubmit }
+          alterUser={ alterUser }
         />
       </div>
     </div>
@@ -58,4 +59,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ProfilePage);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    alterUser: (data) => { dispatch(actionCreators.alterUser(data)) },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
