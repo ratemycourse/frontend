@@ -5,7 +5,7 @@ import '../scss/LoadScreenWhileLoading.scss';
 
 const isLoading = ({ loading }) => loading;
 
-const loadScreen = () => <div className="container"><div className="loader" /></div>;
+const loadScreen = () => <div className="loadingContainer"><div className="loader" /></div>;
 
 const LoadScreenWhileLoading = branch(
   isLoading,

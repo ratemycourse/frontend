@@ -1,11 +1,22 @@
 import * as apiRequest from '../helperfunctions/ApiRequests';
 import xslt from 'xslt';  
 
-export const isLoading = (bool) => {
+export const setCommentEdit = (bool) => {
   return {
-    result: bool,
-    type: 'SET_LOADING',
+    type: 'SET_COMMENT_EDIT',
+    action: bool,
   };
+};
+
+export const deleteComment = (bool, commentId) => {
+  if (bool) {
+    return {
+      types: ['GET_DELETECOMMENT_REQUEST', 'GET_DELETECOMMENT_SUCCESS', 'GET_DELETECOMMENT_FAILURE'],
+      promise: () => { 
+        return apiRequest.postToAPI('course/removecomment', { commentId: commentId }) 
+      },
+    };
+  }
 };
 
 export const addFilter = (filter) => {
@@ -136,6 +147,20 @@ export const submitUserScore = (userID, courseCode, score) => {
         userID: userID,
         courseCode: courseCode,
         score: score });
+    },
+  };
+};
+
+export const submitUserComment = (userId, courseCode, commentText) => {
+  console.log('SENDING THIS', userId, courseCode, commentText);
+  return {
+    types: ['SUBMIT_COMMENT_REQUEST', 'SUBMIT_COMMENT_SUCCESS', 'SUBMIT_COMMENT_FAILURE'],
+    promise: () => {
+      return apiRequest.postToAPI('course/addcomment', {
+        userId: userId,
+        courseCode: courseCode,
+        commentText: commentText,
+      });
     },
   };
 };

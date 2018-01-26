@@ -1,11 +1,201 @@
 import { combineReducers } from 'redux';
 import LoadingGroup from '../helperFunctions/LoadingGroup';
 
+const loadingInitialState = {
+  loadingGroup: new LoadingGroup('first'),
+};
+
+const loadingReducer = (state = loadingInitialState, action = {}) => {
+  switch (action.type) {
+  case 'GET_COURSE_REQUEST':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.startFetch(),
+    };
+
+  case 'GET_COURSE_SUCCESS':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'GET_COURSE_FAILURE':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'GET_SEARCH_REQUEST':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.startFetch(),
+    };
+
+  case 'GET_SEARCH_SUCCESS':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'GET_SEARCH_FAILURE':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+ case 'GET_INITDATA_REQUEST':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.startFetch(),
+    };
+
+  case 'GET_INITDATA_SUCCESS':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'GET_INITDATA_FAILURE':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'VALIDATE_USER_REQUEST':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.startFetch(),
+    };
+
+  case 'VALIDATE_USER_SUCCESS':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'VALIDATE_USER_FAILURE':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'SUBMIT_SCORE_REQUEST':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.startFetch(),
+    };
+
+  case 'SUBMIT_SCORE_SUCCESS':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'SUBMIT_SCORE_FAILURE':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'REGISTER_USER_REQUEST':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.startFetch(),
+    };
+
+  case 'REGISTER_USER_SUCCESS':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'REGISTER_USER_FAILURE':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'SUBMIT_COMMENT_REQUEST':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.startFetch(),
+    };
+
+  case 'SUBMIT_COMMENT_SUCCESS':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'SUBMIT_COMMENT_FAILURE':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  default:
+    return state;
+  }
+};
+
+const errorInitialState = {
+  error: null,
+};
+
+const errorReducer = (state = errorInitialState, action = {}) => {
+  switch (action.type) {
+  case 'GET_COURSE_FAILURE':
+    return {
+      ...state,
+      error: action.error,
+    };
+
+  case 'GET_SEARCH_FAILURE':
+    return {
+      ...state,
+      error: action.error,
+    };
+
+  case 'GET_INITDATA_FAILURE':
+    return {
+      ...state,
+      error: action.error,
+    };
+
+  case 'VALIDATE_USER_FAILURE':
+    return {
+      ...state,
+      error: action.error,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+    case 'REGISTER_USER_FAILURE':
+    return {
+      ...state,
+      error: action.error,
+    };
+
+  case 'SUBMIT_SCORE_FAILURE':
+    return {
+      ...state,
+      error: action.error,
+    };
+
+  case 'SUBMIT_COMMENT_FAILURE':
+    return {
+      ...state,
+      error: action.error,
+    };
+
+  default:
+    return state;
+  }
+};
+
 const coursePageInitialState = {
   loadingGroup: new LoadingGroup('first'),
   coursePage: null,
-  coursePageXML: null,
-  coursePageXSL: null,
+  commentEdit: false,
   error: null,
 };
 
@@ -30,6 +220,13 @@ const coursePageReducer = (state = coursePageInitialState, action = {}) => {
       error: action.error,
       loadingGroup: state.loadingGroup.completeFetch(),
     };
+
+  case 'SET_COMMENT_EDIT':
+    return {
+      ...state,
+      commentEdit: action.result,
+    };
+
 
   default:
     return state;
@@ -208,6 +405,27 @@ const userReducer = (state = userInitialState, action = {}) => {
       loadingGroup: state.loadingGroup.completeFetch(),
     };
 
+  case 'SUBMIT_COMMENT_REQUEST':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.startFetch(),
+    };
+
+  case 'SUBMIT_COMMENT_SUCCESS':
+    return {
+      ...state,
+      currentUserData: {...state.currentUserData,
+        userComments: [...state.currentUserData.userComments, action.result.commentId] },
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'SUBMIT_COMMENT_FAILURE':
+    return {
+      ...state,
+      error: action.error,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
   case 'REGISTER_USER_REQUEST':
     return {
       ...state,
@@ -277,6 +495,8 @@ const reducer = combineReducers({
   coursePageState: coursePageReducer,
   filterState: filterReducer,
   userState: userReducer,
+  errorState: errorReducer,
+  loadingState: loadingReducer,
 });
 
 export default reducer;

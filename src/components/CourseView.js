@@ -1,58 +1,27 @@
 import React from 'react';
-import { render } from 'react-dom';
-import { compose, lifecycle } from 'recompose';
-import LoadScreenWhileLoading from '../enhancers/LoadScreenWhileLoading';
-import ErrorScreenOnError from '../enhancers/ErrorScreenOnError';
-import InjectStarRating from '../enhancers/InjectStarRating';
-import colors from '../scss/_palette.scss';
+import { compose } from 'recompose';
 
-const addSubmitButton = ({ onSubmit, enableSubmit, userScore }) => {
-  render(
-    <div
-      className={ `btn btn-secondary float-right m-2 ${
-        enableSubmit ? ('') : ('disabled') }`
-      } onClick={ () => onSubmit(userScore) }
-    >SUBMIT</div>,
-    document.getElementsByClassName('submitButton').item(0)
-  );
-};
+import InjectStarRating from '../enhancers/InjectStarRating';
+import InjectSubmitButton from '../enhancers/InjectSubmitButton';
+import InjectAddCommentButton from '../enhancers/InjectAddCommentButton';
+import InjectAddCommentsComponent from '../enhancers/InjectAddCommentsComponent';
+import InjectCommentEditButtons from '../enhancers/InjectCommentEditButtons';
+import LoadScreenWhileLoading from '../enhancers/LoadScreenWhileLoading';
 
 const enhance = compose(
   LoadScreenWhileLoading,
-  ErrorScreenOnError,
-  /*lifecycle({
-    componentDidMount() {
-      InjectStarRating({
-        rating: this.props.userScore,
-        target: 'userRating',
-        code: this.props.code,
-        count: 5,
-        colors: { active: colors.warning, greyed: colors.lightGrey },
-        onClick: this.props.onClick,
-      });
-      addSubmitButton(this.props);
-    },
-    componentDidUpdate() {
-      InjectStarRating({
-        rating: this.props.userScore,
-        target: 'userRating',
-        code: this.props.code,
-        count: 5,
-        colors: { active: colors.warning, greyed: colors.lightGrey },
-        onClick: this.props.onClick,
-      });
-      addSubmitButton(this.props);
-    },
-  }),*/
+  InjectStarRating,
+  InjectSubmitButton,
+  InjectAddCommentButton,
+  InjectAddCommentsComponent,
+  InjectCommentEditButtons,
 );
 
 const CourseView = enhance(({
   coursePage,
-  enableSubmit,
 }) => {
-  console.log(enableSubmit);
   return (
-    <div>
+    <div className="pl-5 pr-5">
       <div dangerouslySetInnerHTML={ {__html: coursePage} } />
     </div>
   );

@@ -35,7 +35,7 @@ const Register = enhance(({
   errormsg,
 }) => {
   return (
-    <div className="container h-100">
+    <div className="container position-absolute" style={ {top: '71px', bottom: '0px', left: '0px', right: '0px'} }>
       <div className="row justify-content-center align-items-center h-100">
         <form onSubmit={ onSubmit } className="form-control m-0 p-3 w-50">
           <div className="bg-primary text-white text-center rounded p-2 m-2">

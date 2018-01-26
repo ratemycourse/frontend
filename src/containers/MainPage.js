@@ -17,7 +17,7 @@ const enhance = compose(
       props.doSearch(e, props.activeFilter);
     },
     goToProfileHandler: (props) => () => {
-      if (props.loggedIn) {
+      if (props.loggedIn && props.history.location.pathname !== '/login') {
         props.history.push('/profile');
       }
     },
@@ -25,32 +25,54 @@ const enhance = compose(
       if (props.loggedIn) {
         props.logOut();
       } else {
-        props.history.push('/login');
+        if (props.history.location.pathname !== '/login') {
+          props.history.push('/login');
+        }
       }
     },
+    goToCourseListHandler: (props) => () => {
+      console.log('going home');
+      props.history.push('/');
+    },
+    onBackHandler: (props) => () => { props.history.goBack() },
+    onForwardHandler: (props) => () => { props.history.goForward() },
+
   }),
 );
 
 const MainPage = enhance(({
   loggedIn,
   userName,
+  history,
+  error,
+  loading,
   goToLoginHandler,
+  goToCourseListHandler,
   goToProfileHandler,
   searchQueryHandler,
-  history,
+  onBackHandler,
+  onForwardHandler,
 }) => {
   return (
     <div>
-      <Header
-        loggedIn={ loggedIn }
-        userName={ userName }
-        goToLoginHandler={ goToLoginHandler }
-        goToProfileHandler={ goToProfileHandler }
-        searchQueryHandler={ searchQueryHandler }
-        history={ history }
-      />
+      <div className="fixed-top">
+        <Header
+          loggedIn={ loggedIn }
+          userName={ userName }
+          goToLoginHandler={ goToLoginHandler }
+          goToProfileHandler={ goToProfileHandler }
+          searchQueryHandler={ searchQueryHandler }
+          goToCourseListHandler={ goToCourseListHandler }
+          onBackHandler={ onBackHandler }
+          onForwardHandler={ onForwardHandler }
+          history={ history }
+        />
+      </div>
+      <div className="headerSpacing" />
       <MainView
-        history={ history } 
+        history={ history }
+        error={ error }
+        loading={ loading }
       />
     </div>
   );
@@ -58,10 +80,13 @@ const MainPage = enhance(({
 
 const mapStateToProps = (state) => {
   return {
+    loading: state.loadingState.loadingGroup.isLoading,
     // User props.
     loggedIn: state.userState.loggedIn,
     userName: state.userState.currentUserData.userName,
     activeFilter: state.filterState.activeFilter,
+    // Promise errors.
+    error: state.errorState.error,
   };
 };
 

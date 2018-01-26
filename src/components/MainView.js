@@ -1,4 +1,5 @@
 import React from 'react';
+import { compose } from 'recompose';
 import { Route, Switch } from 'react-router-dom';
 import 'bootstrap';
 import CourseListPage from '../containers/CourseListPage';
@@ -7,7 +8,13 @@ import CoursePage from '../containers/CoursePage';
 import RegisterPage from '../containers/RegisterPage';
 import ProfilePage from '../containers/ProfilePage';
 
-const MainView = (props) => {
+import ErrorScreenOnError from '../enhancers/ErrorScreenOnError';
+
+const enhance = compose(
+  ErrorScreenOnError,
+  );
+
+const MainView = enhance((props) => {
   return (
     <Switch>
       <Route
@@ -18,7 +25,7 @@ const MainView = (props) => {
       <Route
         exact
         path="/login"
-        render={ () =><LoginPage history={ props.history } /> }
+        render={ () => <LoginPage history={ props.history } /> }
       />
       <Route
         exact
@@ -37,6 +44,6 @@ const MainView = (props) => {
       />
     </Switch>
   );
-};
+});
 
 export default MainView;

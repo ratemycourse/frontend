@@ -12,5 +12,22 @@ body {
 }
 
 .logo {
-	font-family: $logoFont;
+	cursor: pointer;
+}
+
+.btn.btn-customrounded-left {
+	border-radius: 0px 4px 4px 0px;
+}
+
+.headerSpacing {
+    padding-top: 85px;
+  }
+
+@media (max-width: 768px) {
+  .courseCard {
+    overflow: auto;
+  }
+  .headerSpacing {
+    padding-top: 132px;
+  }
 }
