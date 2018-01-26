@@ -19,6 +19,7 @@ const enhance = compose(
     onSubmit: (props) => (e) => {
       e.preventDefault();
       const formData = {
+        userID: null,
         newUser: document.getElementById('regUserName').value,
         newEmail: document.getElementById('regEmail').value,
         newPassword1: document.getElementById('regPass1').value,
