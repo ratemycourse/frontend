@@ -23,6 +23,7 @@ const enhance = compose(
         newEmail: document.getElementById('regEmail').value,
         newPassword1: document.getElementById('regPass1').value,
         newPassword2: document.getElementById('regPass2').value,
+        reg: true,
       };
       props.dispatch(actionCreators.registerUser(formData));
     },
