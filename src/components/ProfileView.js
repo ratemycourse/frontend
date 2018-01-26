@@ -16,6 +16,7 @@ const View = enhance(({
   userEmail,
   userPass,
   onSubmit,
+  alterUser,
 }) => {
   return (
     <div>
@@ -24,7 +25,7 @@ const View = enhance(({
         userName={ userName }
         userEmail={ userEmail }
         userPass={ userPass }
-        onSubmit={ onSubmit }
+        alterUser={ alterUser }
       />
     </div>
   );
