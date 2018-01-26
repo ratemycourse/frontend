@@ -12,13 +12,23 @@ const enhance = compose(
 const View = enhance(({
   // User props,
   userName,
-}) => {    
+  userID,
+  userEmail,
+  userPass,
+  onSubmit,
+}) => {
   return (
     <div>
-      <Info />
+      <Info
+        userID={ userID }
+        userName={ userName }
+        userEmail={ userEmail }
+        userPass={ userPass }
+        onSubmit={ onSubmit }
+      />
     </div>
   );
 });
 
 
-export default connect()(View);
+export default(View);

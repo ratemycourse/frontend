@@ -450,6 +450,28 @@ const userReducer = (state = userInitialState, action = {}) => {
       loadingGroup: state.loadingGroup.completeFetch(),
     };
 
+  case 'ALTER_USER_REQUEST':
+    return {
+      ...state,
+      loadingGroup: state.loadingGroup.startFetch(),
+    };
+
+  case 'ALTER_USER_SUCCESS':
+    return {
+      ...state,
+      currentUserData: action.result.reply ? (action.result.data) : (state.currentUserData),
+      error: action.result.error,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'ALTER_USER_FAILURE':
+    return {
+      ...state,
+      RegistrationSuccessful: action.result.reply,
+      error: action.result.error,
+      loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
   case 'LOG_OUT_USER':
     return {
       ...state,

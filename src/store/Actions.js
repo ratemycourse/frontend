@@ -127,6 +127,17 @@ export const registerUser = (formData) => {
   };
 };
 
+export const alterUser = (formData) => {
+  const payload = new FormData();
+  payload.append('json', JSON.stringify(formData));
+  return {
+    types: ['ALTER_USER_REQUEST', 'ALTER_USER_SUCCESS', 'ALTER_USER_FAILURE'],
+    promise: () => {
+      return apiRequest.postToAPI('user/reguser', formData);
+    },
+  };
+};
+
 
 export const submitUserScore = (userID, courseCode, score) => {
   return {
