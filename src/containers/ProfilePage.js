@@ -55,13 +55,13 @@ const mapStateToProps = (state) => {
     userEmail: state.userState.currentUserData.userEmail,
     userPass: state.userState.currentUserData.password,
     userID: state.userState.currentUserData.userId,
-    userStateError: state.userState.Error,
+    errormsg: state.userState.error,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    alterUser: (data) => { dispatch(actionCreators.alterUser(data)) },
+    alterUser: (data) => { dispatch(actionCreators.alterUser(data))},
   };
 };
 

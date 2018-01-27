@@ -1,17 +1,41 @@
 import React from 'react';
 import { compose, withHandlers } from 'recompose';
+import { connect } from 'react-redux';
 import * as actionCreators from '../store/Actions.js';
+
+const mapStateToProps = (state) => {
+  return {
+    errormsg: state.userState.error,
+  };
+};
 
 const enhance = compose(
   withHandlers({
     onSubmit: (props) => (e) => {
       e.preventDefault();
+      let userName = document.getElementById('nameID').value;
+      let userEmail = document.getElementById('emailID').value;
+      let userPass1 = document.getElementById('passwordID').value;
+      let userPass2 = document.getElementById('passwordID2').value;
+      if (userName === '') {
+        userName = props.userName;
+      }
+      if (userEmail === '') {
+        userEmail = props.userEmail;
+      }
+      if (userPass1 === '') {
+        userPass1 = false;
+      }
+      if (userPass2 === '') {
+        userPass2 = false;
+      }
+      console.log('WHAT THE F. name:', userName, 'email:', userEmail, 'pass1:', userPass1, 'pass2:', userPass2);
       const formData = {
-        userID: document.getElementById('userID').value,
-        newUser: document.getElementById('nameID').value,
-        newEmail: document.getElementById('emailID').value,
-        newPassword1: document.getElementById('passwordID').value,
-        newPassword2: document.getElementById('passwordID2').value,
+        userID: props.userID,
+        newUser: userName,
+        newEmail: userEmail,
+        newPassword1: userPass1,
+        newPassword2: userPass2,
         reg: false,
       };
       props.alterUser(formData);
@@ -48,7 +72,7 @@ const Info = enhance(({
   return (
     <div className="bg-white rounded m-4 p-2">
       <div id="userID">
-        hello { userID }
+        { userID }
       </div>
       <div className="text-primary text-right rounded p-2 m-2">
         hello User { userID } Name:
@@ -93,6 +117,9 @@ const Info = enhance(({
           placeholder="*****"
         />
       </div>
+      <div className="m-2 text-center text-danger">
+        {errormsg}
+      </div>
       <div className="d-flex ">
         <button
           id="editButtonID"
@@ -113,11 +140,9 @@ const Info = enhance(({
           Apply
         </button>
       </div>
-      <div className="m-2 text-center text-danger">
-        {errormsg}
-      </div>
     </div>
   );
 });
 
-export default Info;
+
+export default connect(mapStateToProps)(Info);

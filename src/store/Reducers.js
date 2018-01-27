@@ -169,7 +169,7 @@ const errorReducer = (state = errorInitialState, action = {}) => {
       loadingGroup: state.loadingGroup.completeFetch(),
     };
 
-    case 'REGISTER_USER_FAILURE':
+  case 'REGISTER_USER_FAILURE':
     return {
       ...state,
       error: action.error,
@@ -457,6 +457,7 @@ const userReducer = (state = userInitialState, action = {}) => {
     };
 
   case 'ALTER_USER_SUCCESS':
+    console.log('WE DID IT!', action.result.error);
     return {
       ...state,
       currentUserData: action.result.reply ? (action.result.data) : (state.currentUserData),
