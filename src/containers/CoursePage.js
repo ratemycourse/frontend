@@ -3,6 +3,7 @@ import { compose, withHandlers, withState, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
 import CourseView from '../components/CourseView';
 import * as actionCreators from '../store/Actions';
+import applyEditCommentComponent from '../enhancers/applyEditCommentComponent';
 
 const enhance = compose(
   lifecycle({
@@ -10,50 +11,40 @@ const enhance = compose(
       this.props.getCourse(this.props.match.params.courseCode);
     },
   }),
-  withState('enableSubmit', 'setEnableSubmit', false),
   withState('expand', 'setExpand', false),
-  withState('alert', 'setAlert', false),
-  withState('userScore', 'setUserScore', ({ userScoresGiven, match }) => {
-    return Object.keys(userScoresGiven).includes(match.params.courseCode)
-      ? (userScoresGiven[match.params.courseCode])
-      : (null);
-  }),
   withHandlers({
-    onClick: (props) => (e) => {
+    onClickStar: (props) => (e) => {
       if (props.loggedIn) {
         props.setUserScore(e.score);
-        props.setEnableSubmit(true);
-      } else { props.setAlertLogin(true) }
+        props.setEnableSubmitScore(true);
+      } else { props.setAlert('Please log in before scoring course') }
     },
     onSubmitComment: (props) => (commentText) => {
-      console.log(commentText);
       if (commentText && props.loggedIn) {
-        props.submitUserComment(props.userID, props.match.params.courseCode, commentText)
-          .then(() => { props.getCourse(props.match.params.courseCode) });
+        props.submitUserComment(props.userID, props.courseCode, commentText)
+          .then(() => { props.getCourse(props.courseCode) });
         props.setExpand(false);
       } else if (props.loggedIn) {
-        props.showAlert('Enter some text before submitting the comment.');
+        props.setAlert('Enter some text before submitting the comment.');
       } else {
-        props.showAlert('Please log in to submit a comment.');
-      }
-    },
-    showAlert: ({ setAlert }) => (alertMsg) => {
-      if (alertMsg) {
-        setAlert(alertMsg);
+        props.setAlert('Please log in to submit a comment.');
       }
     },
     onAddComment: ({ expand, setExpand }) => () => {
         expand ? setExpand(false) : setExpand(true);
     },
-    onEditComment: ({ setCommentEdit }) => () => { setCommentEdit(true) },
-    onDeleteComment: ({ deleteComment, getCourse, match }) => (e) => { 
-      deleteComment(e.bool, e.commentId)
-      .then(() => { getCourse(match.params.courseCode); }); 
+    onEditComment: (props) => (e) => { 
+      props.editComment(e.commentId, e.commentText); 
+      applyEditCommentComponent(e.commentId, e.commentText, props.submitCommentEdit, props.getCourse, props.courseCode); 
     },
-    onSubmit: (props) => (userScore) => {
+    onDeleteComment: ({ deleteComment, getCourse, courseCode }) => (e) => {
+      deleteComment(e)
+      .then(() => { getCourse(courseCode); }); 
+    },
+    onSubmitScore: (props) => (userScore) => {
       if (props.loggedIn) {
-        props.submitUserScore(props.userID, props.match.params.courseCode, userScore)
-         .then(() => { props.getCourse(props.match.params.courseCode) });
+        props.submitUserScore(props.userID, props.courseCode, userScore)
+         .then(() => { props.getCourse(props.courseCode) });
       }
     },
   })
@@ -62,15 +53,15 @@ const enhance = compose(
 const Course = enhance(({
   loading,
   coursePage,
-  enableSubmit,
+  enableSubmitScore,
   userScore,
-  match,
+  courseCode,
   expand,
   alert,
   userComments,
   commentEdit,
-  onClick,
-  onSubmit,
+  onClickStar,
+  onSubmitScore,
   onAddComment,
   onSubmitComment,
   onEditComment,
@@ -81,15 +72,15 @@ const Course = enhance(({
       <CourseView
         loading={ loading }
         coursePage={ coursePage }
-        enableSubmit={ enableSubmit }
+        enableSubmitScore={ enableSubmitScore }
         alert={ alert }
         userScore={ userScore }
         userComments={ userComments }
         commentEdit={ commentEdit }
         expand={ expand }
-        code={ match.params.courseCode }
-        onClick={ onClick }
-        onSubmit={ onSubmit }
+        code={ courseCode }
+        onClickStar={ onClickStar }
+        onSubmitScore={ onSubmitScore }
         onAddComment={ onAddComment }
         onSubmitComment={ onSubmitComment }
         onEditComment={ onEditComment }
@@ -103,7 +94,11 @@ const mapStateToProps = (state) => {
   return {
     loading: state.coursePageState.loadingGroup.isLoading,
     coursePage: state.coursePageState.coursePage,
+    courseCode: state.coursePageState.courseCode,
     commentEdit: state.coursePageState.commentEdit,
+    enableSubmitScore: state.coursePageState.enableSubmitScore,
+    userScore: state.coursePageState.userScore,
+    alert: state.coursePageState.alert,
     userScoresGiven: state.userState.currentUserData.userScoresGiven,
     userID: state.userState.currentUserData.userId,
     userComments: state.userState.currentUserData.userComments,
@@ -116,8 +111,13 @@ const mapDispatchToProps = (dispatch) => {
     getCourse: async (courseCode) => { await dispatch(actionCreators.getCourse(courseCode)) },
     submitUserScore: async (userID, course, score) => { await dispatch(actionCreators.submitUserScore(userID, course, score)); },
     submitUserComment: async (userID, courseCode, commentText) => { await dispatch(actionCreators.submitUserComment(userID, courseCode, commentText)) },
-    setCommentEdit: (bool) => { dispatch(actionCreators.setCommentEdit(bool)); },
+    submitCommentEdit: async (commentId, commentText) => { await dispatch(actionCreators.submitCommentEdit(commentId, commentText)); },
+    editComment: (commentId, commentText) => { dispatch({ result: { commentId: commentId, commentText: commentText }, type: 'SET_COMMENT_EDIT' }) },
     deleteComment: async (bool, commentId) => { await dispatch(actionCreators.deleteComment(bool, commentId)); },
+    setEnableSubmitScore: (bool) => { dispatch({ result: bool, type: 'SET_ENABLE_SUBMIT'}) },
+    setAlert: (text) => { dispatch({ result: text, type: 'SET_ALERT' }) },
+    clearAlert: () => { dispatch({ type: 'CLEAR_ALERT' }) },
+    setUserScore: (score) => { dispatch({result: score, type: 'SET_USER_SCORE' }) },
   };
 };
 

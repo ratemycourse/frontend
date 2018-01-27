@@ -7,13 +7,13 @@ import colors from '../scss/_palette.scss';
 
 const applyCommentEditButtons = ({ onDeleteComment, onEditComment, userComments }) => {
   for (const element of document.getElementsByClassName('editButtons')) {
-    const commentId = parseInt(element.parentNode.getAttribute('commentId'), 10);
+    const commentId = parseInt(element.parentNode.getAttribute('id'), 10);
     const ifUserComment = userComments.includes(commentId);
     render(
       <div className="d-flex justify-content-end">
         <div
           className="btn btn-secondary btn-sm m-1 "
-          onClick={ onEditComment }
+          onClick={ () => onEditComment({ commentId: commentId, commentText: document.getElementById(commentId.toString()).querySelectorAll('.commentText')[0].innerHTML }) }
           style={ { display: ifUserComment ? 'initial' : 'none' } }
         >
           <MdEdit
@@ -24,7 +24,7 @@ const applyCommentEditButtons = ({ onDeleteComment, onEditComment, userComments 
         </div>
         <div
           className="btn btn-danger btn-sm m-1"
-          onClick={ () => onDeleteComment({ bool: true, commentId: commentId }) }
+          onClick={ () => onDeleteComment(commentId) }
           style={ { display: ifUserComment ? 'initial' : 'none' } }
         >
           <TiTimes

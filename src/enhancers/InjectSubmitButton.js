@@ -2,13 +2,13 @@ import React from 'react';
 import { render } from 'react-dom';
 import { lifecycle } from 'recompose';
 
-const applySubmitButton = ({ onSubmit, enableSubmit, userScore}) => {
+const applySubmitButton = ({ onSubmitScore, enableSubmitScore, userScore}) => {
   render(
     <div>
       <div
         className={ `btn btn-outline-${
-          enableSubmit ? ('secondary') : ('grey disabled') } btn-sm`
-        } onClick={ () => onSubmit(userScore) }
+          enableSubmitScore ? ('secondary') : ('grey disabled') } btn-sm`
+        } onClick={ () => onSubmitScore(userScore) }
       >Submit</div>
     </div>,
     document.getElementsByClassName('submitButton').item(0)
