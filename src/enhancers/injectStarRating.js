@@ -51,14 +51,14 @@ const InjectStarRating = lifecycle({
     Injection({
       score: this.props.userScore,
       code: this.props.code,
-      onClick: this.props.onClick,
+      onClick: this.props.onClickStar,
     });
   },
   componentDidUpdate() {
     Injection({
       score: this.props.userScore,
       code: this.props.code,
-      onClick: this.props.onClick,
+      onClick: this.props.onClickStar,
     });
   },
 });

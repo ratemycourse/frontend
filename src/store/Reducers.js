@@ -195,7 +195,14 @@ const errorReducer = (state = errorInitialState, action = {}) => {
 const coursePageInitialState = {
   loadingGroup: new LoadingGroup('first'),
   coursePage: null,
+  courseCode: null,
   commentEdit: false,
+  enableSubmitScore: false,
+  commentEditId: null,
+  commentTempText: null,
+  userScore: null,
+  userScoresGiven: [],
+  alert: null,
   error: null,
 };
 
@@ -210,8 +217,12 @@ const coursePageReducer = (state = coursePageInitialState, action = {}) => {
   case 'GET_COURSE_SUCCESS':
     return {
       ...state,
-      coursePage: action.result,
+      coursePage: action.result.coursePage,
+      courseCode: action.result.courseCode,
       loadingGroup: state.loadingGroup.completeFetch(),
+      userScore: Object.keys(state.userScoresGiven).includes(state.courseCode)
+      ? (state.userScoresGiven[state.courseCode])
+      : (null),
     };
 
   case 'GET_COURSE_FAILURE':
@@ -224,9 +235,53 @@ const coursePageReducer = (state = coursePageInitialState, action = {}) => {
   case 'SET_COMMENT_EDIT':
     return {
       ...state,
-      commentEdit: action.result,
+      commentEditId: action.result.commentId,
+      commentTempText: action.result.commentText,
     };
 
+  case 'SET_ENABLE_SUBMIT':
+    return {
+      ...state,
+      enableSubmitScore: action.result,
+    };
+
+  case 'LOG_OUT_USER':
+    return {
+      ...state,
+      enableSubmitScore: false,
+      userScore: null,
+      userScoresGiven: [],
+    };
+
+  case 'SET_ALERT':
+    return {
+      ...state,
+      alert: action.result,
+    };
+
+  case 'CLEAR_ALERT':
+    return {
+      ...state,
+      alert: null,
+    };
+
+  case 'SET_USER_SCORE':
+    return {
+      ...state,
+      userScore: action.result,
+    };
+
+  case 'VALIDATE_USER_SUCCESS':
+    return {
+      ...state,
+      userScoresGiven: action.result.data.userScoresGiven,
+    };
+
+  case 'SUBMIT_SCORE_SUCCESS':
+    return {
+      ...state,
+      userScoresGiven: {...state.userScoresGiven, [action.result.courseCode]: action.result.userScore },
+    };
 
   default:
     return state;
@@ -394,7 +449,7 @@ const userReducer = (state = userInitialState, action = {}) => {
     return {
       ...state,
       currentUserData: {...state.currentUserData,
-        userScoresGiven: {...state.currentUserData.userScoresGiven, [action.result.courseCode]: action.result.userScore } },
+      userScoresGiven: {...state.currentUserData.userScoresGiven, [action.result.courseCode]: action.result.userScore } },
       loadingGroup: state.loadingGroup.completeFetch(),
     };
 

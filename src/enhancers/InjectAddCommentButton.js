@@ -13,9 +13,9 @@ const applyAddCommentButton = ({ onAddComment, onSubmitComment, expand }) => {
           Submit
       </div>
       <div
-        className={ `btn btn-inline btn-outline-danger` } onClick={ onAddComment }
+        className="btn btn-inline btn-outline-danger" onClick={ onAddComment }
         style={ {display: 'inline'} }
-      >+ Comment</div>
+      >{ expand ? ('-') : ('+') } Comment</div>
     </div>,
     document.getElementsByClassName('addCommentButton').item(0)
   );

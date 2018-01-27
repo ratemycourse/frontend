@@ -1,22 +1,22 @@
 import * as apiRequest from '../helperfunctions/ApiRequests';
 import xslt from 'xslt';  
 
-export const setCommentEdit = (bool) => {
+export const submitCommentEdit = (commentId, commentText) => {
   return {
-    type: 'SET_COMMENT_EDIT',
-    action: bool,
+    types: ['GET_EDITCOMMENT_REQUEST', 'GET_EDITCOMMENT_SUCCESS', 'GET_EDITCOMMENT_FAILURE'],
+    promise: () => { 
+      return apiRequest.postToAPI('course/editcomment', { commentId: commentId, commentText: commentText }) 
+    },
   };
 };
 
-export const deleteComment = (bool, commentId) => {
-  if (bool) {
-    return {
-      types: ['GET_DELETECOMMENT_REQUEST', 'GET_DELETECOMMENT_SUCCESS', 'GET_DELETECOMMENT_FAILURE'],
-      promise: () => { 
-        return apiRequest.postToAPI('course/removecomment', { commentId: commentId }) 
-      },
-    };
-  }
+export const deleteComment = (commentId) => {
+  return {
+    types: ['GET_DELETECOMMENT_REQUEST', 'GET_DELETECOMMENT_SUCCESS', 'GET_DELETECOMMENT_FAILURE'],
+    promise: () => { 
+      return apiRequest.postToAPI('course/removecomment', { commentId: commentId }) 
+    },
+  };
 };
 
 export const addFilter = (filter) => {
@@ -102,7 +102,7 @@ export const getCourse = (courseCode) => {
       const coursePageXSL = await apiRequest.fetchStatic('coursepage.xsl');
       const coursePageXML = await apiRequest.fetchFromAPI(`course/${ courseCode }`);
       const coursePage = xslt(coursePageXML, coursePageXSL);
-      return coursePage;
+      return {courseCode: courseCode, coursePage: coursePage};
     },
   };
 };
@@ -117,23 +117,19 @@ export const validateUser = (formData) => {
 };
 
 export const registerUser = (formData) => {
-  const payload = new FormData();
-  payload.append('json', JSON.stringify(formData));
   return {
     types: ['REGISTER_USER_REQUEST', 'REGISTER_USER_SUCCESS', 'REGISTER_USER_FAILURE'],
     promise: () => {
-      return apiRequest.postToAPI('user/reguser', payload);
+      return apiRequest.postToAPI('user/reguser', formData);
     },
   };
 };
 
 export const alterUser = (formData) => {
-  const payload = new FormData();
-  payload.append('json', JSON.stringify(formData));
   return {
     types: ['ALTER_USER_REQUEST', 'ALTER_USER_SUCCESS', 'ALTER_USER_FAILURE'],
     promise: () => {
-      return apiRequest.postToAPI('user/reguser', payload);
+      return apiRequest.postToAPI('user/reguser', formData);
     },
   };
 };
