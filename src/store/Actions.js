@@ -122,7 +122,7 @@ export const registerUser = (formData) => {
   return {
     types: ['REGISTER_USER_REQUEST', 'REGISTER_USER_SUCCESS', 'REGISTER_USER_FAILURE'],
     promise: () => {
-      return apiRequest.postToAPI('user/reguser', formData);
+      return apiRequest.postToAPI('user/reguser', payload);
     },
   };
 };
@@ -133,7 +133,7 @@ export const alterUser = (formData) => {
   return {
     types: ['ALTER_USER_REQUEST', 'ALTER_USER_SUCCESS', 'ALTER_USER_FAILURE'],
     promise: () => {
-      return apiRequest.postToAPI('user/reguser', formData);
+      return apiRequest.postToAPI('user/reguser', payload);
     },
   };
 };

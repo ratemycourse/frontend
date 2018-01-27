@@ -14,6 +14,7 @@ const enhance = compose(
         newPassword2: document.getElementById('passwordID2').value,
         reg: false,
       };
+      props.alterUser(formData);
     },
   }),
 );

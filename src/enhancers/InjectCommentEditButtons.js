@@ -12,22 +12,22 @@ const applyCommentEditButtons = ({ onDeleteComment, onEditComment, userComments 
     render(
       <div className="d-flex justify-content-end">
         <div
-          className="btn btn-danger btn-sm m-1"
-          onClick={ () => onDeleteComment({ bool: true, commentId: commentId }) }
+          className="btn btn-secondary btn-sm m-1 "
+          onClick={ onEditComment }
           style={ { display: ifUserComment ? 'initial' : 'none' } }
         >
-          <TiTimes
+          <MdEdit
             width="1.4em"
             height="1.4em"
             color={ colors.white }
           />
         </div>
         <div
-          className="btn btn-secondary btn-sm m-1"
-          onClick={ onEditComment }
+          className="btn btn-danger btn-sm m-1"
+          onClick={ () => onDeleteComment({ bool: true, commentId: commentId }) }
           style={ { display: ifUserComment ? 'initial' : 'none' } }
         >
-          <MdEdit
+          <TiTimes
             width="1.4em"
             height="1.4em"
             color={ colors.white }
