@@ -220,8 +220,8 @@ const coursePageReducer = (state = coursePageInitialState, action = {}) => {
       coursePage: action.result.coursePage,
       courseCode: action.result.courseCode,
       loadingGroup: state.loadingGroup.completeFetch(),
-      userScore: Object.keys(state.userScoresGiven).includes(state.courseCode)
-      ? (state.userScoresGiven[state.courseCode])
+      userScore: Object.keys(state.userScoresGiven).includes(action.result.courseCode)
+      ? (state.userScoresGiven[action.result.courseCode])
       : (null),
     };
 
@@ -280,6 +280,7 @@ const coursePageReducer = (state = coursePageInitialState, action = {}) => {
   case 'SUBMIT_SCORE_SUCCESS':
     return {
       ...state,
+      enableSubmitScore: false,
       userScoresGiven: {...state.userScoresGiven, [action.result.courseCode]: action.result.userScore },
     };
 
