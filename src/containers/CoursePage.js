@@ -35,7 +35,7 @@ const enhance = compose(
     },
     onEditComment: (props) => (e) => { 
       props.editComment(e.commentId, e.commentText); 
-      applyEditCommentComponent(e.commentId, e.commentText, props.submitCommentEdit, props.getCourse, props.courseCode); 
+      applyEditCommentComponent(e.commentId, e.commentText, props.submitCommentEdit, props.getCourse, props.courseCode, props.setAlert); 
     },
     onDeleteComment: ({ deleteComment, getCourse, courseCode }) => (e) => {
       deleteComment(e)
