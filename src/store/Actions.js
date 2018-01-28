@@ -84,9 +84,10 @@ export const initData = () => {
   };
 };
 
-export const doSearch = (query = 'empty', filter = []) => {
+export const doSearch = (query = 'empty', filter = [], sortFilter = 'name') => {
   const arrayToString = '\'' + filter.join('\',\'') + '\'';
-  const string = `query?srchstr=${ query }&dep=${ arrayToString }`;
+  const string = `query?srchstr=${ query }&dep=${ arrayToString }&order=${ sortFilter }`;
+  console.log('SEARCHSTRING: ', string);
   return {
     types: ['GET_SEARCH_REQUEST', 'GET_SEARCH_SUCCESS', 'GET_SEARCH_FAILURE'],
     promise: async () => {

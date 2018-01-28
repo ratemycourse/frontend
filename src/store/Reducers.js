@@ -350,6 +350,7 @@ const filterInitialState = {
   visibleDepartments: [],
   activeFilter: [],
   inactiveFilter: [],
+  sortFilter: 'name',
   error: null,
 };
 
@@ -367,6 +368,12 @@ const filterReducer = (state = filterInitialState, action = {}) => {
       ...state,
       activeFilter: state.activeFilter.filter((item) => item !== action.result),
       inactiveFilter: [...state.inactiveFilter, action.result],
+    };
+
+  case 'SET_SORT_FILTER':
+    return {
+      ...state,
+      sortFilter: action.result,
     };
 
   case 'GET_INITDATA_REQUEST':

@@ -13,17 +13,21 @@ const enhance = compose(
   withHandlers({
     addFilterHandler: (props) => (e) => {
       props.addFilter(e);
-      props.doSearch(document.getElementById('courseSearch').value, [...props.activeFilter, e]);
+      props.doSearch(document.getElementById('courseSearch').value, [...props.activeFilter, e], props.sortFilter);
     },
     removeFilterHandler: (props) => (e) => {
       props.removeFilter(e);
-      props.doSearch(document.getElementById('courseSearch').value, props.activeFilter.filter((item) => item !== e));
+      props.doSearch(document.getElementById('courseSearch').value, props.activeFilter.filter((item) => item !== e), props.sortFilter);
     },
     showDepartmentsHandler: (props) => (e) => {
       props.showDepartments(props.departments, e);
     },
     goToCoursePageHandler: (props) => (e) => {
       props.history.push(`/course/${ e }`);
+    },
+    setSortFilter: (props) => (e) => {
+      props.setSortFilter(e);
+      props.doSearch(document.getElementById('courseSearch').value, props.activeFilter, e);
     },
   }),
 );
@@ -48,6 +52,7 @@ const Main = enhance(({
   removeFilterHandler,
   showDepartmentsHandler,
   goToCoursePageHandler,
+  setSortFilter,
   refreshCourses,
 }) => {
   return (
@@ -70,6 +75,7 @@ const Main = enhance(({
         filter={ activeFilter }
         onClick={ removeFilterHandler }
         refreshCourses={ refreshCourses }
+        setSortFilter={ setSortFilter }
       />
       <CardsView
         loading={ cardViewLoading }
@@ -107,7 +113,8 @@ const mapDispatchToProps = (dispatch) => {
     addFilter: (filter) => { dispatch(actionCreators.addFilter(filter)); },
     removeFilter: (filter) => { dispatch(actionCreators.removeFilter(filter)); },
     showDepartments: (departments, query) => { dispatch(actionCreators.showDepartments(departments, query)); },
-    doSearch: async (query, filter) => { await dispatch(actionCreators.doSearch(query, filter)); },
+    doSearch: async (query, filter, sortFilter) => { await dispatch(actionCreators.doSearch(query, filter, sortFilter)); },
+    setSortFilter: (filter) => { dispatch({ result: filter, type: 'SET_SORT_FILTER' })}
   };
 };
 
