@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"userSco",
+				"userScoresGiven"
+			],
+			[
+				"cou",
+				"courseCode"
+			],
+			[
+				"get",
+				"getElementById"
+			],
+			[
+				"getEle",
+				"getElementById\t(elementId: string) => null | HTMLElement"
+			],
+			[
+				"getEleem",
+				"getElementsByClassName\t(classNames: string) => HTMLCollection<HTMLElement>"
+			],
+			[
 				"map",
 				"mapDispatchToProps\t(dispatch: any) => any"
 			],
@@ -26,10 +46,6 @@
 			[
 				"js",
 				"jsonParser"
-			],
-			[
-				"get",
-				"getCourse"
 			],
 			[
 				"font",
@@ -498,22 +514,6 @@
 			[
 				"border-",
 				"border-color"
-			],
-			[
-				"getElemen",
-				"getElementById\t( elementId: DOMString ): Element Document"
-			],
-			[
-				"return",
-				"returnstring"
-			],
-			[
-				"lo",
-				"location"
-			],
-			[
-				"con",
-				"contestant_id\t(competing_in Col)"
 			]
 		]
 	},
@@ -523,16 +523,16 @@
 			"file": "src/containers/ProfilePage.js",
 			"settings":
 			{
-				"buffer_size": 1751,
+				"buffer_size": 2026,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "src/components/ProfileView.js",
+			"file": "src/components/ProfileSideBar.js",
 			"settings":
 			{
-				"buffer_size": 625,
+				"buffer_size": 482,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -541,7 +541,7 @@
 			"file": "src/components/ProfileInfo.js",
 			"settings":
 			{
-				"buffer_size": 3335,
+				"buffer_size": 3847,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -550,7 +550,8 @@
 			"file": "src/store/Reducers.js",
 			"settings":
 			{
-				"buffer_size": 10933,
+				"buffer_size": 12371,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
@@ -558,17 +559,19 @@
 			"file": "src/store/Actions.js",
 			"settings":
 			{
-				"buffer_size": 4681,
+				"buffer_size": 4718,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
+			"contents": "const express = require('express');\nconst bodyParser = require('body-parser');\nconst app = express();\nconst mysql = require('mysql');\nconst xml = require('xml');\nconst path = require('path');\nconst request = require('request-promise');\n\nconst connection = mysql.createConnection({\n  host: 'localhost',\n  user: 'test',\n  password: 'cocacola',\n  database: 'ratemycoursedb',\n  multipleStatements: true,\n});\n\nconnection.connect();\n\n// Get all courses per department and write to Database.\nasync function getAllCourses(array) {\n  for (const department of array) {\n    const requestURL = `https://www.kth.se/api/kopps/v2/courses/${ department }.json`;\n    let courses = await request(requestURL);\n    courses = JSON.parse(courses);\n    for (const course of courses.courses) {\n      const SQLinsert = `INSERT IGNORE INTO course(code, name, score, href, depcode) VALUES('${ course.code }','${ course.title }', NULL, '/course/${ course.code }','${ department }')`;\n      connection.query(SQLinsert, (err, result) => {\n        if (err) { console.log(err); }\n      });\n    }\n  }\n  console.log('DONE UPDATIFYING!');\n  return true;\n}\n\n// Get all departmentcodes for loading courses from KTHs course API.\nasync function buildDB() {\n  console.log('STARTING UPDATE!');\n  const requestURL = 'https://www.kth.se/api/kopps/v2/departments.sv.json';\n  const codes = [];\n  let departments = await request(requestURL);\n  departments = JSON.parse(departments);\n  for (const department of departments) {\n    codes.push(department.code);\n  }\n  return getAllCourses(codes);\n}\n\napp.use((req, res, next) => {\n  res.header('Access-Control-Allow-Origin', '*');\n  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');\n  next();\n});\n\napp.use(express.static(path.join(__dirname, 'public')));\n\n// Loading relevant data to the RMC database.\napp.get('/buildDB', (req, res) => {\n  const update = async () => {\n    const done = await buildDB();\n    if (done) {\n      res.send('><div>DATABASE UPDATED</div>');\n    }\n  };\n  update();\n});\n\napp.get('/search/query', (req, res) => {\n  const noRating = 'No rating';\n  let SQLquery = `SELECT code, name, score, href, depcode, count(coursecomment_id) as sumComments FROM course\n                  LEFT JOIN course_comment ON course.code = course_comment.course_code\n                     WHERE ( code LIKE '%${ req.query.srchstr }%' \n                     OR name LIKE '%${ req.query.srchstr }%') \n                     AND depcode IN (${ req.query.dep })\n                     GROUP BY code`;\n\n  if (req.query.srchstr === 'empty') {\n    SQLquery = `SELECT * FROM course WHERE depcode IN (${ req.query.dep })`;\n  }\n  console.log(SQLquery);\n  connection.query(SQLquery, (err, result) => {\n    if (err) { console.log(err); }\n    const data = '<courses>' + (result.length > 0 ? (result.map((row) => {\n      return (\n        xml({\n          course: [\n            {\n              _attr: { code: row.code },\n            },\n            { name: row.name },\n            { href: row.href },\n            { department: row.depcode },\n            { score: row.score ? (row.score) : (noRating) },\n            { sumComments: row.sumComments },\n          ],\n        })\n      );\n    }).join('')) : ('<nofound>No courses found</nofound>')) + '</courses>';\n    res.send(data);\n  });\n});\n\napp.get('/course/:courseCode', async(req, res) => {\n  const noRating = 'No rating';\n  const requestURL = `https://www.kth.se/api/kopps/v2/course/${ req.params.courseCode }`;\n\n  const SQLquery = `SELECT code, course.name, score, coursecomment_id, user.name as userName, user.user_id, text, timeCreated FROM course \n                      LEFT JOIN course_comment ON course.code = course_comment.course_code\n                      LEFT JOIN comment ON course_comment.coursecomment_id = comment.comment_id\n                      LEFT JOIN user ON course_comment.user_id = user.user_id\n                        WHERE code = '${ req.params.courseCode }'\n                      ORDER BY timeCreated DESC`;\n\n  const apidata = await request(requestURL).then((response) => { return JSON.parse(response); })\n      .catch((error) => error.toString());\n\n  connection.query(SQLquery, (err, result) => {\n    if (err) { console.log(err); }\n    const commentsSeen = [];\n    const comments = [];\n    for (const row of result) { \n      if (!commentsSeen.includes(row.coursecomment_id)) {\n        comments.push({ comment: [\n          { commentId: row.coursecomment_id },\n          { userID: row.user_id },\n          { userName: row.userName },\n          { commentText: row.text },\n          row.timeCreated ? { timeCreated: `${ row.timeCreated.getFullYear() }/${ row.timeCreated.getMonth() + 1 }/${ row.timeCreated.getDate() + 1 } - ${ row.timeCreated.getHours() }:${ row.timeCreated.getMinutes() }` } : (false),\n        ]});\n      }\n    }\n    const data =\n        xml({\n          course: [\n            { name: result[0].name },\n            { code: result[0].code },\n            { href: apidata.href.sv },\n            { courseWebUrl: apidata.courseWebUrl.sv },\n            { info: apidata.info.sv ? (apidata.info.sv) : ('No info found...') },\n            { level: apidata.level.sv },\n            { score: result[0].score ? (result[0].score) : (noRating) },\n            { comments: comments },\n          ],\n        });\n    res.send(data);\n  });\n});\n\nconst jsonParser = bodyParser.json();\n\napp.post('/user/validate', jsonParser, (req, res) => {\n  const SQLquery = `SELECT user.user_id, name, email, scores.course_code, score_given, course_comment.coursecomment_id FROM user \n                      LEFT JOIN scores ON user.user_id = scores.user_id\n                      LEFT JOIN course_comment ON user.user_id = course_comment.user_id\n                      LEFT JOIN comment ON course_comment.coursecomment_id = comment.comment_id\n                        WHERE ( name = '${ req.body.user }'\n                        OR email = '${ req.body.user }' )\n                        AND password = BINARY '${ req.body.password }';`;\n  console.log(SQLquery);\n  connection.query(SQLquery, (err, result) => {\n    if (err) { console.log(err); }\n    if (result.length > 0) {\n      const scoreSeen = [];\n      const commentSeen = [];\n      const userScoresGiven = {};\n      const userComments = [];\n      for (const row of result) {\n        if (!scoreSeen.includes(row.course_code) && row.course_code !== null) {\n          userScoresGiven[row.course_code] = row.score_given;\n          scoreSeen.push(row.course_code);\n        }\n        if (!commentSeen.includes(row.coursecomment_id) && row.coursecomment_id !== null) {\n          userComments.push(row.coursecomment_id);\n          commentSeen.push(row.coursecomment_id);\n        }\n      }\n      const data = {\n        userId: result[0].user_id,\n        userName: result[0].name,\n        userEmail: result[0].email,\n        userScoresGiven: userScoresGiven,\n        userComments: userComments,\n      };\n      res.json({\n        reply: true,\n        data: data,\n      });\n    } else {\n      res.json({\n        reply: false,\n        data: {},\n      });\n    }\n  });\n});\n\napp.post('/user/submitscore', jsonParser, (req, res) => {\n  console.log(req.body);\n  const SQLquery = `REPLACE INTO scores (user_id, course_code, score_given) \n                    VALUES (${ req.body.userID }, '${ req.body.courseCode }', ${ req.body.score })`;\n  connection.query(SQLquery, (err, result) => {\n    if (err) { console.log(err); }\n    res.send({ courseCode: req.body.courseCode, userScore: req.body.score });\n  });\n});\n\napp.get('/kthapi/departments', (req, res) => {\n  const requestURL = 'https://www.kth.se/api/kopps/v2/departments.sv.json';\n  request(requestURL).then((response) => {\n    res.json(response);\n  })\n  .catch((error) => error.toString());\n});\n\n// --\n\n\nfunction getSQLerrorMsg(SQLerror, name, email) {\n  const SQLerrorMsg = SQLerror.sqlMessage;\n  let errorMsg = 'no SQL-error';\n  if (SQLerrorMsg.includes('name_UNIQUE')) {\n    errorMsg = 'The user name ' + name + ' is already taken!';\n  } else if (SQLerrorMsg.includes('name_TOO_SHORT') || SQLerrorMsg.includes('name_TOO_LONG')) {\n    errorMsg = 'Your user name must be between 3 and 25 characters!';\n  } else if (SQLerrorMsg.includes('email_UNIQUE')) {\n    errorMsg = 'Another user is already registred with the email ' + email;\n  } else if (SQLerrorMsg.includes('email_INVALID')) {\n    errorMsg = email + ' is not a KTH-e-mail adress!';\n  } else if (SQLerrorMsg.includes('email_TOO_SHORT')) {\n    errorMsg = email + ' is not a valid e-mail adress';\n  } else if (SQLerrorMsg.includes('password_TOO_SHORT')) {\n    errorMsg = 'Your password has to be atleast 6 characters!';\n  } else if (SQLerrorMsg.includes('password_TOO_LONG')) {\n    errorMsg = 'Your password can not be larger than 48 characters!';\n  } else if (SQLerrorMsg.includes('name_NONE_ALPHANUM')) {\n    errorMsg = 'Your nick name can only contain letters and digits between A-Z / 0-9';\n  }\n  return errorMsg;\n}\n\n\nfunction sendUserInsertResult(resultData, res) {\n  const scoreSeen = [];\n  const commentSeen = [];\n  const userScoresGiven = {};\n  const userComments = [];\n  for (const row of resultData) {\n    if (!scoreSeen.includes(row.course_code) && row.course_code !== null) {\n      userScoresGiven[row.course_code] = row.score_given;\n      scoreSeen.push(row.course_code);\n    }\n    if (!commentSeen.includes(row.coursecomment_id) && row.coursecomment_id !== null) {\n      userComments.push(row.coursecomment_id);\n      commentSeen.push(row.coursecomment_id);\n    }\n  }\n  const data = {\n    userId: resultData[0].user_id,\n    userName: resultData[0].name,\n    userEmail: resultData[0].email,\n    userScoresGiven: userScoresGiven,\n    userComments: userComments,\n  };\n  res.json({\n    reply: true,\n    data: data,\n    error: null,\n  });\n}\n\nfunction sendUserError(errorMsg, res) {\n  res.json({\n    reply: false,\n    data: null,\n    error: errorMsg,\n  });\n}\n\nfunction sendUserAlterResult(resultData, res, userid) {\n  const data = {\n    userId: userid,\n    userName: resultData[0].name,\n    userEmail: resultData[0].email,\n  };\n  res.json({\n    reply: true,\n    data: data,\n    error: null,\n  });\n}\n\n\napp.post('/user/reguser', jsonParser, (req, res) => {\n  const [name, email, pass1, pass2, currentUserid, reg] = [req.body.newUser, req.body.newEmail, req.body.newPassword1, req.body.newPassword2, req.body.userID, req.body.reg];\n  console.log(name, email, pass1, pass2, currentUserid, reg);\n  let errorMsg = false;\n  let SQLquery;\n  let SQLgetID;\n  if (pass1 === pass2) {\n    if (reg) {\n      SQLquery = `INSERT INTO user (name, email, password) VALUES ('${ name }', '${ email }', '${ pass1 }');`;\n      connection.query(SQLquery, (SQLError) => {\n        if (SQLError) {\n          errorMsg = getSQLerrorMsg(SQLError, name, email);\n          sendUserError(errorMsg, res);\n        } else {\n          SQLgetID = 'SELECT LAST_INSERT_ID()';\n          connection.query(SQLgetID, (getIDerr, getIDres) => {\n            if (getIDerr) {\n              errorMsg = getIDerr.sqlMessage;\n              sendUserError(errorMsg, res);\n            } else {\n              const newUserid = parseInt(JSON.stringify(getIDres[0]).replace(/\\D/g, ''), 10);\n              const SQLgetData = `SELECT * FROM user WHERE user_id = ${ newUserid }`;\n              connection.query(SQLgetData, (getDataErr, resultData) => {\n                if (getDataErr) {\n                  errorMsg = getDataErr.sqlMessage;\n                  sendUserError(errorMsg, res);\n                } else {\n                  sendUserInsertResult(resultData, res);\n                }\n              });\n            }\n          });\n        }\n      });\n    } else {\n      SQLquery = `UPDATE user SET name = '${ name }', email = '${ email }', password = '${ pass1 }' WHERE user_id = ${ currentUserid }`;\n      connection.query(SQLquery, (SQLError) => {\n        if (SQLError) {\n          errorMsg = getSQLerrorMsg(SQLError, name, email);\n          sendUserError(errorMsg, res);\n        } else {\n          const SQLgetData = `SELECT * FROM user WHERE user_id = ${ currentUserid }`;\n          connection.query(SQLgetData, (getDataErr, resultData) => {\n            if (getDataErr) {\n              errorMsg = getDataErr.sqlMessage;\n              sendUserError(errorMsg, res);\n            } else {\n              sendUserAlterResult(resultData, res, currentUserid);\n            }\n          });\n        }\n      });\n    }\n  } else {\n    errorMsg = 'Password fields doesn\\'t match';\n    sendUserError(errorMsg, res);\n  }\n});\n\n\nfunction addslashes(str) {\n  return (str + '')\n  .replace(/[\\\\\"']/g, '\\\\$&')\n  .replace(/\\u0000/g, '\\\\0')\n  .replace(/\\n\\r?/g, '<br />');\n}\n\napp.post('/course/addcomment', jsonParser, (req, res) => {\n  const escapedText = addslashes(req.body.commentText);\n  const SQLquery = `START TRANSACTION;\n                    INSERT INTO comment (text)\n                      VALUES ('${ escapedText }');\n                    INSERT INTO course_comment (coursecomment_id, course_code, user_id) \n                      VALUES (last_insert_id(), '${ req.body.courseCode }', ${ req.body.userId });\n                    COMMIT;`;\n  console.log(SQLquery);\n  connection.query(SQLquery, (err, result) => {\n    if (err) { console.log(err) }\n    console.log(JSON.stringify(result));\n    res.send({ commentId: result[1].insertId, courseCode: req.body.courseCode });\n  });\n});\n\napp.post('/course/editcomment', jsonParser, (req, res) => {\n  const escapedText = addslashes(req.body.commentText);\n  const SQLquery = ` UPDATE comment SET text = '${ escapedText }' WHERE comment_id = ${ req.body.commentId }`;\n  console.log(SQLquery);\n  connection.query(SQLquery, (err, result) => {\n    if (err) { console.log(err) }\n    res.send(true);\n  });\n});\n\napp.post('/course/removecomment', jsonParser, (req, res) => {\n  const escapedText = addslashes(req.body.commentText);\n  const SQLquery = ` DELETE FROM course_comment WHERE coursecomment_id = ${ req.body.commentId }`;\n  console.log(SQLquery);\n  connection.query(SQLquery, (err, result) => {\n    if (err) { console.log(err) }\n    res.send({ commentId: req.body.commentId });\n  });\n});\n\n\n\n\napp.listen(3000, () => console.log('server API listening on port 3000!'));",
 			"file": "/D/Programming/Projekt/ratemycourse/backend/src/server.js",
+			"file_size": 14835,
+			"file_write_time": 131615382285440187,
 			"settings":
 			{
-				"buffer_size": 13352,
-				"encoding": "UTF-8",
+				"buffer_size": 14153,
 				"line_ending": "Windows"
 			}
 		}
@@ -822,38 +825,41 @@
 	"expanded_folders":
 	[
 		"/D/Programming/Projekt/ratemycourse",
-		"/D/Programming/Projekt/ratemycourse/backend",
-		"/D/Programming/Projekt/ratemycourse/backend/src",
-		"/D/Programming/Projekt/ratemycourse/backend/src/public",
 		"/D/Programming/Projekt/ratemycourse/frontend",
 		"/D/Programming/Projekt/ratemycourse/frontend/src",
 		"/D/Programming/Projekt/ratemycourse/frontend/src/components",
 		"/D/Programming/Projekt/ratemycourse/frontend/src/containers",
-		"/D/Programming/Projekt/ratemycourse/frontend/src/enhancers"
+		"/D/Programming/Projekt/ratemycourse/frontend/src/enhancers",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/scss",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/store"
 	],
 	"file_history":
 	[
-		"/D/Programs/Steam/steamapps/common/SourceFilmmaker/game/sdktools/maya/scripts/valvesource/vsLoadFile.mel",
 		"/D/Programming/Projekt/ratemycourse/frontend/src/containers/CoursePage.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/enhancers/applyEditCommentComponent.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/CourseView.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/enhancers/InjectSubmitButton.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/enhancers/InjectCommentEditButtons.js",
+		"/D/Programming/Projekt/ratemycourse/backend/src/public/coursepage.xsl",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/enhancers/InjectStarRating.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/enhancers/InjectAddCommentsComponent.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/enhancers/InjectAddCommentButton.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/ProfileInfo.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/components/ProfileView.js",
+		"/D/Programming/Projekt/ratemycourse/frontend/src/containers/ProfilePage.js",
+		"/D/Programs/Steam/steamapps/common/SourceFilmmaker/game/sdktools/maya/scripts/valvesource/vsLoadFile.mel",
 		"/D/Programming/Projekt/ratemycourse/frontend/src/components/CardsView.js",
 		"/D/Programming/Projekt/ratemycourse/backend/src/public/courselist.xsl",
-		"/D/Programming/Projekt/ratemycourse/frontend/src/enhancers/InjectCommentEditButtons.js",
-		"/D/Programming/Projekt/ratemycourse/frontend/src/enhancers/InjectAddCommentsComponent.js",
-		"/D/Programming/Projekt/ratemycourse/backend/src/public/coursepage.xsl",
 		"/D/Programming/Projekt/ratemycourse/frontend/src/enhancers/InjectCommentNumber.js",
-		"/D/Programming/Projekt/ratemycourse/frontend/src/components/CourseView.js",
 		"/D/Programming/Projekt/ratemycourse/frontend/frontend.sublime-project",
-		"/D/Programming/Projekt/ratemycourse/frontend/src/enhancers/InjectStarRating.js",
 		"/D/Programming/Projekt/ratemycourse/frontend/src/store/Actions.js",
 		"/D/Programming/Projekt/ratemycourse/backend/src/server.js",
 		"/D/Programming/Projekt/ratemycourse/frontend/src/store/Reducers.js",
-		"/D/Programming/Projekt/ratemycourse/frontend/src/enhancers/InjectAddCommentButton.js",
 		"/D/Programming/Projekt/ratemycourse/frontend/src/scss/_base.scss",
 		"/D/Programming/Projekt/ratemycourse/frontend/src/enhancers/ErrorScreenOnError.js",
 		"/D/Programming/Projekt/ratemycourse/frontend/src/scss/Header.scss",
 		"/D/Programming/Projekt/ratemycourse/frontend/src/components/Header.js",
 		"/D/Programming/Projekt/ratemycourse/frontend/src/containers/MainPage.js",
-		"/D/Programming/Projekt/ratemycourse/frontend/src/enhancers/InjectSubmitButton.js",
 		"/D/Programming/Projekt/ratemycourse/frontend/src/scss/_palette.scss",
 		"/D/Programming/Projekt/ratemycourse/frontend/src/components/ControlBar.js",
 		"/D/Programming/Projekt/ratemycourse/frontend/src/scss/FilterBar.scss",
@@ -956,11 +962,7 @@
 		"/D/Programming/Projekt/ratemycourse/backend/eslint/react.js",
 		"/D/Programming/Projekt/ratemycourse/backend/package.json",
 		"/D/Programming/Projekt/ratemycourse/frontend/src/actions/fetchCourses.js",
-		"/D/Programming/Projekt/ratemycourse/frontend/src/store/courses/Actions.js",
-		"/D/Programming/Projekt/ratemycourse/frontend/src/store/courses/ActionTypes.js",
-		"/D/Programming/Projekt/ratemycourse/frontend/src/store/courses/reducer.js",
-		"/D/Programming/Projekt/ratemycourse/frontend/src/components/App.js",
-		"/D/Programming/Projekt/ratemycourse/frontend/src/components/CardAnimation.js"
+		"/D/Programming/Projekt/ratemycourse/frontend/src/store/courses/Actions.js"
 	],
 	"find":
 	{
@@ -978,9 +980,20 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
+			"alter",
+			"alter_user",
+			"includes",
+			"onSubmit",
+			"comment",
+			"courseId",
+			"comment",
+			"bool",
+			"enableSubmit",
+			"delete",
+			"loading",
 			"match",
 			"replace",
 			"user",
@@ -1058,13 +1071,13 @@
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": true,
-		"wrap": true
+		"whole_word": false,
+		"wrap": false
 	},
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -1073,195 +1086,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1751,
+						"buffer_size": 2026,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1751,
-								1751
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"bracket_highlighter.busy": false,
-							"bracket_highlighter.clone": -1,
-							"bracket_highlighter.clone_locations":
-							{
-								"close":
-								{
-								},
-								"icon":
-								{
-								},
-								"open":
-								{
-								},
-								"unmatched":
-								{
-								}
-							},
-							"bracket_highlighter.clone_regions":
-							[
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content"
-							],
-							"bracket_highlighter.locations":
-							{
-								"close":
-								{
-								},
-								"icon":
-								{
-								},
-								"open":
-								{
-								},
-								"unmatched":
-								{
-								}
-							},
-							"bracket_highlighter.regions":
-							[
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content"
-							],
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/Babel/JavaScript (Babel).tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 360.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "src/components/ProfileView.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 625,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								257,
-								257
+								826,
+								826
 							]
 						],
 						"settings":
@@ -1275,8 +1108,8 @@
 								{
 									"1":
 									[
-										600,
-										601
+										411,
+										412
 									]
 								},
 								"icon":
@@ -1291,8 +1124,8 @@
 								{
 									"1":
 									[
-										405,
-										406
+										390,
+										391
 									]
 								},
 								"unmatched":
@@ -1301,61 +1134,61 @@
 							},
 							"bracket_highlighter.clone_regions":
 							[
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
 								"bh_square",
 								"bh_square_center",
 								"bh_square_open",
 								"bh_square_close",
 								"bh_square_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
 								"bh_round",
 								"bh_round_center",
 								"bh_round_open",
 								"bh_round_close",
 								"bh_round_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
 								"bh_tag",
 								"bh_tag_center",
 								"bh_tag_open",
 								"bh_tag_close",
 								"bh_tag_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content"
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content"
 							],
 							"bracket_highlighter.locations":
 							{
@@ -1363,24 +1196,24 @@
 								{
 									"1":
 									[
-										260,
-										261
+										1368,
+										1369
 									]
 								},
 								"icon":
 								{
 									"1":
 									[
-										"Packages/BracketHighlighter/icons/curly_bracket.png",
-										"region.purplish"
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"region.yellowish"
 									]
 								},
 								"open":
 								{
 									"1":
 									[
-										256,
-										257
+										776,
+										777
 									]
 								},
 								"unmatched":
@@ -1389,61 +1222,256 @@
 							},
 							"bracket_highlighter.regions":
 							[
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
 								"bh_square",
 								"bh_square_center",
 								"bh_square_open",
 								"bh_square_close",
 								"bh_square_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
 								"bh_round",
 								"bh_round_center",
 								"bh_round_open",
 								"bh_round_close",
 								"bh_round_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
 								"bh_tag",
 								"bh_tag_center",
 								"bh_tag_open",
 								"bh_tag_close",
 								"bh_tag_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content"
+							],
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 225.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/components/ProfileSideBar.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 482,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								26,
+								26
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.clone": -1,
+							"bracket_highlighter.clone_locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										438,
+										439
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"region.yellowish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										101,
+										102
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.clone_regions":
+							[
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
 								"bh_c_define",
 								"bh_c_define_center",
 								"bh_c_define_open",
 								"bh_c_define_close",
-								"bh_c_define_content"
+								"bh_c_define_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content"
+							],
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content"
 							],
 							"git_gutter_is_enabled": true,
 							"syntax": "Packages/Babel/JavaScript (Babel).tmLanguage",
@@ -1454,30 +1482,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 1,
 					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 3,
-			"sheets":
-			[
+				},
 				{
 					"buffer": 2,
 					"file": "src/components/ProfileInfo.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3335,
+						"buffer_size": 3847,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								180,
-								188
+								2320,
+								2320
 							]
 						],
 						"settings":
@@ -1491,8 +1513,8 @@
 								{
 									"1":
 									[
-										637,
-										638
+										905,
+										906
 									]
 								},
 								"icon":
@@ -1507,8 +1529,8 @@
 								{
 									"1":
 									[
-										208,
-										209
+										870,
+										871
 									]
 								},
 								"unmatched":
@@ -1517,61 +1539,61 @@
 							},
 							"bracket_highlighter.clone_regions":
 							[
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
 								"bh_square",
 								"bh_square_center",
 								"bh_square_open",
 								"bh_square_close",
 								"bh_square_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
 								"bh_round",
 								"bh_round_center",
 								"bh_round_open",
 								"bh_round_close",
 								"bh_round_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
 								"bh_tag",
 								"bh_tag_center",
 								"bh_tag_open",
 								"bh_tag_close",
 								"bh_tag_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content"
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content"
 							],
 							"bracket_highlighter.locations":
 							{
@@ -1579,24 +1601,24 @@
 								{
 									"1":
 									[
-										642,
-										643
+										2319,
+										2320
 									]
 								},
 								"icon":
 								{
 									"1":
 									[
-										"Packages/BracketHighlighter/icons/curly_bracket.png",
-										"region.purplish"
+										"Packages/BracketHighlighter/icons/double_quote.png",
+										"region.greenish"
 									]
 								},
 								"open":
 								{
 									"1":
 									[
-										174,
-										175
+										2312,
+										2313
 									]
 								},
 								"unmatched":
@@ -1605,61 +1627,61 @@
 							},
 							"bracket_highlighter.regions":
 							[
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
 								"bh_square",
 								"bh_square_center",
 								"bh_square_open",
 								"bh_square_close",
 								"bh_square_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
 								"bh_round",
 								"bh_round_center",
 								"bh_round_open",
 								"bh_round_close",
 								"bh_round_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
 								"bh_tag",
 								"bh_tag_center",
 								"bh_tag_open",
 								"bh_tag_close",
 								"bh_tag_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content"
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content"
 							],
 							"git_gutter_is_enabled": true,
 							"syntax": "Packages/Babel/JavaScript (Babel).tmLanguage",
@@ -1667,27 +1689,33 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 900.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 0,
 					"type": "text"
-				},
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
 				{
 					"buffer": 3,
 					"file": "src/store/Reducers.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10933,
+						"buffer_size": 12371,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4903,
-								4903
+								8654,
+								8654
 							]
 						],
 						"settings":
@@ -1701,8 +1729,8 @@
 								{
 									"1":
 									[
-										4977,
-										4978
+										11610,
+										11611
 									]
 								},
 								"icon":
@@ -1717,8 +1745,8 @@
 								{
 									"1":
 									[
-										4902,
-										4903
+										11200,
+										11201
 									]
 								},
 								"unmatched":
@@ -1727,61 +1755,61 @@
 							},
 							"bracket_highlighter.clone_regions":
 							[
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
 								"bh_square",
 								"bh_square_center",
 								"bh_square_open",
 								"bh_square_close",
 								"bh_square_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
 								"bh_round",
 								"bh_round_center",
 								"bh_round_open",
 								"bh_round_close",
 								"bh_round_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
 								"bh_tag",
 								"bh_tag_center",
 								"bh_tag_open",
 								"bh_tag_close",
 								"bh_tag_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content"
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content"
 							],
 							"bracket_highlighter.locations":
 							{
@@ -1789,8 +1817,8 @@
 								{
 									"1":
 									[
-										4977,
-										4978
+										8670,
+										8671
 									]
 								},
 								"icon":
@@ -1805,8 +1833,8 @@
 								{
 									"1":
 									[
-										4902,
-										4903
+										8418,
+										8419
 									]
 								},
 								"unmatched":
@@ -1815,61 +1843,61 @@
 							},
 							"bracket_highlighter.regions":
 							[
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
 								"bh_square",
 								"bh_square_center",
 								"bh_square_open",
 								"bh_square_close",
 								"bh_square_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
 								"bh_round",
 								"bh_round_center",
 								"bh_round_open",
 								"bh_round_close",
 								"bh_round_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
 								"bh_tag",
 								"bh_tag_center",
 								"bh_tag_open",
 								"bh_tag_close",
 								"bh_tag_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content"
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content"
 							],
 							"git_gutter_is_enabled": true,
 							"syntax": "Packages/Babel/JavaScript (Babel).tmLanguage",
@@ -1877,10 +1905,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 6525.0,
+						"translation.y": 5751.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -1889,15 +1917,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4681,
+						"buffer_size": 4718,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3508,
-								3448
+								146,
+								146
 							]
 						],
 						"settings":
@@ -1909,27 +1937,12 @@
 							{
 								"close":
 								{
-									"1":
-									[
-										4281,
-										4282
-									]
 								},
 								"icon":
 								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/curly_bracket.png",
-										"region.purplish"
-									]
 								},
 								"open":
 								{
-									"1":
-									[
-										4118,
-										4119
-									]
 								},
 								"unmatched":
 								{
@@ -1937,56 +1950,56 @@
 							},
 							"bracket_highlighter.clone_regions":
 							[
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
 								"bh_c_define",
 								"bh_c_define_center",
 								"bh_c_define_open",
 								"bh_c_define_close",
 								"bh_c_define_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
 								"bh_unmatched",
 								"bh_unmatched_center",
 								"bh_unmatched_open",
 								"bh_unmatched_close",
 								"bh_unmatched_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
 								"bh_square",
 								"bh_square_center",
 								"bh_square_open",
 								"bh_square_close",
 								"bh_square_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
 								"bh_default",
 								"bh_default_center",
 								"bh_default_open",
 								"bh_default_close",
 								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
 								"bh_tag",
 								"bh_tag_center",
 								"bh_tag_open",
@@ -1999,8 +2012,130 @@
 								{
 									"1":
 									[
-										3513,
-										3514
+										146,
+										147
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"region.yellowish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										123,
+										124
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content"
+							],
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/D/Programming/Projekt/ratemycourse/backend/src/server.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 14153,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								13515,
+								13515
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.clone": -1,
+							"bracket_highlighter.clone_locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										13687,
+										13688
 									]
 								},
 								"icon":
@@ -2015,8 +2150,96 @@
 								{
 									"1":
 									[
-										3447,
-										3448
+										13385,
+										13386
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.clone_regions":
+							[
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content"
+							],
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										13687,
+										13688
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/curly_bracket.png",
+										"region.purplish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										13385,
+										13386
 									]
 								},
 								"unmatched":
@@ -2025,16 +2248,16 @@
 							},
 							"bracket_highlighter.regions":
 							[
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
 								"bh_single_quote",
 								"bh_single_quote_center",
 								"bh_single_quote_open",
@@ -2050,36 +2273,36 @@
 								"bh_square_open",
 								"bh_square_close",
 								"bh_square_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
 								"bh_round",
 								"bh_round_center",
 								"bh_round_open",
 								"bh_round_close",
 								"bh_round_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
 								"bh_default",
 								"bh_default_center",
 								"bh_default_open",
 								"bh_default_close",
 								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
 								"bh_tag",
 								"bh_tag_center",
 								"bh_tag_open",
 								"bh_tag_close",
-								"bh_tag_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content"
+								"bh_tag_content"
 							],
 							"git_gutter_is_enabled": true,
 							"syntax": "Packages/Babel/JavaScript (Babel).tmLanguage",
@@ -2087,190 +2310,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1450.0,
+						"translation.y": 4034.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/D/Programming/Projekt/ratemycourse/backend/src/server.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 13352,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								9118,
-								9118
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"bracket_highlighter.busy": false,
-							"bracket_highlighter.clone": -1,
-							"bracket_highlighter.clone_locations":
-							{
-								"close":
-								{
-								},
-								"icon":
-								{
-								},
-								"open":
-								{
-								},
-								"unmatched":
-								{
-								}
-							},
-							"bracket_highlighter.clone_regions":
-							[
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content"
-							],
-							"bracket_highlighter.locations":
-							{
-								"close":
-								{
-								},
-								"icon":
-								{
-								},
-								"open":
-								{
-								},
-								"unmatched":
-								{
-								}
-							},
-							"bracket_highlighter.regions":
-							[
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content"
-							],
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/Babel/JavaScript (Babel).tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3554.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -2304,7 +2347,7 @@
 		"cols":
 		[
 			0.0,
-			0.519334993029,
+			0.614662095832,
 			1.0
 		],
 		"rows":

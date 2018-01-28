@@ -2,27 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 
-const SideBar = () => {
+const SideBar = (props) => {
   return (
     <div className="text-white">
       <div>
-        <h3>
-          <a href="/" className="text-white">
-            RateMyCourse
-          </a>
-        </h3>
-         <h4>
-          <a href="/profile" className="text-white">
-            Profile Info
-          </a>
-        </h4>
+        <div className="btn btn-outline-secondary mt-2 mb-2 w-100" onClick={ props.goToProfile }>
+          Profile Info
+        </div>
       </div>
       <div>
-        <h4>
-          <a href="/profile" className="text-white">
+        <div className="btn btn-outline-secondary w-100" onClick={ props.goToMyRatings }>
             My Ratings
-          </a>
-        </h4>
+        </div>
       </div>
     </div>
   );

@@ -13,11 +13,11 @@ const applyEditCommentComponent = (commentId, text, onSubmit, reload, courseCode
         defaultValue={ text }
       />
       <div className="float-right">
-        <div 
+        <div
           className="btn btn-secondary ml-auto m-1"
           onClick={ () => onSubmit(commentId, document.getElementById('editCommentField').value).then(reload(courseCode)) }
         >Submit</div>
-        <div 
+        <div
           className="btn btn-danger"
           onClick={ () => reload(courseCode) }
         >Cancel</div>
@@ -25,7 +25,7 @@ const applyEditCommentComponent = (commentId, text, onSubmit, reload, courseCode
     </div>
     ,
     element
-    );
+  );
 };
 
 export default applyEditCommentComponent;

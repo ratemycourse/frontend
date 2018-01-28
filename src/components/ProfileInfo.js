@@ -1,18 +1,11 @@
 import React from 'react';
-import { compose, withHandlers } from 'recompose';
+import { compose, withHandlers, withState } from 'recompose';
 import { connect } from 'react-redux';
 import * as actionCreators from '../store/Actions.js';
 
-const mapStateToProps = (state) => {
-  return {
-    errormsg: state.userState.error,
-  };
-};
-
 const enhance = compose(
   withHandlers({
-    onSubmit: (props) => (e) => {
-      e.preventDefault();
+  onSubmit: (props) => (e) => {
       let userName = document.getElementById('nameID').value;
       let userEmail = document.getElementById('emailID').value;
       let userPass1 = document.getElementById('passwordID').value;
@@ -29,7 +22,6 @@ const enhance = compose(
       if (userPass2 === '') {
         userPass2 = false;
       }
-      console.log('WHAT THE F. name:', userName, 'email:', userEmail, 'pass1:', userPass1, 'pass2:', userPass2);
       const formData = {
         userID: props.userID,
         newUser: userName,
@@ -38,28 +30,21 @@ const enhance = compose(
         newPassword2: userPass2,
         reg: false,
       };
-      props.alterUser(formData);
+      props.onSubmit(formData).then( () => { props.onEdit(); });
+      document.getElementById('passwordID').value = '';
+      document.getElementById('passwordID2').value = '';
+
+    },
+    onEdit: (props) => () => {
+      props.resetError();
+      props.onEdit(true);
+      document.getElementById('nameID').value = props.userName;
+      document.getElementById('emailID').value = props.userEmail;
+      document.getElementById('passwordID').value = '';
+      document.getElementById('passwordID2').value = '';
     },
   }),
 );
-const toggleEdit = () => {
-  const pass2 = document.getElementById('password2Div');
-  if (pass2.style.display === 'none') {
-    pass2.style.display = 'block';
-    document.getElementById('editButtonID').textContent = 'Back';
-    document.getElementById('submitID').style.display = 'block';
-    document.getElementById('nameID').disabled = false;
-    document.getElementById('emailID').disabled = false;
-    document.getElementById('passwordID').disabled = false;
-  } else {
-    pass2.style.display = 'none';
-    document.getElementById('editButtonID').textContent = 'Edit';
-    document.getElementById('submitID').style.display = 'none';
-    document.getElementById('nameID').disabled = true;
-    document.getElementById('emailID').disabled = true;
-    document.getElementById('passwordID').disabled = true;
-  }
-};
 
 
 const Info = enhance(({
@@ -68,52 +53,55 @@ const Info = enhance(({
   userEmail,
   errormsg,
   onSubmit,
+  toggleEdit,
+  onEdit,
 }) => {
   return (
-    <div className="bg-white rounded m-4 p-2">
-      <div id="userID">
-        { userID }
-      </div>
-      <div className="text-primary text-right rounded p-2 m-2">
-        hello User { userID } Name:
+    <div className="bg-white rounded m-4 p-4">
+      <div className="input-group mb-1">
+        <div className="input-group-prepend w-25">
+          <span className="input-group-text bg-grey text-white">Name:</span>
+        </div>
         <input
           type="text"
           id="nameID"
-          className="rounded"
-          placeholder={ userName }
-          disabled
+          className="form-control"
+          defaultValue={ userName }
+          disabled={ !toggleEdit }
         />
       </div>
-      <div className="text-primary text-right rounded p-2 m-2">
-        E-mail:
+      <div className="input-group mb-1">
+        <div className="input-group-prepend w-25">
+          <span className="input-group-text bg-grey text-white">Email:</span>
+        </div>
         <input
           type="text"
           id="emailID"
-          className="rounded"
-          placeholder={ userEmail }
-          disabled
+          className="form-control"
+          defaultValue={ userEmail }
+          disabled={ !toggleEdit }
         />
       </div>
-      <div className="text-primary text-right rounded p-2 m-2">
-        Password:
+      <div className="input-group mb-1">
+        <div className="input-group-prepend w-25">
+          <span className="input-group-text bg-grey w-100 text-white">Pass:</span>
+        </div>
         <input
           type="password"
           id="passwordID"
-          className="rounded"
+          className="form-control"
           placeholder="*****"
-          disabled
+          disabled={ !toggleEdit }
         />
       </div>
-      <div
-        id="password2Div"
-        style={ {display: 'none' } }
-        className="text-primary text-right rounded p-2 m-2"
-      >
-        Password:
+      <div className="input-group mb-1" id="password2Div" style={ { display: `${ toggleEdit ? 'inline-flex' : 'none' }`} }>
+        <div className="input-group-prepend w-25">
+          <span className="input-group-text bg-grey w-100 text-white">Pass:</span>
+        </div>
         <input
           type="password"
           id="passwordID2"
-          className="rounded"
+          className="form-control"
           placeholder="*****"
         />
       </div>
@@ -123,19 +111,18 @@ const Info = enhance(({
       <div className="d-flex ">
         <button
           id="editButtonID"
-          onClick={ toggleEdit }
+          onClick={ onEdit }
           type="submit"
-          className="btn btn-grey m-2 "
-
+          className="btn btn-tetriary ml-auto"
         >
-          Edit
+        { toggleEdit ? 'Back' : 'Edit' }
         </button>
         <button
           id="submitID"
-          style={ {display: 'none' } }
+          style={ {display: `${ toggleEdit ? 'block' : 'none' }` } }
           onClick={ onSubmit }
           type="submit"
-          className="btn btn-secondary m-2"
+          className="btn btn-secondary ml-2"
         >
           Apply
         </button>
@@ -145,4 +132,4 @@ const Info = enhance(({
 });
 
 
-export default connect(mapStateToProps)(Info);
+export default Info;

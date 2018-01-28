@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { compose, withHandlers, lifecycle } from 'recompose';
+import { compose, withHandlers, lifecycle, withState } from 'recompose';
 import { connect } from 'react-redux';
 import '../scss/ProfileSideBar.scss';
 import * as actionCreators from '../store/Actions';
@@ -8,10 +8,28 @@ import * as actionCreators from '../store/Actions';
 import View from '../components/ProfileView';
 import SideBar from '../components/ProfileSideBar';
 
+const redirectIfLoggedIn = lifecycle({
+  componentDidUpdate() {
+    if (!this.props.loggedIn) {
+      this.props.history.goBack();
+    }
+  },
+});
+
 const enhance = compose(
+  redirectIfLoggedIn,
+  withState('toggleEdit', 'setToggleEdit', false),
   withHandlers({
-    onSubmit: (props) => (e) => {
-      props.dispatch(actionCreators.alterUser(formData));
+    onSubmit: (props) => async (e) => {
+      await props.alterUser(e);
+    },
+     onEdit: (props) => (e) => {
+      if (!props.errormsg || e) {
+        props.toggleEdit ? (props.setToggleEdit(false)) : (props.setToggleEdit(true));
+      }
+    },
+    goToProfile: (props) => () => {
+      props.history.push('/profile');
     },
   }),
 );
@@ -22,15 +40,21 @@ const ProfilePage = enhance(({
   userEmail,
   userPass,
   userID,
+  errormsg,
   onSubmit,
-  alterUser,
+  goToProfile,
+  onEdit,
+  toggleEdit,
+  resetError,
 }) => {
   return (
-    <div className="wrapper bg-grey" >
+    <div className="wrapper bg-grey">
       <nav id="sidebar">
-        <div className="sidebar bg-primary text-white">
-          <h3>Hello { userName } !</h3>
-          <SideBar />
+        <div className="sidebar p-3 bg-primary text-white">
+          <h5 className="d-flex pt-2 pb-2 rounded flex-wrap justify-content-center">Hello&nbsp;<div className="text-secondary">{ userName }</div>!</h5>
+          <SideBar 
+            goToProfile={ goToProfile }
+          />
         </div>
       </nav>
       <div id="content" className="bg-grey text-white">
@@ -39,7 +63,11 @@ const ProfilePage = enhance(({
           userName={ userName }
           userEmail={ userEmail }
           userPass={ userPass }
-          alterUser={ alterUser }
+          toggleEdit={ toggleEdit }
+          errormsg={ errormsg }
+          onSubmit={ onSubmit }
+          onEdit={ onEdit }
+          resetError={ resetError }
         />
       </div>
     </div>
@@ -61,7 +89,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    alterUser: (data) => { dispatch(actionCreators.alterUser(data))},
+    alterUser: async (data) => { await dispatch(actionCreators.alterUser(data)) },
+    resetError: () => { dispatch({result: null, type: 'RESET_USERDATA_ERROR'})},
   };
 };
 
