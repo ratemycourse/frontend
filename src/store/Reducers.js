@@ -512,10 +512,9 @@ const userReducer = (state = userInitialState, action = {}) => {
     };
 
   case 'ALTER_USER_SUCCESS':
-    console.log('WE DID IT!', action.result.error);
     return {
       ...state,
-      currentUserData: action.result.reply ? (action.result.data) : (state.currentUserData),
+      currentUserData: action.result.reply ? ({ userId: action.result.data.userId, userEmail: action.result.data.userEmail, userName: action.result.data.userName, userScoresGiven: state.currentUserData.userScoresGiven, userComments: state.currentUserData.userComments }) : (state.currentUserData),
       error: action.result.error,
       loadingGroup: state.loadingGroup.completeFetch(),
     };
@@ -526,6 +525,12 @@ const userReducer = (state = userInitialState, action = {}) => {
       RegistrationSuccessful: action.result.reply,
       error: action.result.error,
       loadingGroup: state.loadingGroup.completeFetch(),
+    };
+
+  case 'RESET_USERDATA_ERROR':
+    return {
+      ...state,
+      error: action.result,
     };
 
   case 'LOG_OUT_USER':

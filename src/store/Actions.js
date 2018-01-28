@@ -134,7 +134,6 @@ export const alterUser = (formData) => {
   };
 };
 
-
 export const submitUserScore = (userID, courseCode, score) => {
   return {
     types: ['SUBMIT_SCORE_REQUEST', 'SUBMIT_SCORE_SUCCESS', 'SUBMIT_SCORE_FAILURE'],
