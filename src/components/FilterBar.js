@@ -16,22 +16,33 @@ const FilterBar = enhance(({
   departments,
   filter,
   onClick,
+  setSortFilter,
 }) => {
   return (
     <div id="accordion">
       <div className="card">
         <div
-          className="card-header p-2"
+          className="card-header p-0"
           role="tab"
           id="headingTwo"
-          data-toggle="collapse"
-          href="#collapseTwo"
-          aria-expanded="true"
-          aria-controls="collapseTwo"
         >
-          <h6 className="mb-0" >
-            { headerText }
-          </h6>
+          <div className="d-flex align-items-center p-0 pr-3">
+            <h6
+              className="p-2 m-0"
+              style={ {flex: 'auto'} }
+              data-toggle="collapse"
+              href="#collapseTwo"
+              aria-expanded="true"
+              aria-controls="collapseTwo"
+            > { headerText }
+            </h6>
+            <h6 className="mr-2 font-weight-bold"> Order by:</h6>
+            <div className="pt-1">
+              <label className="radio-inline">Name&nbsp;<input type="radio" name="optradio" onClick={ () => setSortFilter('name ASC') } />&nbsp;</label>
+              <label className="radio-inline">Rating&nbsp;<input type="radio" name="optradio" onClick={ () => setSortFilter('score DESC') } />&nbsp;</label>
+              <label className="radio-inline">Comments&nbsp;<input type="radio" name="optradio" onClick={ () => setSortFilter('sumComments DESC') } />&nbsp;</label>
+            </div>
+          </div>
         </div>
         <div
           id="collapseTwo"
@@ -59,7 +70,7 @@ const FilterBar = enhance(({
         </div>
       </div>
     </div>
-  );  
+  );
 });
 
 export default FilterBar;

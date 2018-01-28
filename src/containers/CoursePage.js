@@ -66,6 +66,7 @@ const Course = enhance(({
   onSubmitComment,
   onEditComment,
   onDeleteComment,
+  clearAlert,
 }) => {
   return (
     <div>
@@ -85,6 +86,7 @@ const Course = enhance(({
         onSubmitComment={ onSubmitComment }
         onEditComment={ onEditComment }
         onDeleteComment={ onDeleteComment }
+        clearAlert={ clearAlert }
       />
     </div>
   );

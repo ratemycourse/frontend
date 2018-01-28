@@ -24,7 +24,7 @@ const CardsView = enhance(({
   const transformedXML = xslt(courseList, courseListXSL);
   return (
     <div className="wrapper">
-        <div className="w-100" dangerouslySetInnerHTML={ {__html: transformedXML} } />
+      <div className="w-100" dangerouslySetInnerHTML={ {__html: transformedXML} } />
     </div>
   );
 });

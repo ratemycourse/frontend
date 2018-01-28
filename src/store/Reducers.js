@@ -220,8 +220,8 @@ const coursePageReducer = (state = coursePageInitialState, action = {}) => {
       coursePage: action.result.coursePage,
       courseCode: action.result.courseCode,
       loadingGroup: state.loadingGroup.completeFetch(),
-      userScore: Object.keys(state.userScoresGiven).includes(state.courseCode)
-      ? (state.userScoresGiven[state.courseCode])
+      userScore: Object.keys(state.userScoresGiven).includes(action.result.courseCode)
+      ? (state.userScoresGiven[action.result.courseCode])
       : (null),
     };
 
@@ -280,6 +280,7 @@ const coursePageReducer = (state = coursePageInitialState, action = {}) => {
   case 'SUBMIT_SCORE_SUCCESS':
     return {
       ...state,
+      enableSubmitScore: false,
       userScoresGiven: {...state.userScoresGiven, [action.result.courseCode]: action.result.userScore },
     };
 
@@ -349,6 +350,7 @@ const filterInitialState = {
   visibleDepartments: [],
   activeFilter: [],
   inactiveFilter: [],
+  sortFilter: 'name',
   error: null,
 };
 
@@ -366,6 +368,12 @@ const filterReducer = (state = filterInitialState, action = {}) => {
       ...state,
       activeFilter: state.activeFilter.filter((item) => item !== action.result),
       inactiveFilter: [...state.inactiveFilter, action.result],
+    };
+
+  case 'SET_SORT_FILTER':
+    return {
+      ...state,
+      sortFilter: action.result,
     };
 
   case 'GET_INITDATA_REQUEST':
