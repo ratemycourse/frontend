@@ -201,7 +201,7 @@ const coursePageInitialState = {
   commentEditId: null,
   commentTempText: null,
   userScore: null,
-  userScoresGiven: [],
+  userScoresGiven: {},
   alert: null,
   error: null,
 };
